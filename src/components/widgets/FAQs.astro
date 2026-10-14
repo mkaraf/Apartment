@@ -17,7 +17,6 @@ const {
   schema = false,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -52,12 +51,12 @@ const faqSchema = schema
   : null;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   {
     items.length > 0 && collapsible && (
-      <div class:list={['mx-auto max-w-3xl divide-y divide-gray-200 dark:divide-slate-700', classes?.list ?? '']}>
+      <div class:list={['mx-auto max-w-3xl divide-y divide-gray-200', classes?.list ?? '']}>
         {items.map(({ title: itemTitle, description, icon, callToAction }, index) => (
           <details
             class="group intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"

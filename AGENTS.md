@@ -30,7 +30,7 @@ Before implementing a project-specific task (disabling the blog, Open Graph imag
 src/
   assets/styles/tailwind.css   # Tailwind v4 config (themes, utilities, plugins)
   components/
-    common/        # Shared: Image, Metadata, Analytics, ToggleTheme
+    common/        # Shared: Image, Metadata, Analytics, ToggleMenu
     ui/            # Primitives: Button, Form, Headline, Timeline, WidgetWrapper
     widgets/       # Page sections: Hero, Features, Bento, Pricing, Comparison, FAQs, Team, Gallery…
     blog/          # Blog: SinglePost, List, Pagination, Tags
@@ -57,7 +57,7 @@ import { SITE } from 'astrowind:config';
 
 ### Configuration System
 
-Site config lives in `src/config.yaml` and is loaded as a Vite virtual module `astrowind:config` by the custom integration in `vendor/integration/`. Exports: `SITE`, `I18N`, `METADATA`, `APP_BLOG`, `UI`, `ANALYTICS`.
+Site config lives in `src/config.yaml` and is loaded as a Vite virtual module `astrowind:config` by the custom integration in `vendor/integration/`. Exports: `SITE`, `I18N`, `METADATA`, `APP_BLOG`, `ANALYTICS`.
 
 ## Tailwind CSS v4
 
@@ -65,11 +65,12 @@ Configuration is CSS-first in `src/assets/styles/tailwind.css`:
 
 - **Theme tokens:** `@theme { --color-primary: var(--aw-color-primary); ... }`
 - **Custom utilities:** `@utility bg-page { ... }`
-- **Dark mode:** Class-based via `@variant dark (&:where(.dark, .dark *))`
+- **Light mode only:** there is no dark mode, no theme switch and no `dark:` variant. Do not add `dark:` classes.
 - **Plugins:** `@plugin "@tailwindcss/typography"`
 - **Custom variant:** `@custom-variant intersect (&:not([no-intersect]))`
+- **Sources:** `@source not` excludes `.agents/`, `README.md` and `AGENTS.md`, so class names in doc examples are not generated.
 
-CSS variables for colors/fonts are defined in `src/components/CustomStyles.astro` with light/dark theme variants.
+CSS variables for colors/fonts are defined in `src/components/CustomStyles.astro` (a single `:root` light palette).
 
 The Vite plugin `@tailwindcss/vite` is configured in `astro.config.ts` (not as an Astro integration).
 
@@ -119,5 +120,5 @@ After changes, always verify:
 
 1. `npm run build` succeeds
 2. `npm run check` passes (astro check + ESLint + Prettier)
-3. Visual check in browser: homepage, blog, dark mode, mobile menu
+3. Visual check in browser: homepage, mobile menu
 4. Structured data describes the site it is on: the `WebSite` / `Organization` block in `src/pages/index.astro` is built only from `config.yaml`; anything you add there must be true for your site

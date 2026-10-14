@@ -4,7 +4,7 @@ AstroWind ships the CSS variables shadcn/ui components rely on, derived from the
 
 ## What already works
 
-Utilities such as `bg-background`, `text-foreground`, `bg-card`, `text-card-foreground`, `bg-popover`, `border-border`, `border-input`, `ring-ring`, `text-muted-foreground`, `bg-destructive`, `text-primary-foreground`, `bg-chart-1`, `bg-sidebar`… They follow light/dark mode through the existing `.dark` class, and re-theming `--aw-*` re-themes them.
+Utilities such as `bg-background`, `text-foreground`, `bg-card`, `text-card-foreground`, `bg-popover`, `border-border`, `border-input`, `ring-ring`, `text-muted-foreground`, `bg-destructive`, `text-primary-foreground`, `bg-chart-1`, `bg-sidebar`… They are defined on `:root` only (the site is light mode only), and re-theming `--aw-*` re-themes them.
 
 ## Known differences from a stock shadcn theme
 

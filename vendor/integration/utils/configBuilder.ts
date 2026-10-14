@@ -9,7 +9,6 @@ export type Config = {
   apps?: {
     blog?: AppBlogConfig;
   };
-  ui?: unknown;
   analytics?: unknown;
 };
 
@@ -76,10 +75,6 @@ export interface AnalyticsConfig {
       partytown?: boolean;
     };
   };
-}
-
-export interface UIConfig {
-  theme: string;
 }
 
 const DEFAULT_SITE_NAME = 'Website';
@@ -172,14 +167,6 @@ const getAppBlog = (config: Config) => {
   return merge({}, _default, config?.apps?.blog ?? {}) as AppBlogConfig;
 };
 
-const getUI = (config: Config) => {
-  const _default = {
-    theme: 'system',
-  };
-
-  return merge({}, _default, config?.ui ?? {});
-};
-
 const getAnalytics = (config: Config) => {
   const _default = {
     vendors: {
@@ -198,6 +185,5 @@ export default (config: Config) => ({
   I18N: getI18N(config),
   METADATA: getMetadata(config),
   APP_BLOG: getAppBlog(config),
-  UI: getUI(config),
   ANALYTICS: getAnalytics(config),
 });

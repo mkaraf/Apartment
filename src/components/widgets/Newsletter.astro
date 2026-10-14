@@ -21,7 +21,6 @@ const {
   layout = 'band',
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -29,10 +28,10 @@ const {
 const inputId = `${name}-email`;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <div
     class:list={[
-      'rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm',
+      'rounded-2xl border border-gray-200 bg-white shadow-sm',
       layout === 'band'
         ? 'flex flex-col gap-8 p-8 md:p-10 lg:flex-row lg:items-center lg:justify-between'
         : 'mx-auto max-w-2xl p-8 text-center',
@@ -67,7 +66,7 @@ const inputId = `${name}-email`;
           required
           autocomplete="email"
           placeholder={placeholder}
-          class="block w-full flex-1 rounded-full border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-5 py-3 text-base text-default placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+          class="block w-full flex-1 rounded-full border border-gray-300 bg-white px-5 py-3 text-base text-default placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         <button type="submit" class="btn-primary whitespace-nowrap px-6 py-3">
           {button}

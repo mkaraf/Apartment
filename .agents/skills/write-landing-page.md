@@ -20,7 +20,7 @@ The six pages in `src/pages/landing/` are worked examples of the six common land
 5. Point every button at a real destination: an anchor, a page, the repository. No `href="#"`.
 6. If the page has a form (`Contact` or `Newsletter`), connect it: see `configure-contact-form.md`.
 7. Add structured data where it earns a rich result: `schema` on `FAQs`; `add-structured-data.md` for anything else.
-8. Run `npm run build && npm run check`, then look at the page at 375 px and 1280 px in light and dark mode.
+8. Run `npm run build && npm run check`, then look at the page at 375 px and 1280 px (the site is light mode only).
 
 ## Choosing sections
 

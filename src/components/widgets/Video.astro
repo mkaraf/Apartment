@@ -21,7 +21,6 @@ const {
   videoTitle = 'Video',
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -34,7 +33,7 @@ const embed = youtube
 const watchUrl = youtube ? `https://www.youtube.com/watch?v=${youtube}` : vimeo ? `https://vimeo.com/${vimeo}` : src;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <aw-video data-embed={embed} data-src={src} data-title={videoTitle} class="block">

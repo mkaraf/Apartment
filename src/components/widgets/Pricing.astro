@@ -14,7 +14,6 @@ const {
   billingLabels = { monthly: 'Monthly', yearly: 'Yearly' },
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -30,7 +29,7 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
   typeof period === 'object' && period !== null ? period[billing] : period;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <aw-pricing data-billing="monthly">
@@ -38,7 +37,7 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
       hasToggle && (
         <div class="mb-8 flex justify-center">
           <div
-            class="inline-flex rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 p-1 text-sm font-medium"
+            class="inline-flex rounded-full border border-gray-200 bg-white p-1 text-sm font-medium"
             role="group"
             aria-label="Billing period"
           >
@@ -64,7 +63,7 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
       )
     }
     <div class="flex items-stretch justify-center">
-      <div class="grid grid-cols-3 gap-4 dark:text-white sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+      <div class="grid grid-cols-3 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
         {
           prices &&
             prices.map(
@@ -84,8 +83,8 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
                   {price !== undefined && period && (
                     <div
                       class:list={[
-                        'rounded-lg backdrop-blur border bg-white dark:bg-slate-900 shadow px-6 py-8 flex w-full max-w-sm flex-col justify-between text-center',
-                        highlight ? 'border-primary ring-1 ring-primary' : 'border-gray-200 dark:border-gray-700',
+                        'rounded-lg backdrop-blur border bg-white shadow px-6 py-8 flex w-full max-w-sm flex-col justify-between text-center',
+                        highlight ? 'border-primary ring-1 ring-primary' : 'border-gray-200',
                       ]}
                     >
                       {hasRibbon && ribbonTitle && (
@@ -101,7 +100,7 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
                             {title}
                           </h3>
                         )}
-                        {subtitle && <p class="font-light sm:text-lg text-gray-600 dark:text-slate-400">{subtitle}</p>}
+                        {subtitle && <p class="font-light sm:text-lg text-gray-600">{subtitle}</p>}
                         <div class="my-8">
                           {(isDual(price) ? (['monthly', 'yearly'] as const) : (['monthly'] as const)).map(
                             (billing) => (
@@ -110,7 +109,7 @@ const periodFor = (period: Price['period'], billing: 'monthly' | 'yearly') =>
                                   <span class="text-5xl">{currency}</span>
                                   <span class="text-6xl font-extrabold">{isDual(price) ? price[billing] : price}</span>
                                 </div>
-                                <span class="text-base leading-6 lowercase text-gray-600 dark:text-slate-400">
+                                <span class="text-base leading-6 lowercase text-gray-600">
                                   {periodFor(period, billing)}
                                 </span>
                               </div>

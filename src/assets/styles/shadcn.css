@@ -8,8 +8,7 @@
  *
  * This file derives those variables from AstroWind's own `--aw-*` tokens
  * (see `src/components/CustomStyles.astro`), so re-theming AstroWind also
- * re-themes any shadcn-style component you drop in. Dark mode works through
- * the same `.dark` class AstroWind already toggles.
+ * re-themes any shadcn-style component you drop in. The site is light-only.
  *
  * Three names collide with existing AstroWind tokens and keep AstroWind's
  * meaning: `primary`, `secondary` and `accent` are brand colours here (in
@@ -18,8 +17,7 @@
  * provided so `bg-primary text-primary-foreground` and friends work.
  */
 
-:root,
-.dark {
+:root {
   --background: var(--aw-color-bg-page);
   --foreground: var(--aw-color-text-default);
 

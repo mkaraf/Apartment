@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Logo from '~/components/Logo.astro';
-import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
 
@@ -25,9 +24,7 @@ export interface Props {
   links?: Array<MenuLink>;
   actions?: Array<CallToAction>;
   isSticky?: boolean;
-  isDark?: boolean;
   isFullWidth?: boolean;
-  showToggleTheme?: boolean;
   showRssFeed?: boolean;
   position?: string;
 }
@@ -37,9 +34,7 @@ const {
   links = [],
   actions = [],
   isSticky = false,
-  isDark = false,
   isFullWidth = false,
-  showToggleTheme = false,
   showRssFeed = false,
   position = 'center',
 } = Astro.props;
@@ -57,7 +52,7 @@ const isActive = (href?: string) => typeof href === 'string' && `/${trimSlash(hr
 // with its own menu (the demo homes, the landing pages) would keep showing the
 // header of the page the visitor came from. Hash the props that shape the markup.
 const persistKey = `header-${Array.from(
-  JSON.stringify({ links, actions, isSticky, isDark, isFullWidth, showToggleTheme, showRssFeed, position })
+  JSON.stringify({ links, actions, isSticky, isFullWidth, showRssFeed, position })
 )
   .reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7)
   .toString(36)}`;
@@ -66,7 +61,7 @@ const persistKey = `header-${Array.from(
 <aw-header transition:persist={persistKey}>
   <header
     class:list={[
-      { sticky: isSticky, relative: !isSticky, dark: isDark },
+      { sticky: isSticky, relative: !isSticky },
       'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
     ]}
     {...isSticky ? { 'data-aw-sticky-header': true } : {}}
@@ -107,22 +102,19 @@ const persistKey = `header-${Array.from(
               <li class={links?.length ? 'dropdown' : ''}>
                 {links?.length ? (
                   <>
-                    <button
-                      type="button"
-                      class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap"
-                    >
+                    <button type="button" class="hover:text-link px-4 py-3 flex items-center whitespace-nowrap">
                       {text}{' '}
                       <Icon
                         name="tabler:chevron-down"
                         class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden lg:inline"
                       />
                     </button>
-                    <ul class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-slate-900 dark:lg:border dark:lg:border-slate-700/50 rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
+                    <ul class="dropdown-menu lg:backdrop-blur-md rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl">
                       {links.map(({ text: text2, href: href2 }) => (
                         <li>
                           <a
                             class:list={[
-                              'first:rounded-t last:rounded-b lg:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-nowrap',
+                              'first:rounded-t last:rounded-b lg:hover:bg-gray-100 hover:text-link py-2 px-5 block whitespace-nowrap',
                               { 'aw-link-active': isActive(href2) },
                             ]}
                             href={href2}
@@ -136,7 +128,7 @@ const persistKey = `header-${Array.from(
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
+                      'hover:text-link px-4 py-3 flex items-center whitespace-nowrap',
                       { 'aw-link-active': isActive(href) },
                     ]}
                     href={href}
@@ -157,11 +149,10 @@ const persistKey = `header-${Array.from(
       >
         <div class="items-center flex justify-between w-full lg:w-auto">
           <div class="flex">
-            {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 lg:w-5 lg:h-5 lg:inline-block" />}
             {
               showRssFeed && (
                 <a
-                  class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 inline-flex items-center"
+                  class="text-muted hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-2.5 inline-flex items-center"
                   aria-label="RSS kanál"
                   href={getAsset('/rss.xml')}
                 >

@@ -22,7 +22,6 @@ const {
   note,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -42,12 +41,12 @@ const commandHtml = commands
   .join('');
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <aw-copy data-text={commandText} class="mx-auto block max-w-3xl">
     <div
-      class="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900 text-slate-100 shadow-xl ring-1 ring-black/20 dark:ring-white/5"
+      class="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900 text-slate-100 shadow-xl ring-1 ring-black/20"
     >
       <div class="flex items-center justify-between border-b border-slate-700/80 bg-slate-800/60 px-4 py-2.5">
         <span class="flex items-center gap-2">

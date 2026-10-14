@@ -17,7 +17,6 @@ const {
   columns = 3,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -33,7 +32,7 @@ const masonryClass =
       : 'columns-1 sm:columns-2 lg:columns-3';
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <div class:list={layout === 'masonry' ? [masonryClass, 'gap-6'] : ['grid gap-6', gridClass]}>
@@ -46,7 +45,7 @@ const masonryClass =
               { 'mb-6 break-inside-avoid': layout === 'masonry' },
             ]}
           >
-            <div class="flex w-full flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600">
+            <div class="flex w-full flex-col p-4 md:p-6 rounded-md shadow-xl">
               {(rating || logo) && (
                 <div class="flex items-center justify-between gap-4 pb-4">
                   {rating ? (
@@ -54,10 +53,7 @@ const masonryClass =
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Icon
                           name="tabler:star-filled"
-                          class:list={[
-                            'w-4 h-4',
-                            star <= Math.round(rating) ? 'text-amber-400' : 'text-gray-300 dark:text-slate-600',
-                          ]}
+                          class:list={['w-4 h-4', star <= Math.round(rating) ? 'text-amber-400' : 'text-gray-300']}
                         />
                       ))}
                     </div>
@@ -79,16 +75,16 @@ const masonryClass =
                 </blockquote>
               )}
 
-              <hr class="border-slate-200 dark:border-slate-600 my-4" />
+              <hr class="border-slate-200 my-4" />
 
               <div class="flex items-center">
                 {image && (
-                  <div class="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-600">
+                  <div class="h-10 w-10 rounded-full border border-slate-200">
                     {typeof image === 'string' ? (
                       <Fragment set:html={image} />
                     ) : (
                       <Image
-                        class="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-600 min-w-full min-h-full"
+                        class="h-10 w-10 rounded-full border border-slate-200 min-w-full min-h-full"
                         width={40}
                         height={40}
                         layout="fixed"

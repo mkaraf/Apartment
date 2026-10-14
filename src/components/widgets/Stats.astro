@@ -12,13 +12,12 @@ const {
   countUp = false,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <aw-stats data-count-up={countUp ? '' : undefined}>
     <Headline
       title={title}
@@ -30,7 +29,7 @@ const {
       {
         stats &&
           stats.map(({ amount, title, icon }) => (
-            <div class="p-4 md:w-1/4 sm:w-1/2 w-full min-w-[220px] text-center md:border-r md:border-gray-200 md:last:border-none dark:md:border-slate-500 intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade intersect-quarter">
+            <div class="p-4 md:w-1/4 sm:w-1/2 w-full min-w-[220px] text-center md:border-r md:border-gray-200 md:last:border-none intersect-once motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade intersect-quarter">
               {icon && (
                 <div class="flex items-center justify-center mx-auto mb-4 text-primary">
                   <Icon name={icon} class="w-10 h-10" />
@@ -38,16 +37,14 @@ const {
               )}
               {amount && (
                 <div
-                  class="font-heading text-primary text-[2.6rem] font-bold dark:text-white lg:text-5xl xl:text-6xl tabular-nums"
+                  class="font-heading text-primary text-[2.6rem] font-bold lg:text-5xl xl:text-6xl tabular-nums"
                   data-aw-amount={countUp ? String(amount) : undefined}
                 >
                   {amount}
                 </div>
               )}
               {title && (
-                <div class="text-sm font-medium uppercase tracking-widest text-gray-800 dark:text-slate-400 lg:text-base">
-                  {title}
-                </div>
+                <div class="text-sm font-medium uppercase tracking-widest text-gray-800 lg:text-base">{title}</div>
               )}
             </div>
           ))

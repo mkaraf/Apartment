@@ -97,7 +97,6 @@ export interface Image {
 
 export interface Widget {
   id?: string;
-  isDark?: boolean;
   bg?: string;
   classes?: Record<string, string | Record<string, string>>;
 }
@@ -201,7 +200,7 @@ export interface HeroImage extends Image {
   [attribute: string]: unknown;
 }
 
-export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' | 'classes'> {
+export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'classes'> {
   /** Small pill above the tagline, e.g. "New" or "Beta". */
   badge?: string;
   content?: string;

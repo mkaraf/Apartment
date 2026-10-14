@@ -11,7 +11,7 @@
 
 - ✅ **Production-ready** scores in **PageSpeed Insights** reports.
 - ✅ **30+ page-section widgets** (heroes, features, bento, tabs, pricing with comparison table, FAQ accordion, testimonials, team, timeline, gallery, projects, countdown, newsletter…) typed and composable.
-- ✅ Integration with **Tailwind CSS v4** supporting **Dark mode** and **_RTL_**.
+- ✅ Integration with **Tailwind CSS v4** supporting **_RTL_** (light mode only; dark mode has been removed from this project).
 - ✅ **Fast and SEO friendly blog** with automatic **RSS feed**, **MDX** support, **Categories & Tags**, **Social Share**, ...
 - ✅ **Image Optimization** (using new **Astro Assets** and **Unpic** for Universal image CDN).
 - ✅ Generation of **project sitemap** based on your routes.
@@ -232,9 +232,6 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
-
-ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
 ```
 
 <br>
@@ -296,7 +293,7 @@ Every section is a component in `src/components/widgets/` with typed props. The 
 `src/data/post/` as `.md` or `.mdx` files. They are read at build time.
 
 **Where do I change colors and fonts?**
-Colors in `src/components/CustomStyles.astro` (CSS variables for light and dark), Tailwind tokens and utilities in `src/assets/styles/tailwind.css`, fonts in the `fonts` entry of `astro.config.ts`.
+Colors in `src/components/CustomStyles.astro` (CSS variables for the light palette), Tailwind tokens and utilities in `src/assets/styles/tailwind.css`, fonts in the `fonts` entry of `astro.config.ts`.
 
 **Which Node.js version do I need?**
 Node.js 22.22.3 or newer (`.nvmrc`).

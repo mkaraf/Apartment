@@ -22,19 +22,18 @@ const {
   layout = 'card',
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <div
     class:list={[
       'text-center',
       layout === 'banner'
         ? 'mx-auto rounded-2xl bg-primary px-6 py-12 md:py-16 text-white'
-        : 'max-w-3xl mx-auto p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600',
+        : 'max-w-3xl mx-auto p-6 rounded-md shadow-xl',
     ]}
   >
     <Headline
@@ -44,7 +43,7 @@ const {
       classes={{
         container: 'mb-0 md:mb-0',
         title: `text-4xl md:text-4xl font-bold tracking-tighter mb-4 font-heading ${layout === 'banner' ? 'text-white' : ''}`,
-        subtitle: layout === 'banner' ? 'text-xl text-white' : 'text-xl text-muted dark:text-slate-400',
+        subtitle: layout === 'banner' ? 'text-xl text-white' : 'text-xl text-muted',
         ...((classes?.headline as Record<string, string>) ?? {}),
       }}
     />
@@ -59,9 +58,9 @@ const {
                   class:list={[
                     'w-full sm:mb-0 whitespace-nowrap',
                     layout === 'banner' && action?.variant === 'primary'
-                      ? 'bg-white text-primary border-white hover:bg-white/90 hover:border-white/90 hover:text-primary dark:bg-white dark:text-primary dark:border-white'
+                      ? 'bg-white text-primary border-white hover:bg-white/90 hover:border-white/90 hover:text-primary'
                       : layout === 'banner'
-                        ? 'text-white border-white/70 hover:bg-white/10 hover:border-white hover:text-white dark:text-white dark:border-white/70'
+                        ? 'text-white border-white/70 hover:bg-white/10 hover:border-white hover:text-white'
                         : '',
                   ]}
                 />

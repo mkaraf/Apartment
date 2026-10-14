@@ -41,19 +41,16 @@
     private observer: IntersectionObserver | null = null;
     private elements: HTMLElement[] = [];
     private thresholds = new WeakMap<Element, number>();
-    private onThemeChange = () => this.removeAnimationDelay();
 
     connectedCallback() {
       // The custom-element lifecycle re-runs this on every client-side
       // navigation, so each page (initial load and navigations alike) reveals
       // its sections with the same fade-in as you scroll them into view.
       this.start();
-      document.addEventListener('aw:theme-change', this.onThemeChange);
     }
 
     disconnectedCallback() {
       this.observer?.disconnect();
-      document.removeEventListener('aw:theme-change', this.onThemeChange);
     }
 
     private getThreshold(el: HTMLElement): number {
@@ -111,21 +108,6 @@
 
       this.observer = new IntersectionObserver(callback, { threshold: [0, 0.25, 0.5, 0.99] });
       observed.forEach((el) => this.observer?.observe(el));
-    }
-
-    /*
-      REF: #643;
-      Remove the stagger delay so toggling the theme doesn't flicker. The
-      Observer only clears delays once elements leave the viewport, so the
-      <aw-theme-toggle> element asks us to clear them on demand.
-    */
-    private removeAnimationDelay() {
-      this.elements.forEach((el) => {
-        if (el.getAttribute('data-animated') === 'true') {
-          el.style.transitionDelay = '';
-          el.style.animationDelay = '';
-        }
-      });
     }
   }
 

@@ -16,13 +16,12 @@ const {
   rating,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-4xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-4xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <figure
     class="text-center intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
   >
@@ -40,10 +39,7 @@ const {
           {[1, 2, 3, 4, 5].map((star) => (
             <Icon
               name="tabler:star-filled"
-              class:list={[
-                'h-5 w-5',
-                star <= Math.round(rating) ? 'text-amber-400' : 'text-gray-300 dark:text-slate-600',
-              ]}
+              class:list={['h-5 w-5', star <= Math.round(rating) ? 'text-amber-400' : 'text-gray-300']}
             />
           ))}
         </div>
@@ -63,7 +59,7 @@ const {
               <Fragment set:html={image} />
             ) : (
               <Image
-                class="h-14 w-14 rounded-full border border-slate-200 dark:border-slate-600"
+                class="h-14 w-14 rounded-full border border-slate-200"
                 width={56}
                 height={56}
                 layout="fixed"

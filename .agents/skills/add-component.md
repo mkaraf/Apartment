@@ -7,7 +7,7 @@ Before writing a new widget, check `use-widgets.md`: the catalogue covers most m
 1. Create `src/components/widgets/MyWidget.astro`.
 2. Add a `MyWidget` interface to `src/types.d.ts` that extends `Omit<Headline, 'classes'>, Widget` (or only `Widget` if the section has no headline).
 3. Use the widget on a real page of the demo so it is visible and tested.
-4. Run `npm run build && npm run check` and look at the section in light and dark mode, on desktop and at 375 px.
+4. Run `npm run build && npm run check` and look at the section on desktop and at 375 px (the site is light mode only).
 
 ## Template
 
@@ -27,7 +27,6 @@ const {
   columns = 3,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -35,7 +34,7 @@ const {
 const columnsClass = getColumnsClass(columns, 'sm:grid-cols-2');
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <ul class:list={['grid gap-6 list-none', columnsClass]}>
@@ -54,8 +53,8 @@ const columnsClass = getColumnsClass(columns, 'sm:grid-cols-2');
 
 ## Conventions
 
-- `WidgetWrapper` gives spacing, container width, `id`, `isDark` and the `bg` slot; `Headline` renders `tagline`/`title`/`subtitle` and forwards `classes.headline`.
-- Colours through the tokens (`text-heading`, `text-muted`, `text-primary`, `bg-page`, `border-gray-200 dark:border-slate-700`), never hardcoded hex values, so `CustomStyles.astro` keeps working.
+- `WidgetWrapper` gives spacing, container width, `id` and the `bg` slot; `Headline` renders `tagline`/`title`/`subtitle` and forwards `classes.headline`.
+- Colours through the tokens (`text-heading`, `text-muted`, `text-primary`, `bg-page`, `border-gray-200`), never hardcoded hex values, so `CustomStyles.astro` keeps working. No `dark:` classes: the site is light mode only.
 - Images through `~/components/common/Image.astro` with `widths`/`sizes`, and `alt` text. Icons from the Tabler set; verify the name exists in `@iconify-json/tabler/icons.json`.
 - Items with a link render an `<a>` (`const Card = href ? 'a' : 'div'`) rather than a nested button.
 - Animations use the `intersect-*` classes and are wrapped in `motion-safe:`.

@@ -1,21 +1,19 @@
 # Customize the Header
 
-Files: `src/components/widgets/Header.astro` (markup + `aw-header` web component), `src/navigation.ts` (links and actions), `src/components/common/ToggleMenu.astro`, `src/components/common/ToggleTheme.astro`, `src/components/Logo.astro`, header rules in `src/assets/styles/tailwind.css`.
+Files: `src/components/widgets/Header.astro` (markup + `aw-header` web component), `src/navigation.ts` (links and actions), `src/components/common/ToggleMenu.astro`, `src/components/Logo.astro`, header rules in `src/assets/styles/tailwind.css`.
 
 ## Props (`<Header />`)
 
-| Prop              | Default    | Effect                                             |
-| ----------------- | ---------- | -------------------------------------------------- |
-| `links`           | `[]`       | Menu; items with `links: [...]` become dropdowns   |
-| `actions`         | `[]`       | Buttons on the right (`Button` props)              |
-| `isSticky`        | `false`    | Sticky header; gets the `scroll` class after 60 px |
-| `isDark`          | `false`    | Force dark styles                                  |
-| `isFullWidth`     | `false`    | Drop the `max-w-7xl` container                     |
-| `showToggleTheme` | `false`    | Light/dark switch                                  |
-| `showRssFeed`     | `false`    | RSS icon (`/rss.xml`)                              |
-| `position`        | `'center'` | `'left'`, `'center'` (3-column grid) or `'right'`  |
+| Prop          | Default    | Effect                                             |
+| ------------- | ---------- | -------------------------------------------------- |
+| `links`       | `[]`       | Menu; items with `links: [...]` become dropdowns   |
+| `actions`     | `[]`       | Buttons on the right (`Button` props)              |
+| `isSticky`    | `false`    | Sticky header; gets the `scroll` class after 60 px |
+| `isFullWidth` | `false`    | Drop the `max-w-7xl` container                     |
+| `showRssFeed` | `false`    | RSS icon (`/rss.xml`)                              |
+| `position`    | `'center'` | `'left'`, `'center'` (3-column grid) or `'right'`  |
 
-`PageLayout.astro` renders `<Header {...headerData} isSticky showRssFeed showToggleTheme />`; `LandingLayout.astro` shows how to pass a reduced menu.
+`PageLayout.astro` renders `<Header {...headerData} isSticky />`. A page can pass its own header (for example a reduced menu) through the `header` slot of `PageLayout`. The site is light mode only, so there is no theme switch.
 
 ## Breakpoints
 
@@ -37,7 +35,7 @@ Five top-level items at ~0.94 rem need about 470 px. If you add items, either sh
 
 ## Dropdown surface
 
-Light: `lg:bg-white/90` + blur + shadow. Dark: `dark:lg:bg-slate-900` + `border-slate-700/50`. Edit the `<ul class="dropdown-menu …">` in `Header.astro`.
+`lg:bg-white/90` + blur + shadow. Edit the `<ul class="dropdown-menu …">` in `Header.astro`.
 
 ## Sticky background
 

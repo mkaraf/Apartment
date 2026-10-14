@@ -19,7 +19,6 @@ const {
   isReversed = false,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -28,7 +27,7 @@ const uid = id ?? `tabs-${Math.random().toString(36).slice(2, 8)}`;
 const vertical = orientation === 'vertical';
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <aw-tabs class:list={['block', vertical ? 'lg:grid lg:grid-cols-12 lg:gap-12 lg:items-center' : '']}>
@@ -53,8 +52,8 @@ const vertical = orientation === 'vertical';
             class:list={[
               'group text-left rounded-lg border transition outline-offset-2',
               vertical
-                ? 'flex gap-4 p-4 border-transparent aria-selected:border-gray-200 aria-selected:bg-white aria-selected:shadow-md dark:aria-selected:border-slate-700 dark:aria-selected:bg-slate-900 hover:bg-gray-50 dark:hover:bg-slate-800/60'
-                : 'flex items-center gap-2 px-4 py-2 border-gray-200 dark:border-slate-700 aria-selected:bg-primary aria-selected:border-primary aria-selected:text-white hover:border-primary/50',
+                ? 'flex gap-4 p-4 border-transparent aria-selected:border-gray-200 aria-selected:bg-white aria-selected:shadow-md hover:bg-gray-50'
+                : 'flex items-center gap-2 px-4 py-2 border-gray-200 aria-selected:bg-primary aria-selected:border-primary aria-selected:text-white hover:border-primary/50',
             ]}
           >
             {icon && (
@@ -87,7 +86,7 @@ const vertical = orientation === 'vertical';
             class="outline-offset-4"
           >
             {image && (
-              <div class="relative overflow-hidden rounded-lg shadow-lg bg-gray-100 dark:bg-slate-800">
+              <div class="relative overflow-hidden rounded-lg shadow-lg bg-gray-100">
                 {typeof image === 'string' ? (
                   <Fragment set:html={image} />
                 ) : (

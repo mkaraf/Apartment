@@ -16,27 +16,24 @@ const {
   grayscale = false,
   boxed = true,
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
-// `grayscale` renders the logos monochrome (white on dark) and reveals their
+// `grayscale` renders the logos monochrome and reveals their
 // colours on hover; `boxed` keeps the light card behind each logo (the
 // original look). The marquee duplicates the row so the loop is seamless and
 // stops for people who prefer reduced motion.
 const logoClass = [
   'max-h-12 transition',
-  grayscale
-    ? 'grayscale opacity-70 hover:grayscale-0 hover:opacity-100 dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0'
-    : '',
+  grayscale ? 'grayscale opacity-70 hover:grayscale-0 hover:opacity-100' : '',
 ].join(' ');
-const boxClass = boxed ? 'py-1 px-3 rounded-md bg-white/90 dark:bg-gray-200' : 'py-1 px-3';
+const boxClass = boxed ? 'py-1 px-3 rounded-md bg-white/90' : 'py-1 px-3';
 const isMarquee = variant === 'marquee';
 const duration = `${Math.max(20, (icons.length + images.length) * 4)}s`;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <div

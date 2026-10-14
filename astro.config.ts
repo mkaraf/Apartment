@@ -125,8 +125,7 @@ export default defineConfig({
       rehypePlugins: [responsiveTablesRehypePlugin],
     }),
     shikiConfig: {
-      // Code blocks follow the site theme; see the `.astro-code` rules in tailwind.css.
-      themes: { light: 'github-light', dark: 'github-dark' },
+      theme: 'github-light',
     },
   },
 

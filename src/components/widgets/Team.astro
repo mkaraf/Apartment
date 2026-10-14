@@ -16,7 +16,6 @@ const {
   columns = 4,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -24,7 +23,7 @@ const {
 const columnsClass = getColumnsClass(columns, 'sm:grid-cols-2');
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
   <ul class:list={['grid gap-8 md:gap-10 list-none', columnsClass]}>
@@ -54,7 +53,7 @@ const columnsClass = getColumnsClass(columns, 'sm:grid-cols-2');
                   <a
                     href={href}
                     aria-label={ariaLabel}
-                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted transition hover:bg-gray-100 hover:text-primary dark:hover:bg-slate-800"
+                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted transition hover:bg-gray-100 hover:text-primary"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

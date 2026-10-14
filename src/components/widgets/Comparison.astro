@@ -21,7 +21,6 @@ const {
   firstColumnLabel = '',
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
@@ -36,13 +35,13 @@ const hasGroups = groups.some((g) => g.group);
 const hasActions = columns.some((c) => c.callToAction);
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
-  <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-slate-700">
+  <div class="overflow-x-auto rounded-lg border border-gray-200">
     <table class="w-full min-w-[40rem] border-collapse text-left text-sm md:text-base">
       <thead>
-        <tr class="border-b border-gray-200 dark:border-slate-700">
+        <tr class="border-b border-gray-200">
           <th scope="col" class="sticky left-0 z-10 bg-page w-1/3 px-4 py-4 align-bottom font-semibold text-muted">
             {firstColumnLabel}
           </th>
@@ -50,10 +49,7 @@ const hasActions = columns.some((c) => c.callToAction);
             columns.map(({ title: colTitle, subtitle: colSubtitle, highlight }) => (
               <th
                 scope="col"
-                class:list={[
-                  'px-4 py-4 text-center align-bottom',
-                  highlight ? 'bg-primary/5 dark:bg-primary/10 text-primary' : '',
-                ]}
+                class:list={['px-4 py-4 text-center align-bottom', highlight ? 'bg-primary/5 text-primary' : '']}
               >
                 <span class="block text-lg font-bold font-heading text-heading">{colTitle}</span>
                 {colSubtitle && <span class="block text-sm font-normal text-muted">{colSubtitle}</span>}
@@ -72,7 +68,7 @@ const hasActions = columns.some((c) => c.callToAction);
           groups.map(({ group, rows: groupRows }) => (
             <>
               {hasGroups && group && (
-                <tr class="bg-gray-50 dark:bg-slate-800/60">
+                <tr class="bg-gray-50">
                   <th
                     scope="colgroup"
                     colspan={columns.length + 1}
@@ -83,7 +79,7 @@ const hasActions = columns.some((c) => c.callToAction);
                 </tr>
               )}
               {groupRows.map(({ label, description, values }) => (
-                <tr class="border-b border-gray-200 last:border-0 dark:border-slate-700">
+                <tr class="border-b border-gray-200 last:border-0">
                   <th scope="row" class="sticky left-0 z-10 bg-page px-4 py-3 font-medium text-default">
                     {label}
                     {description && <span class="block text-xs font-normal text-muted">{description}</span>}
@@ -91,7 +87,7 @@ const hasActions = columns.some((c) => c.callToAction);
                   {columns.map(({ highlight }, index) => {
                     const value = values[index];
                     return (
-                      <td class:list={['px-4 py-3 text-center', highlight ? 'bg-primary/5 dark:bg-primary/10' : '']}>
+                      <td class:list={['px-4 py-3 text-center', highlight ? 'bg-primary/5' : '']}>
                         {value === true ? (
                           <Icon
                             name="tabler:circle-check-filled"
@@ -99,11 +95,7 @@ const hasActions = columns.some((c) => c.callToAction);
                             aria-label="Included"
                           />
                         ) : value === false || value === undefined || value === '' ? (
-                          <Icon
-                            name="tabler:minus"
-                            class="mx-auto h-5 w-5 text-gray-300 dark:text-slate-600"
-                            aria-label="Not included"
-                          />
+                          <Icon name="tabler:minus" class="mx-auto h-5 w-5 text-gray-300" aria-label="Not included" />
                         ) : (
                           <span class="text-default">{value}</span>
                         )}
@@ -122,7 +114,7 @@ const hasActions = columns.some((c) => c.callToAction);
             <tr>
               <td class="sticky left-0 bg-page px-4 py-4" />
               {columns.map(({ callToAction, highlight }) => (
-                <td class:list={['px-4 py-4 text-center', highlight ? 'bg-primary/5 dark:bg-primary/10' : '']}>
+                <td class:list={['px-4 py-4 text-center', highlight ? 'bg-primary/5' : '']}>
                   {callToAction && (
                     <Button
                       variant={highlight ? 'primary' : 'secondary'}

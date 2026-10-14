@@ -2,13 +2,12 @@
 
 Every section of a page is a widget from `src/components/widgets/`. Widgets take props (typed in `src/types.d.ts`), share the same base (`WidgetWrapper` + `Headline`) and therefore accept the same base props:
 
-| Prop                           | Purpose                                                                                                                       |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| `id`                           | Anchor for in-page links (`href="#pricing"`).                                                                                 |
-| `title`, `subtitle`, `tagline` | Section headline. Also available as slots for HTML content.                                                                   |
-| `isDark`                       | Force the dark variant of the section.                                                                                        |
-| `bg` (slot)                    | Custom background, e.g. `<Fragment slot="bg"><div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div></Fragment>`. |
-| `classes`                      | Class overrides: `classes={{ container: 'max-w-5xl', headline: { title: 'text-4xl' } }}`.                                     |
+| Prop                           | Purpose                                                                                                     |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `id`                           | Anchor for in-page links (`href="#pricing"`).                                                               |
+| `title`, `subtitle`, `tagline` | Section headline. Also available as slots for HTML content.                                                 |
+| `bg` (slot)                    | Custom background, e.g. `<Fragment slot="bg"><div class="absolute inset-0 bg-primary/5"></div></Fragment>`. |
+| `classes`                      | Class overrides: `classes={{ container: 'max-w-5xl', headline: { title: 'text-4xl' } }}`.                   |
 
 Images accept `{ src, alt }` where `src` is a local import (`~/assets/images/...`) or a remote URL. Icons come from the Tabler set (`tabler:rocket`); check `@iconify-json/tabler/icons.json` before using a name.
 

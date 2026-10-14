@@ -27,7 +27,7 @@ const { metadata } = Astro.props;
   }
   {/* Optional notice bar, e.g. <Announcement slot="announcement" badge="" text="Volné termíny na léto" /> */}
   <slot name="announcement" />
-  {Astro.slots.has('header') ? <slot name="header" /> : <Header {...headerData} isSticky showToggleTheme />}
+  {Astro.slots.has('header') ? <slot name="header" /> : <Header {...headerData} isSticky />}
   <main class="flex-1">
     <slot />
   </main>

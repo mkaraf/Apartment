@@ -1,11 +1,14 @@
 @import 'tailwindcss';
 
+/* Don't generate classes from code examples in the docs. */
+@source not '../../../.agents';
+@source not '../../../README.md';
+@source not '../../../AGENTS.md';
+
 @plugin "@tailwindcss/typography";
 
 /* shadcn/ui-compatible tokens derived from the --aw-* variables. */
 @import './shadcn.css';
-
-@variant dark (&:where(.dark, .dark *));
 
 @custom-variant intersect (&:not([no-intersect]));
 
@@ -42,10 +45,6 @@
   background-color: var(--aw-color-bg-page);
 }
 
-@utility bg-dark {
-  background-color: var(--aw-color-bg-page-dark);
-}
-
 @utility text-page {
   color: var(--aw-color-text-default);
 }
@@ -55,11 +54,11 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-primary focus:ring-offset-primary/20 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-primary focus:ring-offset-primary/20 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 cursor-pointer;
 }
 
 @utility btn-primary {
-  @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white dark:text-white dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
+  @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white;
 }
 
 @utility btn-secondary {
@@ -67,7 +66,7 @@
 }
 
 @utility btn-tertiary {
-  @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
+  @apply btn border-none shadow-none text-muted hover:text-gray-900;
 }
 
 /* Sticky header: solid page background on phones, translucent page background with blur on desktop. */
@@ -79,11 +78,6 @@
   #header.scroll > div:first-child {
     background-color: color-mix(in srgb, var(--aw-color-bg-page) 90%, transparent);
   }
-}
-.dark #header.scroll > div:first-child,
-#header.scroll.dark > div:first-child {
-  @apply border-b border-gray-500/20;
-  box-shadow: none;
 }
 
 #header.expanded nav {
@@ -130,8 +124,8 @@
   margin-top: 0;
 }
 
-/* Blog prose: inline code without the typography plugin's backticks, and
-   code blocks that follow the light/dark theme (Shiki dual themes). */
+/* Prose: inline code without the typography plugin's backticks, and a subtle
+   border around code blocks. */
 .prose :where(code):not(:where(pre *)) {
   background-color: color-mix(in oklab, var(--aw-color-text-default) 8%, transparent);
   border-radius: 0.25rem;
@@ -144,9 +138,4 @@
 }
 .prose :where(pre.astro-code) {
   border: 1px solid color-mix(in oklab, var(--aw-color-text-default) 12%, transparent);
-}
-.dark .astro-code,
-.dark .astro-code span {
-  color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
 }
