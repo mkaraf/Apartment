@@ -1,34 +1,35 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: 'NÁZEV APARTMÁNU' # TODO: real apartment name
+  site: 'https://moje-domena.cz' # TODO: real domain
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
+  googleSiteVerificationId: '' # TODO: Google Search Console verification ID (optional)
 
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: 'NÁZEV APARTMÁNU – apartmán k pronájmu ve Zlínském kraji'
+    template: '%s – NÁZEV APARTMÁNU'
+  description: 'Apartmán k pronájmu ve Zlínském kraji. Vybavení, fotografie, ceny, dostupné termíny a rezervace na jednom místě.'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: 'NÁZEV APARTMÁNU'
+    locale: cs_CZ
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/og-placeholder.png' # TODO: replace with a 1200×628 photo of the apartment
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
+    # handle: '@ucet' # TODO: set only if the apartment has an X/Twitter account
+    # site: '@ucet'
     cardType: summary_large_image
 
 i18n:
-  language: en
+  language: cs
   textDirection: ltr
 
 apps:
