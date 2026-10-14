@@ -9,7 +9,6 @@ import Features2 from '~/components/widgets/Features2.astro';
 import Timeline from '~/components/widgets/Timeline.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import Content from '~/components/widgets/Content.astro';
-import BlogHighlightedPosts from '~/components/widgets/BlogHighlightedPosts.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -463,22 +462,6 @@ const structuredData = [
   <!-- Note Widget ******************* -->
 
   <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
-
-  <!-- HighlightedPosts Widget ******* -->
-
-  <BlogHighlightedPosts
-    title="Find out more content in our Blog"
-    postIds={[
-      'get-started-website-with-astro-tailwind-css',
-      'how-to-customize-astrowind-to-your-brand',
-      'useful-resources-to-create-websites',
-      'landing',
-    ]}
-    information={`The blog is used to display AstroWind documentation.
-                        Each new article will be an important step that you will need to know to be an expert in creating a website using Astro v7 + Tailwind CSS v4.
-                        Astro is a very interesting technology. Thanks.
-                `}
-  />
 
   <!-- FAQs Widget ******************* -->
 
