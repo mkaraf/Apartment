@@ -20,21 +20,18 @@ site:
 
 All internal links must go through `src/utils/permalinks.ts`:
 
-| Helper                                                        | Use for            |
-| ------------------------------------------------------------- | ------------------ |
-| `getPermalink('/about')`                                      | Pages              |
-| `getPermalink(slug, 'post')`                                  | Blog posts         |
-| `getPermalink(slug, 'category')`, `getPermalink(slug, 'tag')` | Taxonomies         |
-| `getBlogPermalink()`, `getHomePermalink()`                    | Blog index, home   |
-| `getAsset('/rss.xml')`                                        | Files in `public/` |
+| Helper                                                  | Use for                     |
+| ------------------------------------------------------- | --------------------------- |
+| `getPermalink('/privacy')`, `getPermalink('/#kontakt')` | Pages and home-page anchors |
+| `getHomePermalink()`                                    | Home                        |
+| `getAsset('/robots.txt')`                               | Files in `public/`          |
 
-They prepend `base` and apply `trailingSlash`. The integration in `vendor/integration/index.ts` also feeds `base`, `site` and `trailingSlash` to Astro's own config, so `Astro.url`, `page.url.*` (pagination) and `<a href>` written by Astro already include them.
+They prepend `base` and apply `trailingSlash`. The integration in `vendor/integration/index.ts` also feeds `base`, `site` and `trailingSlash` to Astro's own config, so `Astro.url` and `<a href>` written by Astro already include them.
 
 ## Do not double-prefix
 
 Values that already come from Astro **must not** be passed through `getPermalink()` again:
 
-- `page.url.prev` / `page.url.next` from `paginate()` (see `src/components/blog/Pagination.astro`).
 - `Astro.url.pathname`.
 - `import.meta.env.BASE_URL`.
 

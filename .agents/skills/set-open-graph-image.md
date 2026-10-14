@@ -10,7 +10,7 @@ Controls the image shown when a page is shared on social networks (`og:image`, T
 metadata:
   openGraph:
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/og-placeholder.png' # placeholder; replace with a photo of the apartment
         width: 1200
         height: 628
 ```
@@ -24,10 +24,10 @@ Pass `openGraph.images` in the page `metadata`:
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Pricing',
-  description: 'Plans and pricing',
+  title: 'Obchodní podmínky',
+  description: 'Podmínky ubytování',
   openGraph: {
-    images: [{ url: '~/assets/images/og-pricing.png', width: 1200, height: 628 }],
+    images: [{ url: '~/assets/images/og-terms.png', width: 1200, height: 628 }],
   },
 };
 ---
@@ -35,22 +35,7 @@ const metadata = {
 <Layout metadata={metadata}>…</Layout>
 ```
 
-## Per blog post
-
-Posts use their `image` frontmatter as the OG image automatically. To override it, set `metadata.openGraph.images` in the frontmatter:
-
-```yaml
----
-title: 'My post'
-image: '~/assets/images/post-cover.png'
-metadata:
-  openGraph:
-    images:
-      - url: '~/assets/images/og-post.png'
-        width: 1200
-        height: 628
----
-```
+Markdown pages (`privacy.md`, `terms.md`) can set the same `metadata.openGraph.images` in their frontmatter.
 
 ## Accepted `url` values
 
@@ -65,7 +50,6 @@ metadata:
 - Types: `MetaData`, `MetaDataOpenGraph`, `MetaDataImage` in `src/types.d.ts`.
 - Merging and rendering: `src/components/common/Metadata.astro` (uses `astro-seo`).
 - Image resolution and optimisation: `adaptOpenGraphImages()` and `findImage()` in `src/utils/images.ts`.
-- Post frontmatter schema: `metadataDefinition()` in `src/content.config.ts`.
 
 ## Notes
 

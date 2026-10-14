@@ -57,7 +57,7 @@ Custom `intersect` variant for IntersectionObserver animations:
 | `text-primary-foreground`, `text-secondary-foreground`, `text-accent-foreground` | white                                           |
 | `bg-chart-1..5`, `bg-sidebar*`                                                   | derived from primary / secondary / accent       |
 
-Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secondary`, `bg-accent` are AstroWind brand colours (shadcn uses `secondary`/`accent` as subtle surfaces), `text-muted` is a text colour and `bg-muted` is **not** defined as a surface, and the `rounded-*` scale is Tailwind's default (shadcn's `--radius` is defined but not mapped). See `use-shadcn-tokens.md`.
+Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secondary`, `bg-accent` are the site's brand colours (terracotta, clay, sage) (shadcn uses `secondary`/`accent` as subtle surfaces), `text-muted` is a text colour and `bg-muted` is **not** defined as a surface, and the `rounded-*` scale is Tailwind's default (shadcn's `--radius` is defined but not mapped). See `use-shadcn-tokens.md`.
 
 ## Changing Colors
 

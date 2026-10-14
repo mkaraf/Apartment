@@ -1,5 +1,7 @@
 # Add a Page
 
+This is a one-page site: new content normally becomes a section of `src/pages/index.astro` (see `edit-one-page-site.md`). Add a separate page only for standalone content such as legal texts. Markdown pages (`privacy.md`, `terms.md`) use `MarkdownLayout` through their `layout` frontmatter.
+
 ## Steps
 
 1. Create a new `.astro` file in `src/pages/`
@@ -15,27 +17,27 @@ import Hero from '~/components/widgets/Hero.astro';
 import Features from '~/components/widgets/Features.astro';
 
 const metadata = {
-  title: 'Page Title',
-  description: 'Page description for SEO',
+  title: 'Název stránky',
+  description: 'Popis stránky pro vyhledávače',
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="Optional tagline"
-    title="Page Heading"
-    subtitle="Supporting text"
+    tagline="Volitelný štítek"
+    title="Nadpis stránky"
+    subtitle="Doplňující text"
     image={{
-      src: '~/assets/images/hero.png',
-      alt: 'Hero image description',
+      src: '~/assets/images/hero-image.png',
+      alt: 'Popis obrázku',
     }}
   />
 
   <Features
-    title="Section Title"
+    title="Nadpis sekce"
     items={[
-      { title: 'Feature 1', description: 'Description', icon: 'tabler:star' },
-      { title: 'Feature 2', description: 'Description', icon: 'tabler:rocket' },
+      { title: 'Položka 1', description: 'Popis', icon: 'tabler:star' },
+      { title: 'Položka 2', description: 'Popis', icon: 'tabler:bed' },
     ]}
   />
 </Layout>
@@ -43,7 +45,7 @@ const metadata = {
 
 ## Available Widget Components
 
-Hero, Features, Content, Steps, Testimonials, FAQs, Stats, Pricing, Brands, CallToAction, Contact, Team
+Hero, Features, Content, Steps, Testimonials, FAQs, Stats, Pricing, Gallery, CallToAction, Contact… (full list in `use-widgets.md`)
 
 ## Notes
 

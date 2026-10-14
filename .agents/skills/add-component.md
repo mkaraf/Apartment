@@ -6,7 +6,7 @@ Before writing a new widget, check `use-widgets.md`: the catalogue covers most m
 
 1. Create `src/components/widgets/MyWidget.astro`.
 2. Add a `MyWidget` interface to `src/types.d.ts` that extends `Omit<Headline, 'classes'>, Widget` (or only `Widget` if the section has no headline).
-3. Use the widget on a real page of the demo so it is visible and tested.
+3. Use the widget in `src/pages/index.astro` so it is visible and tested. Write default labels (`aria-label`, button texts) in Czech.
 4. Run `npm run build && npm run check` and look at the section on desktop and at 375 px (the site is light mode only).
 
 ## Template

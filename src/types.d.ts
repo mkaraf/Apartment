@@ -1,44 +1,4 @@
-import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
-import type { ImageMetadata } from 'astro';
 import type { HTMLAttributes } from 'astro/types';
-
-export interface Post {
-  /** Unique ID identifying the post. */
-  id: string;
-  /** URL-friendly slug derived from the post name. */
-  slug: string;
-  /** Fully resolved permalink, computed from the configured pattern. */
-  permalink: string;
-
-  publishDate: Date;
-  updateDate?: Date;
-
-  title: string;
-  /** Optional summary of post content. */
-  excerpt?: string;
-  image?: ImageMetadata | string;
-  /** Alternative text for the cover image. */
-  imageAlt?: string;
-
-  category?: Taxonomy;
-  tags?: Taxonomy[];
-  author?: string;
-
-  metadata?: MetaData;
-
-  draft?: boolean;
-
-  /** Rendered Astro component factory for the post body. */
-  Content?: AstroComponentFactory;
-
-  /** Estimated reading time in minutes. */
-  readingTime?: number;
-}
-
-export interface Taxonomy {
-  slug: string;
-  title: string;
-}
 
 export interface MetaData {
   title?: string;

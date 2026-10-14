@@ -15,7 +15,6 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import SocialProof from '~/components/widgets/SocialProof.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import { SITE, METADATA, I18N } from 'astrowind:config';
-import { getPermalink } from '~/utils/permalinks';
 import favIconSvg from '~/assets/favicons/favicon.svg';
 
 // The home page uses the default title from `metadata.title.default` in config.yaml.
@@ -309,7 +308,7 @@ const structuredData = [
       {
         variant: 'primary',
         text: 'Kontaktovat',
-        href: getPermalink('/contact'),
+        href: '#kontakt',
         icon: 'tabler:mail',
       },
     ]}
@@ -318,4 +317,18 @@ const structuredData = [
 
     <Fragment slot="subtitle">Text výzvy k rezervaci [doplnit].</Fragment>
   </CallToAction>
+
+  <!-- Contact (Features2 Widget) ***** -->
+
+  <Features2
+    id="kontakt"
+    tagline="Kontakt"
+    title="Kontakt"
+    subtitle="Text sekce [doplnit]."
+    items={[
+      { title: 'Telefon', description: '+420 000 000 000 [doplnit]', icon: 'tabler:phone' },
+      { title: 'E-mail', description: 'email@moje-domena.cz [doplnit]', icon: 'tabler:mail' },
+      { title: 'Adresa', description: 'Ulice 123, 760 01 Zlín [doplnit]', icon: 'tabler:map-pin' },
+    ]}
+  />
 </Layout>

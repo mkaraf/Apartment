@@ -1,6 +1,6 @@
 # Add Structured Data (JSON-LD)
 
-Out of the box the template emits `BlogPosting` and `BreadcrumbList` on every blog post (`src/pages/[...blog]/index.astro`, `src/components/common/Breadcrumbs.astro`) and `FAQPage` from the `FAQs` widget when it receives `schema`. `src/components/common/Metadata.astro` handles title, description, canonical, robots, Open Graph (including `article:*`) and Twitter through `astro-seo`. Anything else (Organization, Product, HowTo…) is added as described below.
+Out of the box the site emits `WebSite` and `Organization` on the home page and `FAQPage` from the `FAQs` widget when it receives `schema` (currently off: the FAQ answers are placeholders). `src/components/common/Breadcrumbs.astro` can emit `BreadcrumbList` but is not used on the one-page site. `src/components/common/Metadata.astro` handles title, description, canonical, robots, Open Graph and Twitter through `astro-seo`. Anything else (e.g. `LodgingBusiness` for the apartment) is added as described below. Only describe facts that are true for the apartment.
 
 ## What the home page ships
 
@@ -35,26 +35,6 @@ const schema = {
 ```
 
 JSON-LD is also valid anywhere in the body if a slot is not available (widgets like `FAQs` do that).
-
-## Blog posts (Article)
-
-Already done: `src/pages/[...blog]/index.astro` builds this object from the front matter (`publishDate`, `updateDate`, `author`, `category`, `tags`, `image`). Extend it there if you need more properties:
-
-```ts
-const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: post.title,
-  description: post.excerpt,
-  datePublished: post.publishDate.toISOString(),
-  dateModified: (post.updateDate ?? post.publishDate).toISOString(),
-  author: post.author ? { '@type': 'Person', name: post.author } : undefined,
-  image: typeof image === 'string' ? image : image?.src,
-  mainEntityOfPage: String(url),
-};
-```
-
-Render it with `<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />`.
 
 ## Notes
 

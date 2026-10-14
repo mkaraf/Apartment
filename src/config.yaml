@@ -12,9 +12,10 @@ metadata:
     default: 'NÁZEV APARTMÁNU – apartmán k pronájmu ve Zlínském kraji'
     template: '%s – NÁZEV APARTMÁNU'
   description: 'Apartmán k pronájmu ve Zlínském kraji. Vybavení, fotografie, ceny, dostupné termíny a rezervace na jednom místě.'
+  # TODO before launch: set both to true and remove `X-Robots-Tag` from public/_headers.
   robots:
-    index: true
-    follow: true
+    index: false
+    follow: false
   openGraph:
     site_name: 'NÁZEV APARTMÁNU'
     locale: cs_CZ
@@ -31,38 +32,6 @@ metadata:
 i18n:
   language: cs
   textDirection: ltr
-
-apps:
-  blog:
-    isEnabled: false
-    postsPerPage: 8
-
-    post:
-      isEnabled: true
-      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
-      robots:
-        index: true
-
-    list:
-      isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
-      robots:
-        index: true
-
-    category:
-      isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
-      robots:
-        index: true
-
-    tag:
-      isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
-      robots:
-        index: false
-
-    isRelatedPostsEnabled: true
-    relatedPostsCount: 4
 
 analytics:
   vendors:

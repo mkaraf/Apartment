@@ -10,8 +10,8 @@ Utilities such as `bg-background`, `text-foreground`, `bg-card`, `text-card-fore
 
 | Token          | shadcn meaning         | AstroWind meaning                  | What to do                                          |
 | -------------- | ---------------------- | ---------------------------------- | --------------------------------------------------- |
-| `bg-secondary` | subtle grey surface    | secondary brand colour (blue)      | Use `bg-muted-foreground/10` or `bg-card`           |
-| `bg-accent`    | subtle hover surface   | accent brand colour (purple)       | Use `hover:bg-foreground/5`                         |
+| `bg-secondary` | subtle grey surface    | secondary brand colour (clay)      | Use `bg-muted-foreground/10` or `bg-card`           |
+| `bg-accent`    | subtle hover surface   | accent brand colour (sage)         | Use `hover:bg-foreground/5`                         |
 | `bg-muted`     | subtle surface         | not defined (`text-muted` is text) | Use `bg-foreground/5` or define your own            |
 | `rounded-*`    | scaled from `--radius` | Tailwind defaults                  | Leave as is, or map `--radius-*` in `@theme inline` |
 

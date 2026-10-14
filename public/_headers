@@ -1,2 +1,6 @@
+# TODO before launch: remove this block (and set metadata.robots to true in src/config.yaml).
+/*
+  X-Robots-Tag: noindex, nofollow
+
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

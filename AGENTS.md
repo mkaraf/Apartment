@@ -1,14 +1,16 @@
-# AstroWind Agent Instructions
+# Agent Instructions
 
 ## Project Overview
 
-AstroWind is a free, open-source website template built with **Astro v7** and **Tailwind CSS v4**. It generates a fully static site optimized for performance, SEO, and accessibility.
+One-page website for an apartment for rent in the Zlín region, built on the AstroWind template with **Astro v7** and **Tailwind CSS v4**. Fully static, light mode only, Czech UI (`i18n.language: cs`). Everything lives on `src/pages/index.astro` as sections linked by `#anchors`; the only other pages are `/privacy`, `/terms` and `404`. Hosted on Cloudflare Workers (static assets). Bookings will go through Google Calendar (not implemented yet).
+
+User-facing text is Czech. Placeholders are marked `[doplnit]` in page copy and `TODO` in config. The site is intentionally `noindex` until launch (see README "Before launch").
 
 **Stack:** Astro v7 | Tailwind CSS v4 | TypeScript 5.9 | MDX | Sharp
 
 ## Skills
 
-Before implementing a project-specific task (disabling the blog, Open Graph images, base paths, CMS, deployments, header customisation…), check `.agents/skills/` for an existing skill and follow it.
+Before implementing a project-specific task (editing sections, widgets, Open Graph images, structured data, header customisation, styling, deployment…), check `.agents/skills/` for an existing skill and follow it.
 
 ## Quick Reference
 
@@ -33,13 +35,10 @@ src/
     common/        # Shared: Image, Metadata, Analytics, ToggleMenu
     ui/            # Primitives: Button, Form, Headline, Timeline, WidgetWrapper
     widgets/       # Page sections: Hero, Features, Bento, Pricing, Comparison, FAQs, Team, Gallery…
-    blog/          # Blog: SinglePost, List, Pagination, Tags
     CustomStyles.astro  # CSS variables for colors and fonts
-  content.config.ts    # Content Collections schema (Astro 5+ location)
-  data/post/           # Blog posts (.md, .mdx)
   layouts/             # Layout.astro, PageLayout.astro, MarkdownLayout.astro
-  pages/               # File-based routing
-  utils/               # blog.ts, images.ts, permalinks.ts, frontmatter.ts
+  pages/               # index.astro (one-page site, sections linked by #anchors), privacy.md, terms.md, 404.astro
+  utils/               # images.ts, permalinks.ts, frontmatter.ts, utils.ts
   config.yaml          # Site configuration (loaded as virtual module)
   navigation.ts        # Navigation structure
   types.d.ts           # TypeScript type definitions
@@ -57,7 +56,7 @@ import { SITE } from 'astrowind:config';
 
 ### Configuration System
 
-Site config lives in `src/config.yaml` and is loaded as a Vite virtual module `astrowind:config` by the custom integration in `vendor/integration/`. Exports: `SITE`, `I18N`, `METADATA`, `APP_BLOG`, `ANALYTICS`.
+Site config lives in `src/config.yaml` and is loaded as a Vite virtual module `astrowind:config` by the custom integration in `vendor/integration/`. Exports: `SITE`, `I18N`, `METADATA`, `ANALYTICS`.
 
 ## Tailwind CSS v4
 
@@ -78,11 +77,9 @@ The Vite plugin `@tailwindcss/vite` is configured in `astro.config.ts` (not as a
 
 Components use `twMerge` from `tailwind-merge` v3 for conditional class composition.
 
-## Content Collections
+## Hosting
 
-Defined in `src/content.config.ts` using Astro's Content Layer API with `glob()` loader. Posts are in `src/data/post/` as `.md` or `.mdx` files.
-
-Post frontmatter: `title` (required), `publishDate`, `updateDate`, `draft`, `excerpt`, `image`, `category`, `tags`, `author`, `metadata`.
+Cloudflare Workers static assets: `wrangler.jsonc` serves `dist/` (`npm run build && npx wrangler deploy`). No adapter; the site is fully static. `public/_headers` sets cache headers for `/_astro/*`. There is no blog and no content collection.
 
 ## Component Patterns
 

@@ -1,44 +1,39 @@
-# Deploy to Cloudflare (Workers / Pages)
+# Deploy to Cloudflare (Workers static assets)
 
-The template is fully static (`output: 'static'`), so it can be uploaded to Cloudflare as plain assets or built with the official adapter.
+The site is fully static (`output: 'static'`) and hosted on Cloudflare Workers as plain assets. `wrangler.jsonc` sets `assets.directory: "./dist"` and `not_found_handling: "404-page"`; no adapter is installed.
 
-## Option A — static assets (simplest)
+## Deploy
 
-The repo ships `wrangler.jsonc` with `assets.directory: "./dist"` and `not_found_handling: "404-page"`, so:
+1. `npm run build && npx wrangler deploy` (the first run asks you to log in). The Worker name (`apartman`) is set in `wrangler.jsonc`.
+2. Or connect the Git repository to the Worker in the Cloudflare dashboard (Workers Builds) with build command `npm run build` and deploy command `npx wrangler deploy`, so every push deploys.
+3. Attach the real domain to the Worker in the Cloudflare dashboard (custom domain) and set the same domain in `site.site` in `src/config.yaml`.
 
-1. Use the "Deploy to Cloudflare" button in the README, or run `npm run build && npx wrangler deploy` (the first run asks you to log in).
-2. Alternatively upload `dist/` by hand (Cloudflare Pages "direct upload"). No adapter needed either way.
+## Headers and indexing
 
-## Option B — `@astrojs/cloudflare` adapter
+`public/_headers` is copied to `dist/` and read by Cloudflare:
 
-Needed only if you add server-rendered routes. Requires Astro ≥ 7.3 (the template ships 7.3.1).
+- `/_astro/*` gets a long immutable cache header.
+- `/*` currently sends `X-Robots-Tag: noindex, nofollow` so previews are not indexed. Remove that block at launch together with `metadata.robots` in `src/config.yaml`.
 
-1. `npx astro add cloudflare` (adds the dependency and `adapter: cloudflare()` to `astro.config.ts`).
-2. Keep `output: 'static'`; pages stay prerendered and the adapter emits `dist/client` + `dist/server`.
-3. Create `wrangler.toml` following https://developers.cloudflare.com/workers/frameworks/framework-guides/astro/ and run `npx wrangler deploy`.
+## Server-side code (only if needed later)
+
+If a feature needs code running on request (e.g. reading a private calendar with a secret key), add the adapter: `npx astro add cloudflare`, keep `output: 'static'` so pages stay prerendered, and follow https://developers.cloudflare.com/workers/frameworks/framework-guides/astro/. Keep `astro` and `@astrojs/cloudflare` at compatible versions.
 
 ## Images
 
 | `imageService`      | Behaviour                                                                       | Use when                        |
 | ------------------- | ------------------------------------------------------------------------------- | ------------------------------- |
-| `compile` (default) | Sharp optimises images at build time for prerendered pages                      | This template (recommended)     |
+| `compile` (default) | Sharp optimises images at build time for prerendered pages                      | This site (recommended)         |
 | `cloudflare`        | `<img srcset>` points at `/cdn-cgi/image/...`, resized by Cloudflare at runtime | On-demand pages, Images enabled |
 | `passthrough`       | No optimisation                                                                 | Debugging                       |
 
-Do **not** route SVGs through `imageService: 'cloudflare'`: Cloudflare Image Resizing does not transform SVG and the request loops with `ERROR 9421 The origin server redirected too many times`. Serve SVG logos from `public/` with a plain `<img>`, or keep `compile`.
-
-Remote images from Unsplash/Cloudinary/etc. are rewritten by `unpic` in `src/components/common/Image.astro` and never touch Cloudflare's resizer.
+Do **not** route SVGs through `imageService: 'cloudflare'`: Cloudflare Image Resizing does not transform SVG and the request loops with `ERROR 9421 The origin server redirected too many times`.
 
 ## Verify locally
 
 ```bash
 npm run build
-npx wrangler dev   # with the adapter, or `npx astro preview` for the static build
+npx astro preview      # or: npx wrangler dev
 ```
 
-Check a page with a local image (`/`), a blog post (`/get-started-website-with-astro-tailwind-css`) and `/rss.xml`.
-
-## Notes
-
-- Historical error `Cannot read properties of undefined (reading 'startsWith')` at `injectImageEndpoint` came from mixing Astro 5 with a pre-Astro-5 adapter (`image.endpoint` changed from a string to `{ route, entrypoint }`). Keep `astro` and `@astrojs/cloudflare` at compatible versions.
-- `public/_headers` already sets long cache headers for `/_astro/*`; Cloudflare Pages honours it.
+Check `/` (local images, anchors), `/privacy`, `/terms` and a missing URL (should show the 404 page).

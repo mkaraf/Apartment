@@ -1,10 +1,10 @@
-// Cloudflare Workers configuration for the "Deploy to Cloudflare" button in the
-// README. The site is fully static, so the
-// Worker only serves the `dist/` folder as assets; no adapter is needed.
+// Cloudflare Workers configuration. The site is fully static, so the Worker
+// only serves the `dist/` folder as assets; no adapter is needed.
+// Deploy: `npm run build && npx wrangler deploy`
 // Docs: https://developers.cloudflare.com/workers/static-assets/
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "astrowind",
+  "name": "apartman", // TODO: Worker name (default URL: apartman.<account>.workers.dev)
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./dist",
