@@ -1,17 +1,19 @@
+import { SITE } from 'astrowind:config';
+
 import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
     {
-      text: 'Home',
+      text: 'Úvod',
       href: getPermalink('/'),
     },
     {
-      text: 'Privacy policy',
+      text: 'Ochrana osobních údajů',
       href: getPermalink('/privacy'),
     },
     {
-      text: 'Terms',
+      text: 'Obchodní podmínky',
       href: getPermalink('/terms'),
     },
   ],
@@ -21,11 +23,9 @@ export const headerData = {
 export const footerData = {
   links: [],
   secondaryLinks: [
-    { text: 'Terms', href: getPermalink('/terms') },
-    { text: 'Privacy Policy', href: getPermalink('/privacy') },
+    { text: 'Ochrana osobních údajů', href: getPermalink('/privacy') },
+    { text: 'Obchodní podmínky', href: getPermalink('/terms') },
   ],
   socialLinks: [],
-  footNote: `
-    Made by <a class="text-blue-600 underline dark:text-muted" href="https://arthelokyo.com"> Arthelokyo</a> · All rights reserved.
-  `,
+  footNote: `© ${new Date().getFullYear()} ${SITE?.name}`,
 };

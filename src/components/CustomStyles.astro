@@ -2,6 +2,9 @@
 // Font family is provided by Astro's native Fonts API (see `fonts` in
 // astro.config.ts and <Font /> in Layout.astro), exposed as `--font-inter`.
 // To switch typefaces, change the `fonts` entry and repoint `--aw-font-*` below.
+//
+// Palette: warm terracotta (primary), darker clay (secondary, used for button
+// hover) and sage green (accent) on a warm off-white page.
 ---
 
 <style is:inline>
@@ -10,19 +13,19 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: rgb(160 82 45); /* #A0522D terracotta */
+    --aw-color-secondary: rgb(127 63 34); /* #7F3F22 clay */
+    --aw-color-accent: rgb(95 122 90); /* #5F7A5A sage */
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-text-heading: rgb(36 28 24);
+    --aw-color-text-default: rgb(46 38 33);
+    --aw-color-text-muted: rgb(46 38 33 / 70%);
+    --aw-color-bg-page: rgb(253 250 246); /* #FDFAF6 */
 
-    --aw-color-bg-page-dark: rgb(8 9 10);
+    --aw-color-bg-page-dark: rgb(22 18 15);
 
     ::selection {
-      background-color: lavender;
+      background-color: rgb(160 82 45 / 20%);
     }
   }
 
@@ -31,18 +34,19 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: rgb(173 90 50); /* #AD5A32, keeps white button text readable */
+    --aw-color-secondary: rgb(140 70 38); /* #8C4626 */
+    --aw-color-accent: rgb(150 177 140); /* #96B18C, lighter sage for dark backgrounds */
+    --aw-color-link: rgb(232 168 132); /* #E8A884, links and active menu item */
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(8 9 10);
+    --aw-color-text-heading: rgb(245 240 235);
+    --aw-color-text-default: rgb(231 224 216);
+    --aw-color-text-muted: rgb(231 224 216 / 66%);
+    --aw-color-bg-page: rgb(22 18 15); /* #16120F */
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgb(232 168 132 / 30%);
+      color: rgb(245 240 235);
     }
   }
 </style>

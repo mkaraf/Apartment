@@ -1,9 +1,16 @@
 ---
 import { SITE } from 'astrowind:config';
+
+// Text logo built from `site.name` in config.yaml. To use an image instead,
+// add src/assets/images/logo.svg and replace the <span> below with:
+//
+//   import { Image } from 'astro:assets';
+//   import logo from '~/assets/images/logo.svg';
+//   <Image src={logo} alt={SITE?.name} class="h-8 w-auto" loading="eager" />
 ---
 
 <span
   class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
 >
-  🚀 {SITE?.name}
+  {SITE?.name}
 </span>

@@ -15,17 +15,19 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import SocialProof from '~/components/widgets/SocialProof.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import { SITE, METADATA, I18N } from 'astrowind:config';
+import { getPermalink } from '~/utils/permalinks';
 import favIconSvg from '~/assets/favicons/favicon.svg';
 
+// The home page uses the default title from `metadata.title.default` in config.yaml.
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: METADATA?.title?.default,
   ignoreTitleTemplate: true,
 };
 
 // Structured data for the site and its publisher, built only from
 // `src/config.yaml` (`site.name`, `site.site`, `metadata.twitter.handle`), so
-// it is correct for any site made with the template. Blog posts add
-// BlogPosting on their own; the FAQs widget adds FAQPage.
+// it is correct for any site made with the template. The FAQs widget adds
+// FAQPage when its `schema` prop is set.
 const organizationId = `${SITE?.site}/#organization`;
 const structuredData = [
   {
@@ -47,6 +49,8 @@ const structuredData = [
     ...(METADATA?.twitter?.handle ? { sameAs: [`https://x.com/${METADATA.twitter.handle.replace(/^@/, '')}`] } : {}),
   },
 ];
+
+// All texts below are placeholders (marked "[doplnit]") to be replaced with real content.
 ---
 
 <Layout metadata={metadata}>
@@ -54,31 +58,24 @@ const structuredData = [
   <!-- Hero Widget ******************* -->
 
   <Hero
-    tagline="Free & open source"
+    tagline="Zlínský kraj"
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
+        text: 'Rezervovat pobyt',
+        href: '#cta',
+        icon: 'tabler:calendar',
       },
-      { text: 'Learn more', href: '#features' },
+      { text: 'Více informací', href: '#features' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Ilustrační obrázek' }}
   >
     <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro v7</span> + Tailwind CSS
+      {SITE?.name}
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro v7 +
-        Tailwind CSS v4.</span
-      >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages & Blogs.
+      Apartmán k pronájmu ve Zlínském kraji. Krátký úvodní text o apartmánu a okolí [doplnit].
     </Fragment>
   </Hero>
 
@@ -88,15 +85,9 @@ const structuredData = [
     id="proof"
     classes={{ container: '!pb-14 md:!pb-20' }}
     items={[
-      {
-        value: '#1',
-        label: 'most starred Astro theme',
-        icon: 'tabler:star-filled',
-        color: 'text-amber-400',
-        href: 'https://github.com/arthelokyo/astrowind',
-      },
-      { value: '100', label: 'Lighthouse score', icon: 'tabler:gauge', color: 'text-emerald-500' },
-      { value: 'MIT', label: 'licensed, free to use', icon: 'tabler:license', color: 'text-sky-500' },
+      { value: '–', label: 'hodnocení hostů [doplnit]', icon: 'tabler:star-filled', color: 'text-amber-400' },
+      { value: '–', label: 'lůžek [doplnit]', icon: 'tabler:bed', color: 'text-primary' },
+      { value: '–', label: 'm² [doplnit]', icon: 'tabler:home', color: 'text-accent' },
     ]}
   />
 
@@ -104,84 +95,44 @@ const structuredData = [
 
   <QuickStart
     id="quick-start"
-    classes={{ icon: 'bg-green-600 dark:bg-green-700' }}
-    tagline="TL;DR"
-    title="One command. That is the whole setup."
-    subtitle="For the people who scroll past the features and ask “how do I run it?”. This is how."
-    commands={['npm create astro@latest -- --template arthelokyo/astrowind']}
+    classes={{ icon: 'bg-primary' }}
+    tagline="Příjezd"
+    title="Adresa apartmánu [doplnit]"
+    subtitle="Krátký popis, jak se k apartmánu dostat [doplnit]."
+    commands={['Ulice 123, 760 01 Zlín [doplnit]']}
     items={[
       {
-        title: 'Two minutes, one terminal',
-        description:
-          'Answer the prompts, run <code>npm run dev</code>, open localhost:4321. The demo site is now yours to edit. The only requirement is a current Node.js.',
-        icon: 'tabler:terminal-2',
+        title: 'Autem',
+        description: 'Parkování a příjezd autem [doplnit].',
+        icon: 'tabler:car',
       },
       {
-        title: 'AI-ready out of the box',
-        description:
-          'An <code>AGENTS.md</code> and step-by-step skills tell Claude Code, Cursor or any coding assistant how this template works. Ask it for a page; it knows where things go.',
-        icon: 'tabler:sparkles',
+        title: 'Veřejnou dopravou',
+        description: 'Nejbližší zastávka a spojení [doplnit].',
+        icon: 'tabler:bus',
       },
       {
-        title: 'Free, MIT licensed, no strings',
-        description:
-          'Use it for client work, side projects or the company site. Star the repo if it saves you an afternoon.',
-        icon: 'tabler:license',
+        title: 'Check-in a check-out',
+        description: 'Časy příjezdu a odjezdu [doplnit].',
+        icon: 'tabler:key',
       },
     ]}
-  >
-    <Fragment slot="bg">
-      <div
-        class="absolute inset-0 bg-[radial-gradient(60%_55%_at_15%_20%,rgb(129_140_248/0.28),transparent_65%),radial-gradient(50%_50%_at_85%_25%,rgb(244_114_182/0.22),transparent_65%)] dark:bg-[radial-gradient(60%_55%_at_15%_20%,rgb(99_102_241/0.25),transparent_65%),radial-gradient(50%_50%_at_85%_25%,rgb(217_70_239/0.18),transparent_65%)]"
-      >
-      </div>
-    </Fragment>
-  </QuickStart>
+  />
 
   <!-- Features Widget *************** -->
 
   <Features
     id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023, 2024 and 2025."
+    tagline="Vybavení"
+    title="Co v apartmánu najdete"
+    subtitle="Přehled vybavení apartmánu [doplnit]."
     items={[
-      {
-        title: 'Astro + Tailwind CSS Integration',
-        description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility. Now powered by Tailwind CSS v4.',
-        icon: 'tabler:brand-tailwind',
-      },
-      {
-        title: 'Ready-to-use Components',
-        description:
-          'Widgets made with Tailwind CSS v4 ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
-      },
-      {
-        title: 'Best Practices',
-        description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
-      },
-      {
-        title: 'Excellent Page Speed',
-        description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: 'Search Engine Optimization (SEO)',
-        description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
-      },
-      {
-        title: 'Open to new ideas and contributions',
-        description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
-      },
+      { title: 'Ložnice', description: 'Popis [doplnit].', icon: 'tabler:bed' },
+      { title: 'Kuchyň', description: 'Popis [doplnit].', icon: 'tabler:tools-kitchen-2' },
+      { title: 'Koupelna', description: 'Popis [doplnit].', icon: 'tabler:bath' },
+      { title: 'Wi-Fi', description: 'Popis [doplnit].', icon: 'tabler:wifi' },
+      { title: 'Parkování', description: 'Popis [doplnit].', icon: 'tabler:parking' },
+      { title: 'Okolí', description: 'Popis [doplnit].', icon: 'tabler:trees' },
     ]}
   />
 
@@ -189,37 +140,25 @@ const structuredData = [
 
   <Content
     isReversed
-    tagline="Inside template"
-    title="AstroWind's Blueprint: Fun Meets Functionality!"
+    tagline="O apartmánu"
+    title="Nadpis sekce [doplnit]"
     items={[
-      {
-        title: 'Built on top of Astro v7',
-        description:
-          'Benefiting from the performance and developer-friendly features of this modern static site generator.',
-      },
-      {
-        title: 'Styled using Tailwind CSS v4',
-        description:
-          'Facilitating rapid design and consistent styling with this highly popular utility-first CSS framework.',
-      },
-      {
-        title: 'Cross-browser compatibility',
-        description:
-          'Ensure your website looks and functions consistently across various web browsers, delivering a seamless experience to all users.',
-      },
+      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Colorful Image',
+      alt: 'Ilustrační obrázek',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Building on modern foundations</h3>
-      Gain a competitive advantage by incorporating industry leading practices
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Podnadpis [doplnit]</h3>
+      Úvodní text sekce [doplnit].
     </Fragment>
 
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-primary/5 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
@@ -228,35 +167,20 @@ const structuredData = [
   <Content
     isAfterContent
     items={[
-      {
-        title: 'High level of customization',
-        description: `Tailor the template effortlessly to match your brand's identity and requirements, making your website distinct and saving you time.`,
-      },
-      {
-        title: 'Multiple layout possibilities',
-        description:
-          'Explore various layout options to find the structure that best presents your content, enhancing user engagement and navigation.',
-      },
-      {
-        title: 'Fully responsive design',
-        description:
-          "Ensure your website's optimal performance on various devices and screen sizes, providing a consistent and enjoyable user experience.",
-      },
-      {
-        title: 'Integration of media',
-        description:
-          'Seamlessly incorporate images, videos, and multimedia elements that enhance your content and engage visitors effectively.',
-      },
+      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 4 [doplnit]', description: 'Popis [doplnit].' },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1616674282942-2835e62d612e?auto=format&fit=crop&w=1600&q=80',
-      alt: 'Printed website wireframes on a black table',
+      alt: 'Ilustrační obrázek',
     }}
   >
-    <Fragment slot="content">Ensure your online presence truly represents you.</Fragment>
+    <Fragment slot="content">Text sekce [doplnit].</Fragment>
 
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-primary/5 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
@@ -266,133 +190,68 @@ const structuredData = [
     isReversed
     isAfterContent
     items={[
-      {
-        title: 'Enhanced user engagement',
-        description:
-          'Captivate your audience with interactive elements, intuitive navigation, and visually appealing layouts, encouraging longer visits.',
-      },
-      {
-        title: 'Continuous improvement',
-        description:
-          'Ensure your website stays aligned with the latest trends and technologies through regular updates and enhancements.',
-      },
-      {
-        title: 'Time and resource efficiency',
-        description:
-          'Skip the time-consuming process of building a website from scratch and launch your online presence sooner with AstroWind.',
-      },
-      {
-        title: 'Community support',
-        description: `Join the growing AstroWind community for insights, resources, and assistance, ensuring you're never alone on your web development journey.`,
-      },
+      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
+      { title: 'Bod 4 [doplnit]', description: 'Popis [doplnit].' },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1611462985358-60d3498e0364?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Astronauts Image',
+      alt: 'Ilustrační obrázek',
     }}
   >
-    <Fragment slot="content">Designed to foster growth and success.</Fragment>
+    <Fragment slot="content">Text sekce [doplnit].</Fragment>
 
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-primary/5 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="Get your dream website up and running in no time with AstroWind."
+    title="Jak probíhá rezervace"
     items={[
       {
-        title: 'Step 1: <span class="font-medium">Download</span>',
-        description:
-          "Kickstart with GitHub! Either fork the AstroWind template or simply click 'Use this template'. Your canvas awaits, ready for your digital masterpiece. In just a few clicks, you've already set the foundation.",
-        icon: 'tabler:package',
+        title: 'Krok 1: <span class="font-medium">Vyberte termín</span>',
+        description: 'Popis [doplnit].',
+        icon: 'tabler:calendar',
       },
       {
-        title: 'Step 2: <span class="font-medium">Add content</span>',
-        description:
-          "Pour your vision into it. Add images, text, and all that jazz to breathe life into your digital space. Remember, it's the content that tells your story, so make it captivating.",
-        icon: 'tabler:letter-case',
+        title: 'Krok 2: <span class="font-medium">Pošlete poptávku</span>',
+        description: 'Popis [doplnit].',
+        icon: 'tabler:send',
       },
       {
-        title: 'Step 3: <span class="font-medium">Customize styles</span>',
-        description:
-          'Give it your personal touch. Tailor colors, fonts, and layouts until it feels just right. Your unique flair, amplified by AstroWind! Precision in design ensures a seamless user experience.',
-        icon: 'tabler:paint',
+        title: 'Krok 3: <span class="font-medium">Potvrzení</span>',
+        description: 'Popis [doplnit].',
+        icon: 'tabler:mail-check',
       },
       {
-        title: 'Ready!',
+        title: 'Hotovo!',
         icon: 'tabler:check',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
+      alt: 'Ilustrační obrázek',
     }}
   />
 
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Most used widgets"
-    subtitle="Provides frequently used components for building websites using Tailwind CSS v4"
-    tagline="Components"
+    title="V okolí"
+    subtitle="Tipy na výlety a místa v okolí [doplnit]."
+    tagline="Okolí"
     items={[
-      {
-        title: 'Headers',
-        description: "Ever tried driving without GPS? Boom! That's why websites need headers for direction.",
-        icon: 'flat-color-icons:template',
-      },
-      {
-        title: 'Heros',
-        description:
-          "Picture a superhero landing – epic, right? That's the job of a Hero section, making grand entrances!",
-        icon: 'flat-color-icons:gallery',
-      },
-      {
-        title: 'Features',
-        description:
-          'Where websites strut their stuff and show off superpowers. No holding back on the bragging rights here!',
-        icon: 'flat-color-icons:approval',
-      },
-      {
-        title: 'Content',
-        description:
-          "Dive into the meat and potatoes of a site; without it, you'd just be window shopping. Content is king.",
-        icon: 'flat-color-icons:document',
-      },
-      {
-        title: 'Call-to-Action',
-        description:
-          'That enthusiastic friend who\'s always urging, "Do it! Do it!"? Yeah, that\'s this button nudging you towards adventure.',
-        icon: 'flat-color-icons:advertising',
-      },
-      {
-        title: 'Pricing',
-        description: 'Behold the dessert menu of the website world. Tempting choices await, can you resist?',
-        icon: 'flat-color-icons:currency-exchange',
-      },
-      {
-        title: 'Testimonial',
-        description: 'Step into the gossip corner! Here, other visitors spill the beans and share the juicy details.',
-        icon: 'flat-color-icons:voice-presentation',
-      },
-      {
-        title: 'Contact',
-        description:
-          'Like a digital mailbox, but faster! Drop a line, ask a question, or send a virtual high-five. Ding! Message in.',
-        icon: 'flat-color-icons:business-contact',
-      },
-      {
-        title: 'Footers',
-        description: "The footer's like the credits of a movie but sprinkled with easter eggs. Time to hunt!",
-        icon: 'flat-color-icons:database',
-      },
+      { title: 'Místo 1 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
+      { title: 'Místo 2 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
+      { title: 'Místo 3 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
     ]}
   >
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-primary/5 dark:bg-transparent"></div>
     </Fragment>
   </Features2>
 
@@ -401,107 +260,32 @@ const structuredData = [
   <Timeline
     id="story"
     layout="alternate"
-    tagline="Our story"
-    title="One template, since 2022"
-    subtitle="Started before Astro 1.0 shipped, shaped by every Astro release since, and by the people who kept sending pull requests."
+    tagline="Pobyt"
+    title="Průběh pobytu"
+    subtitle="Co hosty čeká od příjezdu po odjezd [doplnit]."
     items={[
-      {
-        date: 'June 2022',
-        title: 'A template for a framework still in beta',
-        description:
-          'AstroWind starts on Astro 1.0 beta with a handful of pages, a few widgets and one idea: a website can be fast, simple and good-looking at the same time.',
-        icon: 'tabler:rocket',
-      },
-      {
-        date: '2022',
-        title: 'The most starred Astro theme, in its first year',
-        description:
-          'By December it is the most starred theme in the Astro ecosystem, a place it would hold year after year. The first pull requests from strangers arrive, and they keep coming.',
-        icon: 'tabler:star-filled',
-      },
-      {
-        date: '2022–2023',
-        title: 'The busiest stretch',
-        description:
-          'Astro grows fast and the template grows with it: collections for content, better images, page transitions. The blog matures, the widgets double, the road to 1.0 begins, and more people than ever send pull requests.',
-        icon: 'tabler:users-group',
-      },
-      {
-        date: '2024',
-        title: 'Polish',
-        description:
-          'Astro 4, and a year of small, careful improvements, most of them sent in by contributors: accessibility, tooling, ways to edit and ways to deploy. Three thousand stars by September.',
-        icon: 'tabler:puzzle',
-      },
-      {
-        date: '2025',
-        title: 'Steady, and quieter',
-        description:
-          'Astro 5 and regular updates. Fewer commits, nothing broken, and the stars kept coming: five thousand by October.',
-        icon: 'tabler:refresh',
-      },
-      {
-        date: '2026',
-        title: 'Astro 7 and Tailwind CSS 4',
-        description:
-          'Two framework majors in one year. The template gets a new generation of widgets, complete landing pages, a blog that finally reads like documentation, and a guide so coding assistants know their way around.',
-        icon: 'tabler:sparkles',
-      },
-      {
-        date: '2026',
-        title: 'Release v1',
-        description:
-          'Four years after the first commit, the demo has no placeholders left: every page, every landing page and every post is real, and the template is ready for whatever comes next.',
-        icon: 'tabler:circle-check-filled',
-        highlight: true,
-      },
-      { icon: 'tabler:dots', ghost: true },
+      { title: 'Příjezd [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:door-enter' },
+      { title: 'Během pobytu [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:sun' },
+      { title: 'Odjezd [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:door-exit', highlight: true },
     ]}
   />
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
+  <Note title="Poznámka:" description="Krátké sdělení pro hosty [doplnit]" />
 
   <!-- FAQs Widget ******************* -->
 
+  <!-- Add the `schema` prop (FAQPage structured data) once the answers are real. -->
   <FAQs
     id="faqs"
-    title="Frequently Asked Questions"
-    subtitle="The questions people ask before they clone the repository, answered briefly. For step-by-step tasks, the repository ships skills your AI coding assistant can follow."
-    tagline="FAQs"
-    schema
+    title="Časté dotazy"
+    subtitle="Odpovědi na otázky, které hosté kladou nejčastěji [doplnit]."
+    tagline="FAQ"
     items={[
-      {
-        title: 'What is AstroWind?',
-        description:
-          'A free, open-source template for Astro and Tailwind CSS: a static site with a header, footer, twenty-plus reusable widgets, a Markdown/MDX blog, dark mode, RTL support, image optimisation, SEO metadata and an RSS feed, ready to be customised and deployed anywhere static files are served.',
-      },
-      {
-        title: 'What do I need to start?',
-        description:
-          'A current Node.js (the exact minimum is in <code>package.json</code>) and a terminal. Run <code>npm create astro@latest -- --template arthelokyo/astrowind</code>, then <code>npm run dev</code>. Site name, URL, metadata and blog options live in <code>src/config.yaml</code>; colours and fonts in <code>src/components/CustomStyles.astro</code>.',
-      },
-      {
-        title: 'Can I use it for a site without a blog?',
-        description:
-          'Yes. Set <code>apps.blog.isEnabled: false</code> in <code>src/config.yaml</code> and the blog routes, the RSS feed and the post widgets disappear from the build. The rest of the template is unaffected.',
-      },
-      {
-        title: 'How do I change colours, fonts and the logo?',
-        description:
-          'Colours are CSS variables in <code>src/components/CustomStyles.astro</code> (light and dark), fonts are configured in <code>astro.config.ts</code> through Astro’s Fonts API, and the logo is <code>src/components/Logo.astro</code>. The same variables also feed the shadcn/ui-compatible tokens, so shadcn-style components pick up your theme.',
-      },
-      {
-        title: 'Does it work with an AI coding assistant?',
-        description:
-          'It is built for it. The repository includes <code>AGENTS.md</code> with the project conventions and a <code>.agents/skills/</code> folder with step-by-step guides for common tasks (disable the blog, set an Open Graph image, deploy under a base path, connect a CMS, deploy to Cloudflare…), so tools like Claude Code, Codex or Cursor can do them reliably.',
-      },
-      {
-        title: 'Where can I deploy it and what does it cost?',
-        description:
-          'Anywhere that serves static files: Vercel, Netlify, Cloudflare, GitHub Pages, an nginx container (a Dockerfile is included) or your own server. The template is MIT licensed and free for personal and commercial projects.',
-      },
+      { title: 'Otázka 1 [doplnit]', description: 'Odpověď [doplnit].' },
+      { title: 'Otázka 2 [doplnit]', description: 'Odpověď [doplnit].' },
+      { title: 'Otázka 3 [doplnit]', description: 'Odpověď [doplnit].' },
     ]}
   />
 
@@ -509,34 +293,29 @@ const structuredData = [
 
   <Stats
     id="stats"
-    countUp
     stats={[
-      { title: 'GitHub stars', amount: '6K' },
-      { title: 'Forks', amount: '1.7K' },
-      { title: 'Ready-made widgets', amount: '34' },
-      { title: 'Lighthouse score', amount: '100' },
+      { title: 'Údaj 1 [doplnit]', amount: '–' },
+      { title: 'Údaj 2 [doplnit]', amount: '–' },
+      { title: 'Údaj 3 [doplnit]', amount: '–' },
+      { title: 'Údaj 4 [doplnit]', amount: '–' },
     ]}
   />
 
   <!-- CallToAction Widget *********** -->
 
   <CallToAction
+    id="cta"
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
+        text: 'Kontaktovat',
+        href: getPermalink('/contact'),
+        icon: 'tabler:mail',
       },
     ]}
   >
-    <Fragment slot="title">
-      Astro&nbsp;+&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Tailwind CSS</span>
-    </Fragment>
+    <Fragment slot="title">Rezervujte si pobyt</Fragment>
 
-    <Fragment slot="subtitle">
-      Free, open source and production-ready. <br class="hidden md:inline" />Clone it, replace the content and deploy.
-    </Fragment>
+    <Fragment slot="subtitle">Text výzvy k rezervaci [doplnit].</Fragment>
   </CallToAction>
 </Layout>

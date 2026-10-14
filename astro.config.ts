@@ -43,7 +43,8 @@ export default defineConfig({
       cssVariable: '--font-inter',
       weights: ['100 900'],
       styles: ['normal'],
-      subsets: ['latin'],
+      // latin-ext carries Czech diacritics (č, ř, ě, ů…).
+      subsets: ['latin', 'latin-ext'],
       fallbacks: ['sans-serif'],
     },
   ],
