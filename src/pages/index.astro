@@ -1,18 +1,14 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
+import HeroBanner from '~/components/widgets/HeroBanner.astro';
+import Showcase from '~/components/widgets/Showcase.astro';
+import Gallery from '~/components/widgets/Gallery.astro';
 import Features from '~/components/widgets/Features.astro';
-import QuickStart from '~/components/widgets/QuickStart.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Timeline from '~/components/widgets/Timeline.astro';
 import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
-import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-import SocialProof from '~/components/widgets/SocialProof.astro';
+import Features2 from '~/components/widgets/Features2.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import { SITE, METADATA, I18N } from 'astrowind:config';
 import favIconSvg from '~/assets/favicons/favicon.svg';
@@ -54,161 +50,96 @@ const structuredData = [
 
 <Layout metadata={metadata}>
   <StructuredData slot="head" schema={structuredData} />
-  <!-- Hero Widget ******************* -->
 
-  <Hero
-    tagline="Zlínský kraj"
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Rezervovat pobyt',
-        href: '#cta',
-        icon: 'tabler:calendar',
-      },
-      { text: 'Více informací', href: '#features' },
-    ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'Ilustrační obrázek' }}
+  <!-- Úvod ************************** -->
+
+  <HeroBanner
+    id="uvod"
+    tagline="Komfortní ubytování"
+    actions={[{ variant: 'primary', text: 'Rezervovat termín', href: '#rezervace', icon: 'tabler:arrow-right' }]}
+    image={{ src: '~/assets/images/apartman/obyvak.jpg', alt: 'Obývací pokoj apartmánu [doplnit]' }}
   >
-    <Fragment slot="title">
-      {SITE?.name}
-    </Fragment>
-
+    <Fragment slot="title">Moderní apartmán<br />v klidné lokalitě</Fragment>
     <Fragment slot="subtitle">
-      Apartmán k pronájmu ve Zlínském kraji. Krátký úvodní text o apartmánu a okolí [doplnit].
+      Nabízíme k pronájmu útulný a plně vybavený apartmán, který je ideální pro jednotlivce, páry nebo menší rodiny.
+      [doplnit]
     </Fragment>
-  </Hero>
+  </HeroBanner>
 
-  <!-- SocialProof Widget ************ -->
+  <!-- O apartmánu: fotky + vybavení *** -->
 
-  <SocialProof
-    id="proof"
-    classes={{ container: '!pb-14 md:!pb-20' }}
-    items={[
-      { value: '–', label: 'hodnocení hostů [doplnit]', icon: 'tabler:star-filled', color: 'text-amber-400' },
-      { value: '–', label: 'lůžek [doplnit]', icon: 'tabler:bed', color: 'text-primary' },
-      { value: '–', label: 'm² [doplnit]', icon: 'tabler:home', color: 'text-accent' },
+  <Showcase
+    id="apartman"
+    tagline="Vybavení apartmánu"
+    images={[
+      { src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice s manželskou postelí' },
+      { src: '~/assets/images/apartman/obyvak-detail.jpg', alt: 'Obývací prostor' },
+      { src: '~/assets/images/apartman/kuchyn.jpg', alt: 'Kuchyňský kout' },
+      { src: '~/assets/images/apartman/koupelna.jpg', alt: 'Koupelna' },
     ]}
+    items={[
+      { title: '1 ložnice', description: '(manželská postel)', icon: 'tabler:bed' },
+      { title: 'Obývací prostor', description: 's TV', icon: 'tabler:sofa' },
+      { title: 'Kuchyňský kout', description: '(lednice, varná deska, mikrovlnka)', icon: 'tabler:tools-kitchen-2' },
+      { title: 'Wi-Fi', description: 'zdarma', icon: 'tabler:wifi' },
+      { title: 'Koupelna', description: '(sprchový kout, WC)', icon: 'tabler:bath' },
+      { title: 'Parkování', description: 'v blízkosti', icon: 'tabler:parking' },
+    ]}
+    note={{
+      title: 'Výborná lokalita',
+      description:
+        'V blízkosti najdete obchody, restaurace i zastávky MHD. Centrum města je snadno dostupné. [doplnit]',
+      icon: 'tabler:map-pin',
+    }}
   />
 
-  <!-- QuickStart Widget ************* -->
+  <!-- Vlna ************************** -->
 
-  <QuickStart
-    id="quick-start"
-    classes={{ icon: 'bg-primary' }}
-    tagline="Příjezd"
-    title="Adresa apartmánu [doplnit]"
-    subtitle="Krátký popis, jak se k apartmánu dostat [doplnit]."
-    commands={['Ulice 123, 760 01 Zlín [doplnit]']}
-    items={[
-      {
-        title: 'Autem',
-        description: 'Parkování a příjezd autem [doplnit].',
-        icon: 'tabler:car',
-      },
-      {
-        title: 'Veřejnou dopravou',
-        description: 'Nejbližší zastávka a spojení [doplnit].',
-        icon: 'tabler:bus',
-      },
-      {
-        title: 'Check-in a check-out',
-        description: 'Časy příjezdu a odjezdu [doplnit].',
-        icon: 'tabler:key',
-      },
+  <div class="text-accent -mb-px" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" class="block h-12 w-full md:h-20">
+      <path fill="currentColor" d="M0 40 C 240 0, 480 0, 720 30 S 1200 80, 1440 20 L1440 80 L0 80 Z"></path>
+    </svg>
+  </div>
+
+  <!-- Fotogalerie ******************* -->
+
+  <Gallery
+    id="fotogalerie"
+    tagline="Fotogalerie"
+    title="Prohlédněte si apartmán"
+    images={[
+      { src: '~/assets/images/apartman/obyvak.jpg', alt: 'Obývací pokoj' },
+      { src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice' },
+      { src: '~/assets/images/apartman/obyvak-detail.jpg', alt: 'Obývací prostor' },
+      { src: '~/assets/images/apartman/kuchyn.jpg', alt: 'Kuchyňský kout' },
+      { src: '~/assets/images/apartman/koupelna.jpg', alt: 'Koupelna' },
     ]}
-  />
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-accent"></div>
+    </Fragment>
+  </Gallery>
 
-  <!-- Features Widget *************** -->
+  <!-- Lokalita ********************** -->
 
   <Features
-    id="features"
-    tagline="Vybavení"
-    title="Co v apartmánu najdete"
-    subtitle="Přehled vybavení apartmánu [doplnit]."
+    id="lokalita"
+    tagline="Lokalita"
+    title="Kde apartmán najdete"
+    subtitle="Krátký popis, jak se k apartmánu dostat [doplnit]."
+    columns={2}
     items={[
-      { title: 'Ložnice', description: 'Popis [doplnit].', icon: 'tabler:bed' },
-      { title: 'Kuchyň', description: 'Popis [doplnit].', icon: 'tabler:tools-kitchen-2' },
-      { title: 'Koupelna', description: 'Popis [doplnit].', icon: 'tabler:bath' },
-      { title: 'Wi-Fi', description: 'Popis [doplnit].', icon: 'tabler:wifi' },
-      { title: 'Parkování', description: 'Popis [doplnit].', icon: 'tabler:parking' },
-      { title: 'Okolí', description: 'Popis [doplnit].', icon: 'tabler:trees' },
+      { title: 'Adresa', description: 'Ulice 123, 760 01 Zlín [doplnit]', icon: 'tabler:map-pin' },
+      { title: 'Autem', description: 'Parkování a příjezd autem [doplnit].', icon: 'tabler:car' },
+      { title: 'Veřejnou dopravou', description: 'Nejbližší zastávka a spojení [doplnit].', icon: 'tabler:bus' },
+      { title: 'Check-in a check-out', description: 'Časy příjezdu a odjezdu [doplnit].', icon: 'tabler:key' },
     ]}
   />
 
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    tagline="O apartmánu"
-    title="Nadpis sekce [doplnit]"
-    items={[
-      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Ilustrační obrázek',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight sm:text-3xl mb-2">Podnadpis [doplnit]</h3>
-      Úvodní text sekce [doplnit].
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-primary/5"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 4 [doplnit]', description: 'Popis [doplnit].' },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1616674282942-2835e62d612e?auto=format&fit=crop&w=1600&q=80',
-      alt: 'Ilustrační obrázek',
-    }}
-  >
-    <Fragment slot="content">Text sekce [doplnit].</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-primary/5"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    isAfterContent
-    items={[
-      { title: 'Bod 1 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 2 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 3 [doplnit]', description: 'Popis [doplnit].' },
-      { title: 'Bod 4 [doplnit]', description: 'Popis [doplnit].' },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1611462985358-60d3498e0364?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Ilustrační obrázek',
-    }}
-  >
-    <Fragment slot="content">Text sekce [doplnit].</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-primary/5"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Steps Widget ****************** -->
+  <!-- Rezervace ********************* -->
 
   <Steps
+    id="rezervace"
     title="Jak probíhá rezervace"
     items={[
       {
@@ -226,54 +157,12 @@ const structuredData = [
         description: 'Popis [doplnit].',
         icon: 'tabler:mail-check',
       },
-      {
-        title: 'Hotovo!',
-        icon: 'tabler:check',
-      },
+      { title: 'Hotovo!', icon: 'tabler:check' },
     ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Ilustrační obrázek',
-    }}
+    image={{ src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice apartmánu' }}
   />
 
-  <!-- Features2 Widget ************** -->
-
-  <Features2
-    title="V okolí"
-    subtitle="Tipy na výlety a místa v okolí [doplnit]."
-    tagline="Okolí"
-    items={[
-      { title: 'Místo 1 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
-      { title: 'Místo 2 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
-      { title: 'Místo 3 [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:map-pin' },
-    ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-primary/5"></div>
-    </Fragment>
-  </Features2>
-
-  <!-- Timeline Widget **************** -->
-
-  <Timeline
-    id="story"
-    layout="alternate"
-    tagline="Pobyt"
-    title="Průběh pobytu"
-    subtitle="Co hosty čeká od příjezdu po odjezd [doplnit]."
-    items={[
-      { title: 'Příjezd [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:door-enter' },
-      { title: 'Během pobytu [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:sun' },
-      { title: 'Odjezd [doplnit]', description: 'Popis [doplnit].', icon: 'tabler:door-exit', highlight: true },
-    ]}
-  />
-
-  <!-- Note Widget ******************* -->
-
-  <Note title="Poznámka:" description="Krátké sdělení pro hosty [doplnit]" />
-
-  <!-- FAQs Widget ******************* -->
+  <!-- FAQs ************************** -->
 
   <!-- Add the `schema` prop (FAQPage structured data) once the answers are real. -->
   <FAQs
@@ -286,39 +175,23 @@ const structuredData = [
       { title: 'Otázka 2 [doplnit]', description: 'Odpověď [doplnit].' },
       { title: 'Otázka 3 [doplnit]', description: 'Odpověď [doplnit].' },
     ]}
-  />
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-accent"></div>
+    </Fragment>
+  </FAQs>
 
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    id="stats"
-    stats={[
-      { title: 'Údaj 1 [doplnit]', amount: '–' },
-      { title: 'Údaj 2 [doplnit]', amount: '–' },
-      { title: 'Údaj 3 [doplnit]', amount: '–' },
-      { title: 'Údaj 4 [doplnit]', amount: '–' },
-    ]}
-  />
-
-  <!-- CallToAction Widget *********** -->
+  <!-- CallToAction ****************** -->
 
   <CallToAction
     id="cta"
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Kontaktovat',
-        href: '#kontakt',
-        icon: 'tabler:mail',
-      },
-    ]}
+    actions={[{ variant: 'primary', text: 'Kontaktovat', href: '#kontakt', icon: 'tabler:arrow-right' }]}
   >
     <Fragment slot="title">Rezervujte si pobyt</Fragment>
-
     <Fragment slot="subtitle">Text výzvy k rezervaci [doplnit].</Fragment>
   </CallToAction>
 
-  <!-- Contact (Features2 Widget) ***** -->
+  <!-- Kontakt *********************** -->
 
   <Features2
     id="kontakt"

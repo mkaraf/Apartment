@@ -354,6 +354,18 @@ export interface Gallery extends Omit<Headline, 'classes'>, Widget {
   lightbox?: boolean;
 }
 
+export interface Showcase extends Widget {
+  /** Small uppercase heading above the amenities grid. */
+  tagline?: string;
+  /** Carousel photos; the 2nd–4th also appear as thumbnails. */
+  images?: Array<Image>;
+  thumbnails?: number;
+  /** Amenities with a Tabler icon. */
+  items?: Array<Item>;
+  /** Highlighted box under the amenities (e.g. location). */
+  note?: { title?: string; description?: string; icon?: string };
+}
+
 export interface Project {
   title?: string;
   description?: string;
@@ -369,25 +381,6 @@ export interface Projects extends Omit<Headline, 'classes'>, Widget {
   items?: Array<Project>;
   columns?: number;
   callToAction?: CallToAction;
-}
-
-export interface QuickStartCommand {
-  command: string;
-  /** Shown above the command as a `# comment`. */
-  comment?: string;
-}
-
-export interface QuickStart extends Omit<Headline, 'classes'>, Widget {
-  /** One or more shell commands, rendered in a terminal-like block with a copy button. */
-  commands?: Array<string | QuickStartCommand>;
-  /** Prompt character shown before each command (`$` by default). */
-  prompt?: string;
-  copyLabel?: string;
-  copiedLabel?: string;
-  /** Two or three facts to read before running the command. */
-  items?: Array<Item>;
-  actions?: Array<CallToAction>;
-  note?: string;
 }
 
 export interface Countdown extends Omit<Headline, 'classes'>, Widget {

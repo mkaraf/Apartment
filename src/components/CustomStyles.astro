@@ -3,8 +3,9 @@
 // astro.config.ts and <Font /> in Layout.astro), exposed as `--font-inter`.
 // To switch typefaces, change the `fonts` entry and repoint `--aw-font-*` below.
 //
-// Palette: warm terracotta (primary), darker clay (secondary, used for button
-// hover) and sage green (accent) on a warm off-white page. Light mode only.
+// Palette: warm yellow (primary), deeper yellow (secondary, used for button
+// hover) and soft cream (accent, used for highlighted boxes and section
+// backgrounds) on a white page. Buttons on yellow use dark text. Light mode only.
 ---
 
 <style is:inline>
@@ -13,17 +14,18 @@
     --aw-font-serif: var(--font-inter);
     --aw-font-heading: var(--font-inter);
 
-    --aw-color-primary: rgb(160 82 45); /* #A0522D terracotta */
-    --aw-color-secondary: rgb(127 63 34); /* #7F3F22 clay */
-    --aw-color-accent: rgb(95 122 90); /* #5F7A5A sage */
+    --aw-color-primary: rgb(245 197 24); /* #F5C518 warm yellow */
+    --aw-color-secondary: rgb(232 177 0); /* #E8B100 deeper yellow */
+    --aw-color-accent: rgb(255 246 214); /* #FFF6D6 cream */
 
-    --aw-color-text-heading: rgb(36 28 24);
-    --aw-color-text-default: rgb(46 38 33);
-    --aw-color-text-muted: rgb(46 38 33 / 70%);
-    --aw-color-bg-page: rgb(253 250 246); /* #FDFAF6 */
+    --aw-color-text-heading: rgb(38 38 38);
+    --aw-color-link: rgb(201 154 0); /* darker yellow, readable on white */
+    --aw-color-text-default: rgb(55 55 55);
+    --aw-color-text-muted: rgb(55 55 55 / 72%);
+    --aw-color-bg-page: rgb(255 255 255);
 
     ::selection {
-      background-color: rgb(160 82 45 / 20%);
+      background-color: rgb(245 197 24 / 30%);
     }
   }
 </style>

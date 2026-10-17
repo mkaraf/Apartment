@@ -1,0 +1,174 @@
+---
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Showcase as Props } from '~/types';
+
+// Photo carousel with thumbnails on the left, amenities grid and a highlighted
+// note on the right. The carousel is a CSS scroll-snap strip, so it works as
+// a swipeable row without JavaScript; the small <aw-showcase> element only
+// wires the arrows, dots and thumbnails.
+
+const {
+  tagline,
+  images = [],
+  thumbnails = 3,
+  items = [],
+  note,
+
+  id,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const thumbs = images.slice(1, 1 + thumbnails);
+---
+
+<WidgetWrapper id={id} containerClass={`max-w-7xl ${classes?.container ?? ''}`} bg={bg}>
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14">
+    <aw-showcase class="grid gap-3 sm:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]">
+      <div class="relative overflow-hidden rounded-lg bg-gray-100">
+        <ul
+          class="flex h-full snap-x snap-mandatory overflow-x-auto list-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          data-track
+          aria-label="Fotografie apartmánu"
+        >
+          {
+            images.map(({ src, alt }, index) => (
+              <li class="w-full shrink-0 snap-center" data-slide>
+                <Image
+                  class="aspect-[4/3] h-full w-full object-cover"
+                  widths={[480, 768, 1024]}
+                  sizes="(max-width: 1023px) 100vw, 640px"
+                  width={768}
+                  height={576}
+                  layout="cover"
+                  format="webp"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  src={src}
+                  alt={alt || ''}
+                />
+              </li>
+            ))
+          }
+        </ul>
+        {
+          images.length > 1 && (
+            <>
+              <button
+                type="button"
+                data-prev
+                class="absolute left-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-heading shadow hover:bg-white"
+                aria-label="Předchozí fotografie"
+              >
+                <Icon name="tabler:chevron-left" class="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                data-next
+                class="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-heading shadow hover:bg-white"
+                aria-label="Další fotografie"
+              >
+                <Icon name="tabler:chevron-right" class="h-5 w-5" />
+              </button>
+              <div class="absolute bottom-3 left-4 flex gap-2">
+                {images.map((_, index) => (
+                  <button
+                    type="button"
+                    data-dot={index}
+                    class="h-2.5 w-2.5 rounded-full bg-white/80 aria-[current=true]:bg-primary"
+                    aria-label={`Fotografie ${index + 1}`}
+                    aria-current={index === 0 ? 'true' : 'false'}
+                  />
+                ))}
+              </div>
+            </>
+          )
+        }
+      </div>
+
+      {
+        thumbs.length > 0 && (
+          <ul class="hidden sm:grid grid-rows-3 gap-3 list-none">
+            {thumbs.map(({ src, alt }, index) => (
+              <li>
+                <button
+                  type="button"
+                  data-goto={index + 1}
+                  class="group block h-full w-full overflow-hidden rounded-lg bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={`Zobrazit: ${alt || index + 2}`}
+                >
+                  <Image
+                    class="h-full w-full object-cover transition group-hover:scale-[1.04]"
+                    widths={[240, 480]}
+                    sizes="240px"
+                    width={240}
+                    height={160}
+                    layout="cover"
+                    format="webp"
+                    src={src}
+                    alt=""
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </aw-showcase>
+
+    <div class="flex flex-col">
+      {tagline && <h2 class="mb-8 text-sm font-semibold uppercase tracking-[0.3em] text-heading" set:html={tagline} />}
+      <ul class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8 list-none">
+        {
+          items.map(({ title, description, icon }) => (
+            <li>
+              {icon && <Icon name={icon} class="mb-3 h-10 w-10 text-primary" stroke-width="1.5" />}
+              {title && <h3 class="text-base text-heading" set:html={title} />}
+              {description && <p class="mt-1 text-sm text-muted" set:html={description} />}
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        note && (
+          <div class="mt-10 flex gap-4 rounded-lg bg-accent p-5">
+            <Icon name={note.icon || 'tabler:map-pin'} class="h-8 w-8 shrink-0 text-primary" />
+            <div>
+              {note.title && <p class="font-semibold text-heading" set:html={note.title} />}
+              {note.description && <p class="mt-1 text-sm text-muted" set:html={note.description} />}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</WidgetWrapper>
+
+<script>
+  class AwShowcase extends HTMLElement {
+    connectedCallback() {
+      const track = this.querySelector<HTMLElement>('[data-track]');
+      if (!track) return;
+      const slides = [...track.querySelectorAll<HTMLElement>('[data-slide]')];
+      const dots = [...this.querySelectorAll<HTMLElement>('[data-dot]')];
+      const current = () => Math.round(track.scrollLeft / track.clientWidth);
+      const go = (index: number) => {
+        const i = (index + slides.length) % slides.length;
+        track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+      };
+      this.querySelector('[data-prev]')?.addEventListener('click', () => go(current() - 1));
+      this.querySelector('[data-next]')?.addEventListener('click', () => go(current() + 1));
+      dots.forEach((dot) => dot.addEventListener('click', () => go(Number(dot.dataset.dot))));
+      this.querySelectorAll<HTMLElement>('[data-goto]').forEach((b) =>
+        b.addEventListener('click', () => go(Number(b.dataset.goto)))
+      );
+      track.addEventListener('scroll', () => {
+        const i = current();
+        dots.forEach((dot, d) => dot.setAttribute('aria-current', String(d === i)));
+      });
+    }
+  }
+  if (!customElements.get('aw-showcase')) customElements.define('aw-showcase', AwShowcase);
+</script>

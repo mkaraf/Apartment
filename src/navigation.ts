@@ -4,20 +4,20 @@ import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
+    { text: 'Úvod', href: getPermalink('/#uvod') },
+    { text: 'O apartmánu', href: getPermalink('/#apartman') },
+    { text: 'Fotogalerie', href: getPermalink('/#fotogalerie') },
+    { text: 'Lokalita', href: getPermalink('/#lokalita') },
+    { text: 'Kontakt', href: getPermalink('/#kontakt') },
+  ],
+  actions: [
     {
-      text: 'Úvod',
-      href: getPermalink('/'),
-    },
-    {
-      text: 'Ochrana osobních údajů',
-      href: getPermalink('/privacy'),
-    },
-    {
-      text: 'Obchodní podmínky',
-      href: getPermalink('/terms'),
+      variant: 'primary' as const,
+      text: 'Rezervace / Dotaz',
+      href: getPermalink('/#rezervace'),
+      icon: 'tabler:arrow-right',
     },
   ],
-  actions: [],
 };
 
 export const footerData = {

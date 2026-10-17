@@ -17,34 +17,35 @@ The site is one page (`src/pages/index.astro`); see `edit-one-page-site.md` for 
 
 ### Hero and openers
 
-| Widget         | Use it for                                                               | Key props                                                                                                           |
-| -------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `Hero`         | Centred hero, image below the text                                       | `actions`, `image` (`aspect: 'auto'` shows a transparent illustration whole), `badge`, `content` slot               |
-| `Hero2`        | Split hero, text left / image right                                      | same as `Hero`                                                                                                      |
-| `HeroText`     | Text-only hero for short pages                                           | `callToAction`, `callToAction2`, `badge`                                                                            |
-| `Announcement` | Bar above the header (not rendered unless passed to PageLayout's slot)   | `badge`, `text`, `href`; `<Announcement slot="announcement" text="…" />`                                            |
-| `SocialProof`  | Strip of trust signals (ratings, counts, badges)                         | `items[{ value, label, icon \| image, rating?, href? }]`, `layout` (`strip` \| `badges`)                            |
-| `QuickStart`   | Short block with a copyable line (e.g. an address), three facts, buttons | `commands[]` (string or `{ command, comment }`), `prompt`, `items[{ title, description, icon }]`, `actions`, `note` |
-| `Countdown`    | Count down to a date                                                     | `date` (ISO 8601), `labels`, `expiredText`, `callToAction`                                                          |
+| Widget         | Use it for                                                             | Key props                                                                                             |
+| -------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `Hero`         | Centred hero, image below the text                                     | `actions`, `image` (`aspect: 'auto'` shows a transparent illustration whole), `badge`, `content` slot |
+| `Hero2`        | Split hero, text left / image right                                    | same as `Hero`                                                                                        |
+| `HeroText`     | Text-only hero for short pages                                         | `callToAction`, `callToAction2`, `badge`                                                              |
+| `Announcement` | Bar above the header (not rendered unless passed to PageLayout's slot) | `badge`, `text`, `href`; `<Announcement slot="announcement" text="…" />`                              |
+| `SocialProof`  | Strip of trust signals (ratings, counts, badges)                       | `items[{ value, label, icon \| image, rating?, href? }]`, `layout` (`strip` \| `badges`)              |
+| `Countdown`    | Count down to a date                                                   | `date` (ISO 8601), `labels`, `expiredText`, `callToAction`                                            |
 
 ### Features and content
 
-| Widget         | Use it for                                         | Key props                                                                                                                             |
-| -------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `Features`     | Icon + text grid                                   | `items`, `columns` (2–4)                                                                                                              |
-| `Features2`    | Cards with icons; cards link when `href` is set    | `items[{ href? }]`, `columns`                                                                                                         |
-| `Features3`    | Compact list, optional image                       | `items`, `image`, `columns`, `isBeforeContent`                                                                                        |
-| `FeatureTabs`  | Tabs whose image changes with the selected feature | `items[{ title, description, icon?, image }]`, `orientation`                                                                          |
-| `Bento`        | Asymmetric card grid with a visual per card        | `items[{ span (1–3), rowSpan?, image?, icon?, href? }]`, `columns` (3 \| 4). Make spans add up to a multiple of `columns`             |
-| `Content`      | Text + image split with a list of items            | `items`, `image` (with `aspect`: `1/1` default, `4/3`, `3/4`, `auto`), `isReversed`, `isAfterContent`, `callToAction`, `content` slot |
-| `Steps`        | Numbered vertical steps with an image              | `items`, `image`, `callToAction`, `isReversed`                                                                                        |
-| `Steps2`       | Numbered steps in a horizontal layout              | `items`, `callToAction`, `isReversed`                                                                                                 |
-| `Timeline`     | Ordered or dated entries                           | `items[{ date, title, description, icon?, image?, highlight?, ghost? }]`, `layout` (`vertical` \| `alternate`)                        |
-| `Gallery`      | Image grid with a native `<dialog>` lightbox       | `images[{ src, alt, caption? }]`, `columns` (2–4), `lightbox`                                                                         |
-| `Projects`     | Cards with image, tags and result                  | `items[{ title, description, image, tags[], href?, result? }]`, `columns`, `callToAction`                                             |
-| `Video`        | Deferred video (poster first, player on click)     | `youtube` \| `vimeo` \| `src`, `poster`, `caption`, `videoTitle`                                                                      |
-| `Integrations` | Logos/icons of services with a short description   | `items[{ name, description?, icon \| image, href? }]`, `columns`                                                                      |
-| `Note`         | One-line callout                                   | `title`, `description`, `variant` (`info` \| `success` \| `warning`), `icon`                                                          |
+| Widget         | Use it for                                                          | Key props                                                                                                                             |
+| -------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `Features`     | Icon + text grid                                                    | `items`, `columns` (2–4)                                                                                                              |
+| `Features2`    | Cards with icons; cards link when `href` is set                     | `items[{ href? }]`, `columns`                                                                                                         |
+| `Features3`    | Compact list, optional image                                        | `items`, `image`, `columns`, `isBeforeContent`                                                                                        |
+| `FeatureTabs`  | Tabs whose image changes with the selected feature                  | `items[{ title, description, icon?, image }]`, `orientation`                                                                          |
+| `Bento`        | Asymmetric card grid with a visual per card                         | `items[{ span (1–3), rowSpan?, image?, icon?, href? }]`, `columns` (3 \| 4). Make spans add up to a multiple of `columns`             |
+| `Content`      | Text + image split with a list of items                             | `items`, `image` (with `aspect`: `1/1` default, `4/3`, `3/4`, `auto`), `isReversed`, `isAfterContent`, `callToAction`, `content` slot |
+| `Steps`        | Numbered vertical steps with an image                               | `items`, `image`, `callToAction`, `isReversed`                                                                                        |
+| `Steps2`       | Numbered steps in a horizontal layout                               | `items`, `callToAction`, `isReversed`                                                                                                 |
+| `Timeline`     | Ordered or dated entries                                            | `items[{ date, title, description, icon?, image?, highlight?, ghost? }]`, `layout` (`vertical` \| `alternate`)                        |
+| `Gallery`      | Image grid with a native `<dialog>` lightbox                        | `images[{ src, alt, caption? }]`, `columns` (2–4), `lightbox`                                                                         |
+| `HeroBanner`   | Full-width photo hero with a light gradient behind the text         | `tagline`, `title`, `subtitle`, `actions`, `image`                                                                                    |
+| `Showcase`     | Photo carousel + thumbnails beside an amenities grid and a note box | `tagline`, `images`, `items`, `note`, `thumbnails`                                                                                    |
+| `Projects`     | Cards with image, tags and result                                   | `items[{ title, description, image, tags[], href?, result? }]`, `columns`, `callToAction`                                             |
+| `Video`        | Deferred video (poster first, player on click)                      | `youtube` \| `vimeo` \| `src`, `poster`, `caption`, `videoTitle`                                                                      |
+| `Integrations` | Logos/icons of services with a short description                    | `items[{ name, description?, icon \| image, href? }]`, `columns`                                                                      |
+| `Note`         | One-line callout                                                    | `title`, `description`, `variant` (`info` \| `success` \| `warning`), `icon`                                                          |
 
 ### Proof, pricing and questions
 

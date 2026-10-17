@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { SITE } from 'astrowind:config';
 
 // Text logo built from `site.name` in config.yaml. To use an image instead,
@@ -9,6 +10,7 @@ import { SITE } from 'astrowind:config';
 //   <Image src={logo} alt={SITE?.name} class="h-8 w-auto" loading="eager" />
 ---
 
-<span class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap">
-  {SITE?.name}
+<span class="flex items-center gap-3 self-center ml-2 rtl:ml-0 rtl:mr-2 whitespace-nowrap">
+  <Icon name="tabler:home" class="h-9 w-9 text-primary" aria-hidden="true" />
+  <span class="text-xl md:text-2xl font-medium text-heading">{SITE?.name}</span>
 </span>
