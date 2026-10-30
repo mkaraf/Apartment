@@ -28,7 +28,7 @@ Node.js 22.22.3 or newer (`.nvmrc`).
 
 ```
 /
-├── .agents/skills/        # Step-by-step guides for AI coding assistants
+├── .claude/skills/        # Step-by-step guides for AI coding assistants (SKILL.md each)
 ├── AGENTS.md              # Project conventions (read by AI coding assistants)
 ├── public/
 │   ├── _headers           # Cloudflare headers (cache, temporary noindex)

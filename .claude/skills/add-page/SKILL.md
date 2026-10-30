@@ -1,6 +1,11 @@
+---
+name: add-page
+description: Add a separate page to the site (only for standalone content like legal texts). Use when asked for a new page/route; normal content goes to index.astro instead.
+---
+
 # Add a Page
 
-This is a one-page site: new content normally becomes a section of `src/pages/index.astro` (see `edit-one-page-site.md`). Add a separate page only for standalone content such as legal texts. Markdown pages (`privacy.md`, `terms.md`) use `MarkdownLayout` through their `layout` frontmatter.
+This is a one-page site: new content normally becomes a section of `src/pages/index.astro` (see the `edit-one-page-site` skill). Add a separate page only for standalone content such as legal texts. Markdown pages (`privacy.md`, `terms.md`) use `MarkdownLayout` through their `layout` frontmatter.
 
 ## Steps
 
@@ -45,7 +50,7 @@ const metadata = {
 
 ## Available Widget Components
 
-Hero, Features, Content, Steps, Testimonials, FAQs, Stats, Pricing, Gallery, CallToAction, Contact… (full list in `use-widgets.md`)
+Hero, Features, Content, Steps, Testimonials, FAQs, Stats, Pricing, Gallery, CallToAction, Contact… (full list in the `use-widgets` skill)
 
 ## Notes
 

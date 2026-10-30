@@ -9,5 +9,7 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",
+    // Serve /privacy/index.html at /privacy (no redirect to /privacy/), matching trailingSlash: false.
+    "html_handling": "drop-trailing-slash",
   },
 }

@@ -1,3 +1,8 @@
+---
+name: set-open-graph-image
+description: Set the social sharing (Open Graph / Twitter) image site-wide or per page. Use when the share preview image or og:image is mentioned.
+---
+
 # Set the Open Graph / Social Share Image
 
 Controls the image shown when a page is shared on social networks (`og:image`, Twitter card).

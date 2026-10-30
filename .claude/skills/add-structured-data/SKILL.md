@@ -1,3 +1,8 @@
+---
+name: add-structured-data
+description: Add or change JSON-LD structured data (WebSite, Organization, FAQPage, LodgingBusiness for the apartment). Use for SEO schema, rich results or StructuredData component work.
+---
+
 # Add Structured Data (JSON-LD)
 
 Out of the box the site emits `WebSite` and `Organization` on the home page and `FAQPage` from the `FAQs` widget when it receives `schema` (currently off: the FAQ answers are placeholders). `src/components/common/Breadcrumbs.astro` can emit `BreadcrumbList` but is not used on the one-page site. `src/components/common/Metadata.astro` handles title, description, canonical, robots, Open Graph and Twitter through `astro-seo`. Anything else (e.g. `LodgingBusiness` for the apartment) is added as described below. Only describe facts that are true for the apartment.

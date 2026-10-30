@@ -1,3 +1,8 @@
+---
+name: deploy-with-base-path
+description: Serve the site under a sub-path or change trailing slashes; how internal links must be built with getPermalink. Use when changing site.base/trailingSlash or fixing broken links.
+---
+
 # Deploy Under a Base Path (GitHub Pages, sub-folders) and Trailing Slashes
 
 Use this when the site lives at `https://example.com/my-site/` instead of the domain root, or when you need URLs to end with `/`.

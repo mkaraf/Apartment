@@ -10,7 +10,7 @@ User-facing text is Czech. Placeholders are marked `[doplnit]` in page copy and 
 
 ## Skills
 
-Before implementing a project-specific task (editing sections, widgets, Open Graph images, structured data, header customisation, styling, deployment…), check `.agents/skills/` for an existing skill and follow it.
+Before implementing a project-specific task (editing sections, widgets, Open Graph images, structured data, header customisation, styling, deployment…), check `.claude/skills/<name>/SKILL.md` for an existing skill and follow it. Available: `edit-one-page-site`, `use-widgets`, `add-component`, `add-page`, `add-apartment-photos`, `styling`, `use-shadcn-tokens`, `customize-header`, `set-open-graph-image`, `add-structured-data`, `configure-contact-form`, `deploy-cloudflare`, `deploy-with-base-path`, `pre-launch-checklist`, `frontend-design` (manual, `/frontend-design`).
 
 ## Quick Reference
 
@@ -67,7 +67,7 @@ Configuration is CSS-first in `src/assets/styles/tailwind.css`:
 - **Light mode only:** there is no dark mode, no theme switch and no `dark:` variant. Do not add `dark:` classes.
 - **Plugins:** `@plugin "@tailwindcss/typography"`
 - **Custom variant:** `@custom-variant intersect (&:not([no-intersect]))`
-- **Sources:** `@source not` excludes `.agents/`, `README.md` and `AGENTS.md`, so class names in doc examples are not generated.
+- **Sources:** `@source not` excludes `.claude/`, `README.md` and `AGENTS.md`, so class names in doc examples are not generated.
 
 CSS variables for colors/fonts are defined in `src/components/CustomStyles.astro` (a single `:root` light palette).
 
@@ -95,7 +95,7 @@ Cloudflare Workers static assets: `wrangler.jsonc` serves `dist/` (`npm run buil
 
 - Local images via `astro:assets` (optimized by Sharp)
 - Remote images via Unpic CDN
-- Allowed domains (for providers Unpic can't detect, processed by Sharp): `cdn.pixabay.com`
+- Allowed domains (`image.domains`, for providers Unpic can't detect, processed by Sharp): none, the site uses local photos only
 
 Hero images use `loading="eager"` and `fetchpriority="high"`.
 

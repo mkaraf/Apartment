@@ -1,3 +1,8 @@
+---
+name: styling
+description: Tailwind v4 tokens, colours, utilities, animations and the light-only theme. Use for any visual/styling change, colour palette or CustomStyles.astro edit.
+---
+
 # Styling Guide
 
 ## Tailwind CSS v4 Configuration
@@ -33,7 +38,7 @@ Defined in `@theme` block, mapped to CSS variables from `CustomStyles.astro`:
 
 The site has no dark mode: there is no theme switch, no `.dark` class and no `dark:` variant (Tailwind's default `dark:` would follow the visitor's OS setting, so do not add `dark:` classes). Prefer the tokens above over hard-coded colours so `CustomStyles.astro` stays the single place to re-theme.
 
-`tailwind.css` excludes `.agents/`, `README.md` and `AGENTS.md` from class scanning (`@source not …`), so class names in doc examples never end up in the CSS.
+`tailwind.css` excludes `.claude/`, `README.md` and `AGENTS.md` from class scanning (`@source not …`), so class names in doc examples never end up in the CSS.
 
 ### Scroll Animations
 
@@ -57,19 +62,21 @@ Custom `intersect` variant for IntersectionObserver animations:
 | `text-primary-foreground`, `text-secondary-foreground`, `text-accent-foreground` | white                                           |
 | `bg-chart-1..5`, `bg-sidebar*`                                                   | derived from primary / secondary / accent       |
 
-Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secondary`, `bg-accent` are the site's brand colours (terracotta, clay, sage) (shadcn uses `secondary`/`accent` as subtle surfaces), `text-muted` is a text colour and `bg-muted` is **not** defined as a surface, and the `rounded-*` scale is Tailwind's default (shadcn's `--radius` is defined but not mapped). See `use-shadcn-tokens.md`.
+Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secondary`, `bg-accent` are the site's brand colours (warm yellow, deeper yellow, cream) (shadcn uses `secondary`/`accent` as subtle surfaces), `text-muted` is a text colour and `bg-muted` is **not** defined as a surface, and the `rounded-*` scale is Tailwind's default (shadcn's `--radius` is defined but not mapped). See the `use-shadcn-tokens` skill.
 
 ## Changing Colors
+
+Yellow on white has low contrast: never use `text-primary` for body text or small text; use `text-link` (darker yellow) or `text-heading`/`text-default`, and keep dark text on `bg-primary` buttons.
 
 Edit `src/components/CustomStyles.astro`:
 
 ```css
 :root {
-  --aw-color-primary: rgb(160 82 45);
-  --aw-color-secondary: rgb(127 63 34);
-  --aw-color-accent: rgb(95 122 90);
-  --aw-color-text-heading: rgb(36 28 24);
-  /* optional: --aw-color-link: rgb(160 82 45); */
+  --aw-color-primary: rgb(245 197 24); /* #F5C518 warm yellow */
+  --aw-color-secondary: rgb(232 177 0); /* #E8B100 deeper yellow, button hover */
+  --aw-color-accent: rgb(255 246 214); /* #FFF6D6 cream, highlighted boxes/sections */
+  --aw-color-text-heading: rgb(38 38 38);
+  --aw-color-link: rgb(201 154 0); /* darker yellow, readable on white */
 }
 ```
 

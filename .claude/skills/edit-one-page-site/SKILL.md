@@ -1,10 +1,15 @@
+---
+name: edit-one-page-site
+description: Add, remove, reorder or rewrite sections of the one-page apartment site (src/pages/index.astro), anchors and Czech copy rules. Use for most content edits.
+---
+
 # Edit the One-Page Site
 
 The whole site is `src/pages/index.astro`: a sequence of widget sections, each with an `id` used as an anchor (`#kontakt`, …). Other pages are only `/privacy`, `/terms` and `404`.
 
 ## Steps
 
-1. Add, remove or reorder sections in `src/pages/index.astro`. See `use-widgets.md` for the catalogue and props.
+1. Add, remove or reorder sections in `src/pages/index.astro`. See the `use-widgets` skill for the catalogue and props.
 2. Give every section a Czech, lowercase, ASCII `id` without diacritics (`cenik`, `vybaveni`, `kontakt`, `okoli`) so buttons and the header can link to it.
 3. Link to sections with plain anchors: `href: '#kontakt'` in widget actions, and `{ text: 'Kontakt', href: getPermalink('/#kontakt') }` in `src/navigation.ts`. In the header use `/#…` (not `#…`) so the links also work from `/privacy` and `/terms`.
 4. Keep one `<h1>` (the hero); widgets render `<h2>`/`<h3>`.
@@ -26,4 +31,4 @@ The whole site is `src/pages/index.astro`: a sequence of widget sections, each w
 
 - Numbers, ratings and reviews must be real. Remove a section rather than ship invented values.
 - Say what happens after the click: where the booking goes, how it is confirmed, how to cancel.
-- Structured data (`FAQs` `schema`, `add-structured-data.md`) only for content that is true for the apartment.
+- Structured data (`FAQs` `schema`, the `add-structured-data` skill) only for content that is true for the apartment.

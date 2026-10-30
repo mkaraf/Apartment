@@ -296,7 +296,7 @@ export interface Newsletter extends Omit<Headline, 'classes'>, Widget {
   placeholder?: string;
   button?: string;
   disclaimer?: string;
-  /** Where to POST the email. Without it the form does nothing (see configure-contact-form.md). */
+  /** Where to POST the email. Without it the form does nothing (see .claude/skills/configure-contact-form/SKILL.md). */
   action?: string;
   method?: 'post' | 'get';
   name?: string;

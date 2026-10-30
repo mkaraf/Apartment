@@ -57,17 +57,6 @@ export default defineConfig({
       iconDir: 'src/assets/icons',
       include: {
         tabler: ['*'],
-        'flat-color-icons': [
-          'template',
-          'gallery',
-          'approval',
-          'document',
-          'advertising',
-          'currency-exchange',
-          'voice-presentation',
-          'business-contact',
-          'database',
-        ],
       },
     }),
 
@@ -102,16 +91,11 @@ export default defineConfig({
   image: {
     // Astro's default Sharp service handles local images.
     //
-    // Most remote CDN images (Unsplash, Cloudinary, Imgix…) are routed by
-    // src/components/common/Image.astro through `unpic`, which rewrites the
-    // URL with CDN-side query parameters and serves it straight from the
-    // provider — Astro never downloads it, so they don't need to be listed.
-    //
-    // `domains` only matters for remote URLs that fall through to Astro's
-    // native <Image /> (i.e. providers Unpic can't detect, like Pixabay).
-    // Listed entries are authorized to be processed by Sharp.
-    // Unsplash is listed so post covers can be rendered as real 1200×626 Open Graph images.
-    domains: ['cdn.pixabay.com', 'images.unsplash.com'],
+    // Remote CDN images (Unsplash, Cloudinary, Imgix…) are routed by
+    // src/components/common/Image.astro through `unpic` and need no entry here.
+    // Add a host to `domains` only if a remote image from a provider Unpic
+    // can't detect must be optimised by Sharp. The site uses local photos only.
+    domains: [],
 
     // Emit responsive styles for the native <Image layout=…> used by
     // src/components/common/Image.astro (local images). Utility classes on

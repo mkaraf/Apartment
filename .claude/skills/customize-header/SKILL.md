@@ -1,3 +1,8 @@
+---
+name: customize-header
+description: Change the header/navigation: menu links, anchors, CTA button, sticky behaviour, mobile menu, breakpoints. Use for anything in Header.astro or navigation.ts.
+---
+
 # Customize the Header
 
 Files: `src/components/widgets/Header.astro` (markup + `aw-header` web component), `src/navigation.ts` (links and actions), `src/components/common/ToggleMenu.astro`, `src/components/Logo.astro`, header rules in `src/assets/styles/tailwind.css`.

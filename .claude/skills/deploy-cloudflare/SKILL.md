@@ -1,3 +1,8 @@
+---
+name: deploy-cloudflare
+description: Build and deploy the static site to Cloudflare Workers (wrangler), custom domain, _headers, noindex, adding the Cloudflare adapter. Use for deployment or hosting tasks.
+---
+
 # Deploy to Cloudflare (Workers static assets)
 
 The site is fully static (`output: 'static'`) and hosted on Cloudflare Workers as plain assets. `wrangler.jsonc` sets `assets.directory: "./dist"` and `not_found_handling: "404-page"`; no adapter is installed.

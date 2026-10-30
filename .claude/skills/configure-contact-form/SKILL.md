@@ -1,3 +1,8 @@
+---
+name: configure-contact-form
+description: Add or wire up a contact/booking inquiry form with a backend (Formspree, Web3Forms, Cloudflare Worker). Use when a form, inquiry or submission is mentioned.
+---
+
 # Configure a Contact Form
 
 The site currently has no form: the contact section on `src/pages/index.astro` (`#kontakt`) only lists phone, e-mail and address, and bookings are planned through Google Calendar. Use this guide if a form is added later with the `Contact` widget (or `Newsletter`).
@@ -12,7 +17,7 @@ The site currently has no form: the contact section on `src/pages/index.astro` (
    <form method="POST" action="https://formspree.io/f/<your-id>"></form>
    ```
 
-   Formspree, Web3Forms, Getform and similar services work the same way. A Cloudflare Worker endpoint is an option if you add the adapter (`deploy-cloudflare.md`).
+   Formspree, Web3Forms, Getform and similar services work the same way. A Cloudflare Worker endpoint is an option if you add the adapter (the `deploy-cloudflare` skill).
 
 2. Pass the fields as `inputs` from `index.astro`. `Form.astro` renders `name`, `label`, `type`, `placeholder`, `autocomplete`; add `required` where the input is rendered if you want validation. Labels in Czech.
 3. Add a consent/disclaimer text (`disclaimer`) that links to `/privacy`, since the form collects personal data.

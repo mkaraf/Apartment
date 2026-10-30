@@ -1,3 +1,8 @@
+---
+name: use-widgets
+description: Catalogue of available AstroWind widgets with their props (Hero, Showcase, Gallery, Features, Steps, FAQs, Pricing…). Use when choosing or configuring a section widget.
+---
+
 # Use the Widgets
 
 Every section of a page is a widget from `src/components/widgets/`. Widgets take props (typed in `src/types.d.ts`), share the same base (`WidgetWrapper` + `Headline`) and therefore accept the same base props:
@@ -11,7 +16,7 @@ Every section of a page is a widget from `src/components/widgets/`. Widgets take
 
 Images accept `{ src, alt }` where `src` is a local import (`~/assets/images/...`) or a remote URL. Icons come from the Tabler set (`tabler:bed`); check `@iconify-json/tabler/icons.json` before using a name.
 
-The site is one page (`src/pages/index.astro`); see `edit-one-page-site.md` for how sections are combined. Widgets not used on a page are not shipped. Some widgets still have English default labels; pass Czech props or translate the defaults when you start using them.
+The site is one page (`src/pages/index.astro`); see the `edit-one-page-site` skill for how sections are combined. Widgets not used on a page are not shipped. Some widgets still have English default labels; pass Czech props or translate the defaults when you start using them.
 
 ## Catalogue
 
@@ -62,12 +67,12 @@ The site is one page (`src/pages/index.astro`); see `edit-one-page-site.md` for 
 
 ### Conversion
 
-| Widget         | Use it for                           | Key props                                                                                                                        |
-| -------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `CallToAction` | Closing call to action               | `actions`, `layout` (`card` \| `banner`)                                                                                         |
-| `Contact`      | Full form in a card                  | `inputs`, `textarea`, `disclaimer`, `button`, `description`. The form has no backend by default; see `configure-contact-form.md` |
-| `Newsletter`   | One-field signup band                | `placeholder`, `button`, `disclaimer`, `action`, `method`, `layout` (`band` \| `card`). No backend by default                    |
-| `StickyCTA`    | Bottom bar on phones after scrolling | `text`, `href`, `label`, `showAfter` (px), `mobileOnly`                                                                          |
+| Widget         | Use it for                           | Key props                                                                                                                               |
+| -------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `CallToAction` | Closing call to action               | `actions`, `layout` (`card` \| `banner`)                                                                                                |
+| `Contact`      | Full form in a card                  | `inputs`, `textarea`, `disclaimer`, `button`, `description`. The form has no backend by default; see the `configure-contact-form` skill |
+| `Newsletter`   | One-field signup band                | `placeholder`, `button`, `disclaimer`, `action`, `method`, `layout` (`band` \| `card`). No backend by default                           |
+| `StickyCTA`    | Bottom bar on phones after scrolling | `text`, `href`, `label`, `showAfter` (px), `mobileOnly`                                                                                 |
 
 ## Rules of thumb
 

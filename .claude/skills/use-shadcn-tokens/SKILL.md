@@ -1,3 +1,8 @@
+---
+name: use-shadcn-tokens
+description: Use shadcn/ui CSS tokens or add shadcn/ui (React) components. Use when shadcn, bg-background/text-foreground style tokens or React components come up.
+---
+
 # Use shadcn/ui Tokens and Components
 
 AstroWind ships the CSS variables shadcn/ui components rely on, derived from the theme in `src/components/CustomStyles.astro`. File: `src/assets/styles/shadcn.css` (imported by `src/assets/styles/tailwind.css`).
@@ -8,12 +13,12 @@ Utilities such as `bg-background`, `text-foreground`, `bg-card`, `text-card-fore
 
 ## Known differences from a stock shadcn theme
 
-| Token          | shadcn meaning         | AstroWind meaning                  | What to do                                          |
-| -------------- | ---------------------- | ---------------------------------- | --------------------------------------------------- |
-| `bg-secondary` | subtle grey surface    | secondary brand colour (clay)      | Use `bg-muted-foreground/10` or `bg-card`           |
-| `bg-accent`    | subtle hover surface   | accent brand colour (sage)         | Use `hover:bg-foreground/5`                         |
-| `bg-muted`     | subtle surface         | not defined (`text-muted` is text) | Use `bg-foreground/5` or define your own            |
-| `rounded-*`    | scaled from `--radius` | Tailwind defaults                  | Leave as is, or map `--radius-*` in `@theme inline` |
+| Token          | shadcn meaning         | AstroWind meaning                      | What to do                                          |
+| -------------- | ---------------------- | -------------------------------------- | --------------------------------------------------- |
+| `bg-secondary` | subtle grey surface    | secondary brand colour (deeper yellow) | Use `bg-muted-foreground/10` or `bg-card`           |
+| `bg-accent`    | subtle hover surface   | accent brand colour (cream)            | Use `hover:bg-foreground/5`                         |
+| `bg-muted`     | subtle surface         | not defined (`text-muted` is text)     | Use `bg-foreground/5` or define your own            |
+| `rounded-*`    | scaled from `--radius` | Tailwind defaults                      | Leave as is, or map `--radius-*` in `@theme inline` |
 
 If you want the exact shadcn semantics for `secondary`/`accent`/`muted`, rename those tokens in `tailwind.css` and update the widgets that use `text-muted`, `bg-secondary` and `text-accent` first.
 

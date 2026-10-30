@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /* Don't generate classes from code examples in the docs. */
-@source not '../../../.agents';
+@source not '../../../.claude';
 @source not '../../../README.md';
 @source not '../../../AGENTS.md';
 
