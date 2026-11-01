@@ -1,14 +1,13 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Layout from '~/layouts/PageLayout.astro';
 
-import HeroBanner from '~/components/widgets/HeroBanner.astro';
-import Showcase from '~/components/widgets/Showcase.astro';
-import Gallery from '~/components/widgets/Gallery.astro';
-import Features from '~/components/widgets/Features.astro';
-import Steps from '~/components/widgets/Steps.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
-import Features2 from '~/components/widgets/Features2.astro';
+import SunHero from '~/components/widgets/SunHero.astro';
+import SplitList from '~/components/widgets/SplitList.astro';
+import PhotoMosaic from '~/components/widgets/PhotoMosaic.astro';
+import BookingSection from '~/components/widgets/BookingSection.astro';
+import FaqList from '~/components/widgets/FaqList.astro';
+import BookBar from '~/components/widgets/BookBar.astro';
 import StructuredData from '~/components/common/StructuredData.astro';
 import { SITE, METADATA, I18N } from 'astrowind:config';
 import favIconSvg from '~/assets/favicons/favicon.svg';
@@ -21,8 +20,7 @@ const metadata = {
 
 // Structured data for the site and its publisher, built only from
 // `src/config.yaml` (`site.name`, `site.site`, `metadata.twitter.handle`), so
-// it is correct for any site made with the template. The FAQs widget adds
-// FAQPage when its `schema` prop is set.
+// it is correct for any site made with the template.
 const organizationId = `${SITE?.site}/#organization`;
 const structuredData = [
   {
@@ -46,162 +44,121 @@ const structuredData = [
 ];
 
 // All texts below are placeholders (marked "[doplnit]") to be replaced with real content.
+const contactEmail = 'email@moje-domena.cz [doplnit]';
+const contacts = [
+  { label: 'Telefon', value: '+420 000 000 000 [doplnit]', icon: 'tabler:phone' },
+  { label: 'E-mail', value: contactEmail, icon: 'tabler:mail' },
+  { label: 'Adresa', value: 'Ulice 123, 760 01 Zlín [doplnit]', icon: 'tabler:map-pin' },
+];
 ---
 
 <Layout metadata={metadata}>
   <StructuredData slot="head" schema={structuredData} />
 
-  <!-- Úvod ************************** -->
-
-  <HeroBanner
+  <SunHero
     id="uvod"
-    tagline="Komfortní ubytování"
-    actions={[{ variant: 'primary', text: 'Rezervovat termín', href: '#rezervace', icon: 'tabler:arrow-right' }]}
-    image={{ src: '~/assets/images/apartman/obyvak.jpg', alt: 'Obývací pokoj apartmánu [doplnit]' }}
-  >
-    <Fragment slot="title">Moderní apartmán<br />v klidné lokalitě</Fragment>
-    <Fragment slot="subtitle">
-      Nabízíme k pronájmu útulný a plně vybavený apartmán, který je ideální pro jednotlivce, páry nebo menší rodiny.
-      [doplnit]
-    </Fragment>
-  </HeroBanner>
+    titleLines={['Moderní apartmán', 'v klidné lokalitě']}
+    subtitle="Útulný a plně vybavený apartmán ve Zlínském kraji pro jednotlivce, páry i menší rodiny. [doplnit]"
+    image={{ src: '~/assets/images/apartman/obyvak.jpg', alt: 'Obývací pokoj se sedačkou a jídelním stolem' }}
+    primary={{ text: 'Vybrat termín', href: '#rezervace' }}
+    secondary={{ text: 'Prohlédnout fotky', href: '#fotogalerie' }}
+  />
 
-  <!-- O apartmánu: fotky + vybavení *** -->
-
-  <Showcase
+  <SplitList
     id="apartman"
-    tagline="Vybavení apartmánu"
-    images={[
-      { src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice s manželskou postelí' },
-      { src: '~/assets/images/apartman/obyvak-detail.jpg', alt: 'Obývací prostor' },
-      { src: '~/assets/images/apartman/kuchyn.jpg', alt: 'Kuchyňský kout' },
-      { src: '~/assets/images/apartman/koupelna.jpg', alt: 'Koupelna' },
-    ]}
+    title="Vše, co na pár dní potřebujete"
+    text="Krátký popis apartmánu: velikost, patro, výhled, pro koho se hodí. [doplnit]"
     items={[
-      { title: '1 ložnice', description: '(manželská postel)', icon: 'tabler:bed' },
+      { title: '1 ložnice', description: 'manželská postel', icon: 'tabler:bed' },
       { title: 'Obývací prostor', description: 's TV', icon: 'tabler:sofa' },
-      { title: 'Kuchyňský kout', description: '(lednice, varná deska, mikrovlnka)', icon: 'tabler:tools-kitchen-2' },
+      { title: 'Kuchyňský kout', description: 'lednice, varná deska, mikrovlnka', icon: 'tabler:tools-kitchen-2' },
+      { title: 'Koupelna', description: 'sprchový kout, WC', icon: 'tabler:bath' },
       { title: 'Wi-Fi', description: 'zdarma', icon: 'tabler:wifi' },
-      { title: 'Koupelna', description: '(sprchový kout, WC)', icon: 'tabler:bath' },
       { title: 'Parkování', description: 'v blízkosti', icon: 'tabler:parking' },
     ]}
     note={{
       title: 'Výborná lokalita',
-      description:
-        'V blízkosti najdete obchody, restaurace i zastávky MHD. Centrum města je snadno dostupné. [doplnit]',
+      description: 'V blízkosti najdete obchody, restaurace i zastávky MHD. Centrum je snadno dostupné. [doplnit]',
       icon: 'tabler:map-pin',
     }}
   />
 
-  <!-- Vlna ************************** -->
-
-  <div class="text-accent -mb-px" aria-hidden="true">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" class="block h-12 w-full md:h-20">
-      <path fill="currentColor" d="M0 40 C 240 0, 480 0, 720 30 S 1200 80, 1440 20 L1440 80 L0 80 Z"></path>
-    </svg>
-  </div>
-
-  <!-- Fotogalerie ******************* -->
-
-  <Gallery
+  <PhotoMosaic
     id="fotogalerie"
-    tagline="Fotogalerie"
     title="Prohlédněte si apartmán"
+    subtitle="Kliknutím fotku zvětšíte."
     images={[
       { src: '~/assets/images/apartman/obyvak.jpg', alt: 'Obývací pokoj' },
-      { src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice' },
-      { src: '~/assets/images/apartman/obyvak-detail.jpg', alt: 'Obývací prostor' },
+      { src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice s manželskou postelí' },
       { src: '~/assets/images/apartman/kuchyn.jpg', alt: 'Kuchyňský kout' },
+      { src: '~/assets/images/apartman/obyvak-detail.jpg', alt: 'Obývací prostor' },
       { src: '~/assets/images/apartman/koupelna.jpg', alt: 'Koupelna' },
     ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-accent"></div>
-    </Fragment>
-  </Gallery>
+  />
 
-  <!-- Lokalita ********************** -->
+  <BookingSection
+    id="rezervace"
+    title="Vyberte termín pobytu"
+    steps={[
+      'Vyberte v kalendáři příjezd a odjezd.',
+      'Vyplňte kontakt a pošlete nezávaznou poptávku.',
+      'Termín vám potvrdíme e-mailem do [doplnit] hodin.',
+    ]}
+    note="Poptávka je nezávazná. Cenu a pokyny k platbě pošleme v potvrzení. [doplnit]"
+    fallbackContact={contactEmail}
+  />
 
-  <Features
+  <SplitList
     id="lokalita"
-    tagline="Lokalita"
     title="Kde apartmán najdete"
-    subtitle="Krátký popis, jak se k apartmánu dostat [doplnit]."
-    columns={2}
+    text="Krátký popis, jak se k apartmánu dostat. [doplnit]"
     items={[
       { title: 'Adresa', description: 'Ulice 123, 760 01 Zlín [doplnit]', icon: 'tabler:map-pin' },
-      { title: 'Autem', description: 'Parkování a příjezd autem [doplnit].', icon: 'tabler:car' },
-      { title: 'Veřejnou dopravou', description: 'Nejbližší zastávka a spojení [doplnit].', icon: 'tabler:bus' },
-      { title: 'Check-in a check-out', description: 'Časy příjezdu a odjezdu [doplnit].', icon: 'tabler:key' },
+      { title: 'Autem', description: 'Parkování a příjezd autem [doplnit]', icon: 'tabler:car' },
+      { title: 'Veřejnou dopravou', description: 'Nejbližší zastávka a spojení [doplnit]', icon: 'tabler:bus' },
+      { title: 'Příjezd a odjezd', description: 'Check-in od [doplnit], check-out do [doplnit]', icon: 'tabler:key' },
     ]}
   />
 
-  <!-- Rezervace ********************* -->
-
-  <Steps
-    id="rezervace"
-    title="Jak probíhá rezervace"
-    items={[
-      {
-        title: 'Krok 1: <span class="font-medium">Vyberte termín</span>',
-        description: 'Popis [doplnit].',
-        icon: 'tabler:calendar',
-      },
-      {
-        title: 'Krok 2: <span class="font-medium">Pošlete poptávku</span>',
-        description: 'Popis [doplnit].',
-        icon: 'tabler:send',
-      },
-      {
-        title: 'Krok 3: <span class="font-medium">Potvrzení</span>',
-        description: 'Popis [doplnit].',
-        icon: 'tabler:mail-check',
-      },
-      { title: 'Hotovo!', icon: 'tabler:check' },
-    ]}
-    image={{ src: '~/assets/images/apartman/loznice.jpg', alt: 'Ložnice apartmánu' }}
-  />
-
-  <!-- FAQs ************************** -->
-
-  <!-- Add the `schema` prop (FAQPage structured data) once the answers are real. -->
-  <FAQs
+  <!-- Add FAQPage structured data (add-structured-data skill) once the answers are real. -->
+  <FaqList
     id="faqs"
     title="Časté dotazy"
-    subtitle="Odpovědi na otázky, které hosté kladou nejčastěji [doplnit]."
-    tagline="FAQ"
     items={[
       { title: 'Otázka 1 [doplnit]', description: 'Odpověď [doplnit].' },
       { title: 'Otázka 2 [doplnit]', description: 'Odpověď [doplnit].' },
       { title: 'Otázka 3 [doplnit]', description: 'Odpověď [doplnit].' },
     ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-accent"></div>
-    </Fragment>
-  </FAQs>
-
-  <!-- CallToAction ****************** -->
-
-  <CallToAction
-    id="cta"
-    actions={[{ variant: 'primary', text: 'Kontaktovat', href: '#kontakt', icon: 'tabler:arrow-right' }]}
-  >
-    <Fragment slot="title">Rezervujte si pobyt</Fragment>
-    <Fragment slot="subtitle">Text výzvy k rezervaci [doplnit].</Fragment>
-  </CallToAction>
-
-  <!-- Kontakt *********************** -->
-
-  <Features2
-    id="kontakt"
-    tagline="Kontakt"
-    title="Kontakt"
-    subtitle="Text sekce [doplnit]."
-    items={[
-      { title: 'Telefon', description: '+420 000 000 000 [doplnit]', icon: 'tabler:phone' },
-      { title: 'E-mail', description: 'email@moje-domena.cz [doplnit]', icon: 'tabler:mail' },
-      { title: 'Adresa', description: 'Ulice 123, 760 01 Zlín [doplnit]', icon: 'tabler:map-pin' },
-    ]}
   />
+
+  <section id="kontakt" class="relative scroll-mt-[72px] bg-accent">
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <h2 class="font-heading text-4xl leading-[1.05] font-bold tracking-[-0.03em] text-heading md:text-5xl">
+          Máte otázku?
+        </h2>
+        <p class="mt-5 max-w-[34rem] text-lg text-pretty text-muted">
+          Zavolejte nebo napište, rádi poradíme s termínem i cestou. [doplnit]
+        </p>
+        <a href="#rezervace" class="btn-primary mt-8">Vybrat termín</a>
+      </div>
+      <ul class="grid list-none content-start gap-6 lg:col-span-7 lg:pt-3">
+        {
+          contacts.map(({ label, value, icon }) => (
+            <li class="flex items-center gap-4 border-b border-heading/10 pb-6">
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white" aria-hidden="true">
+                <Icon name={icon} class="h-6 w-6 text-heading" />
+              </span>
+              <div>
+                <p class="text-sm text-muted">{label}</p>
+                <p class="font-heading text-xl font-semibold break-words text-heading md:text-2xl">{value}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <BookBar text="Vybrat termín" href="#rezervace" label="Volné termíny a poptávka" />
 </Layout>

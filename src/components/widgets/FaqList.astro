@@ -1,0 +1,43 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// Questions and answers as an exclusive accordion (<details name>, no JS).
+// Answers open smoothly where `::details-content` is supported (tailwind.css).
+
+export interface Props {
+  id?: string;
+  title: string;
+  items: Array<{ title: string; description: string }>;
+}
+
+const { id, title, items } = Astro.props;
+const group = `faq-${id ?? 'list'}`;
+---
+
+<section id={id} class="relative scroll-mt-[72px]">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-12 lg:gap-12">
+    <h2
+      class="font-heading text-4xl leading-[1.05] font-bold tracking-[-0.03em] text-balance text-heading md:text-5xl lg:col-span-5"
+    >
+      {title}
+    </h2>
+    <div class="divide-y divide-concrete border-y border-concrete lg:col-span-7">
+      {
+        items.map(({ title: question, description }) => (
+          <details class="smooth group" name={group}>
+            <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="font-heading text-lg font-semibold text-heading md:text-xl">{question}</h3>
+              <span
+                class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent transition-transform duration-300 ease-out-soft group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <Icon name="tabler:plus" class="h-5 w-5 text-heading" />
+              </span>
+            </summary>
+            <p class="max-w-[60ch] pr-12 pb-6 text-default" set:html={description} />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

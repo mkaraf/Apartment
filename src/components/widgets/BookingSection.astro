@@ -1,0 +1,801 @@
+---
+import { Icon } from 'astro-icon/components';
+import { BOOKING, isWeb3FormsConfigured } from '~/booking';
+import { getPermalink } from '~/utils/permalinks';
+
+// Booking: availability calendar (busy nights from the owner's Google
+// Calendar, see src/utils/availability.ts) next to the inquiry form (sent by
+// Web3Forms). The calendar is an enhancement: without JavaScript the form
+// still works with plain date inputs and a regular POST to Web3Forms. The
+// calendar and the form share one custom element, so a range picked in the
+// calendar fills the date inputs and typed dates move the calendar.
+
+export interface Props {
+  id?: string;
+  title: string;
+  steps: string[];
+  note?: string;
+  /** E-mail shown when sending fails; a placeholder until it is real. */
+  fallbackContact: string;
+}
+
+const { id, title, steps, note, fallbackContact } = Astro.props;
+const todayIso = new Date().toISOString().slice(0, 10);
+
+const field =
+  'mt-1.5 block w-full rounded-xl border border-heading/15 bg-white px-4 py-3 text-base text-heading transition-colors placeholder:text-muted/70 focus:border-heading focus:outline-none aria-[invalid=true]:border-red-700';
+const label = 'text-sm font-medium text-heading';
+const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
+---
+
+<section id={id} class="relative scroll-mt-[72px]">
+  <div class="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <h2
+        class="font-heading text-4xl leading-[1.05] font-bold tracking-[-0.03em] text-balance text-heading md:text-5xl lg:col-span-5"
+      >
+        {title}
+      </h2>
+      <ol class="grid list-none gap-4 sm:grid-cols-3 lg:col-span-7">
+        {
+          steps.map((step, i) => (
+            <li class="flex gap-3 text-default">
+              <span
+                class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-heading/20 font-heading text-sm font-semibold text-heading"
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <span class="pt-1 text-pretty">{step}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <aw-booking
+      class="mt-10 grid gap-6 rounded-[2rem] bg-accent p-3 sm:p-5 md:mt-14 lg:grid-cols-12 lg:gap-8 lg:p-8"
+      data-url={BOOKING.availabilityUrl}
+      data-min-nights={BOOKING.minNights}
+      data-months-ahead={BOOKING.monthsAhead}
+      data-configured={String(isWeb3FormsConfigured)}
+      data-fallback-contact={fallbackContact}
+    >
+      <!-- Calendar ************************ -->
+      <div class="rounded-3xl bg-white/60 p-4 sm:p-6 lg:col-span-7">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="font-heading text-xl font-semibold text-heading">Obsazenost</h3>
+          <div class="flex gap-2" data-cal-nav hidden>
+            <button
+              type="button"
+              data-cal-prev
+              class="grid h-11 w-11 place-items-center rounded-full border border-heading/15 bg-white text-heading transition hover:border-heading disabled:opacity-35"
+              aria-label="Předchozí měsíc"
+            >
+              <Icon name="tabler:chevron-left" class="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              data-cal-next
+              class="grid h-11 w-11 place-items-center rounded-full border border-heading/15 bg-white text-heading transition hover:border-heading disabled:opacity-35"
+              aria-label="Další měsíc"
+            >
+              <Icon name="tabler:chevron-right" class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div data-cal-months class="mt-5 grid gap-8 md:grid-cols-2" aria-busy="true">
+          <noscript>
+            <p class="text-default">Kalendář obsazenosti potřebuje JavaScript. Termín prosím zadejte ve formuláři.</p>
+          </noscript>
+        </div>
+
+        <ul class="mt-6 flex list-none flex-wrap gap-x-5 gap-y-2 text-sm text-default" data-cal-legend hidden>
+          <li class="flex items-center gap-2">
+            <span class="h-4 w-4 rounded-full border border-heading/25 bg-white" aria-hidden="true"></span>Volno
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="h-4 w-4 rounded-full bg-concrete" aria-hidden="true"></span><span class="line-through"
+              >Obsazeno</span
+            >
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="h-4 w-4 rounded-full bg-heading" aria-hidden="true"></span>Příjezd a odjezd
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="h-4 w-6 rounded-sm bg-primary" aria-hidden="true"></span>Váš pobyt
+          </li>
+        </ul>
+        <p class="mt-4 min-h-5 text-sm text-default" data-cal-status role="status"></p>
+      </div>
+
+      <!-- Inquiry form ******************** -->
+      <div class="lg:col-span-5">
+        <form
+          data-booking-form
+          action="https://api.web3forms.com/submit"
+          method="POST"
+          class="rounded-3xl bg-white p-5 shadow-[0_20px_50px_-30px_rgb(33_27_18/0.35)] sm:p-6"
+        >
+          <input type="hidden" name="access_key" value={BOOKING.web3formsAccessKey} />
+          <input type="hidden" name="subject" value="Nová poptávka pobytu" />
+          <input type="hidden" name="from_name" value="Web apartmánu" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <fieldset>
+            <legend class="font-heading text-xl font-semibold text-heading">Váš termín</legend>
+            <div class="mt-4 grid gap-3 min-[400px]:grid-cols-2">
+              <div>
+                <label for="bk-arrival" class={label}>Příjezd *</label>
+                <input
+                  id="bk-arrival"
+                  name="prijezd"
+                  type="date"
+                  min={todayIso}
+                  required
+                  class={field}
+                  aria-describedby="bk-arrival-error"
+                />
+                <p id="bk-arrival-error" class={error} data-error></p>
+              </div>
+              <div>
+                <label for="bk-departure" class={label}>Odjezd *</label>
+                <input
+                  id="bk-departure"
+                  name="odjezd"
+                  type="date"
+                  min={todayIso}
+                  required
+                  class={field}
+                  aria-describedby="bk-departure-error"
+                />
+                <p id="bk-departure-error" class={error} data-error></p>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-default" data-nights aria-live="polite">
+              Vyberte příjezd a odjezd v kalendáři nebo je zadejte sem.
+            </p>
+          </fieldset>
+
+          <fieldset class="mt-6 grid gap-4 border-t border-concrete pt-6">
+            <legend class="sr-only">Kontaktní údaje</legend>
+            <div>
+              <label for="bk-name" class={label}>Jméno a příjmení *</label>
+              <input
+                id="bk-name"
+                name="jmeno"
+                type="text"
+                autocomplete="name"
+                required
+                class={field}
+                aria-describedby="bk-name-error"
+              />
+              <p id="bk-name-error" class={error} data-error></p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="bk-email" class={label}>E-mail *</label>
+                <input
+                  id="bk-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  class={field}
+                  aria-describedby="bk-email-error"
+                />
+                <p id="bk-email-error" class={error} data-error></p>
+              </div>
+              <div>
+                <label for="bk-phone" class={label}>Telefon</label>
+                <input id="bk-phone" name="telefon" type="tel" autocomplete="tel" class={field} />
+              </div>
+            </div>
+            <div>
+              <label for="bk-guests" class={label}>Počet hostů *</label>
+              <input
+                id="bk-guests"
+                name="pocet_hostu"
+                type="number"
+                inputmode="numeric"
+                min="1"
+                max={BOOKING.maxGuests}
+                value="2"
+                required
+                class={`${field} max-w-32`}
+                aria-describedby="bk-guests-error"
+              />
+              <p id="bk-guests-error" class={error} data-error></p>
+            </div>
+            <div>
+              <label for="bk-message" class={label}>Zpráva</label>
+              <textarea id="bk-message" name="zprava" rows="3" class={field} placeholder="Čas příjezdu, dotazy, přání…"
+              ></textarea>
+            </div>
+            <div>
+              <label class="flex items-start gap-3 text-sm text-default">
+                <input
+                  type="checkbox"
+                  name="souhlas"
+                  value="ano"
+                  required
+                  class="mt-0.5 h-5 w-5 shrink-0 accent-[rgb(33_27_18)]"
+                  aria-describedby="bk-consent-error"
+                />
+                <span>
+                  Souhlasím se zpracováním osobních údajů pro vyřízení poptávky podle{' '}
+                  <a href={getPermalink('/privacy')} class="font-medium text-ochre underline underline-offset-2"
+                    >zásad ochrany osobních údajů</a
+                  >. *
+                </span>
+              </label>
+              <p id="bk-consent-error" class={error} data-error></p>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn-primary mt-6 w-full gap-2" data-submit>
+            <span data-submit-label>Odeslat poptávku</span>
+          </button>
+          <p class="mt-3 text-sm text-muted">{note}</p>
+          <p class="mt-3 text-sm font-medium text-red-700 empty:hidden" data-form-status role="alert"></p>
+        </form>
+
+        <div
+          data-booking-success
+          hidden
+          class="rounded-3xl bg-white p-6 text-center shadow-[0_20px_50px_-30px_rgb(33_27_18/0.35)] sm:p-8"
+        >
+          <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary" aria-hidden="true">
+            <Icon name="tabler:check" class="h-8 w-8 text-heading" />
+          </span>
+          <h3 class="mt-5 font-heading text-2xl font-semibold text-heading" tabindex="-1" data-success-title>
+            Poptávka odeslána
+          </h3>
+          <p class="mt-2 text-default" data-success-text></p>
+          <button type="button" class="btn-tertiary mt-4 text-heading underline underline-offset-4" data-new-inquiry>
+            Poslat další poptávku
+          </button>
+        </div>
+      </div>
+    </aw-booking>
+  </div>
+</section>
+
+<style is:global>
+  aw-booking .cal-weekdays,
+  aw-booking .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  aw-booking .cal-days {
+    row-gap: 0.25rem;
+  }
+  aw-booking .cal-day {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    min-height: 2.75rem;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    color: var(--aw-color-text-heading);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft),
+      transform 0.15s var(--ease-out-soft);
+  }
+  aw-booking .cal-day[data-state='free']:hover {
+    background: rgb(255 255 255);
+    box-shadow: inset 0 0 0 1px rgb(33 27 18 / 0.25);
+  }
+  aw-booking .cal-day:not([aria-disabled='true']):active {
+    transform: scale(0.92);
+  }
+  aw-booking .cal-day[aria-disabled='true'] {
+    cursor: default;
+  }
+  aw-booking .cal-day[data-state='past'] {
+    color: rgb(51 45 36 / 35%);
+  }
+  aw-booking .cal-day[data-state='busy'] {
+    color: rgb(51 45 36 / 62%);
+    text-decoration: line-through;
+  }
+  aw-booking .cal-day[data-state='busy']::after {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    z-index: -1;
+    border-radius: 999px;
+    background: var(--aw-color-concrete);
+  }
+  aw-booking .cal-day[data-state='invalid'] {
+    color: rgb(51 45 36 / 40%);
+  }
+  aw-booking .cal-day[data-today]::before {
+    content: '';
+    position: absolute;
+    bottom: 14%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+  /* Selected stay: a continuous yellow band between two ink dots. */
+  aw-booking .cal-day[data-sel] {
+    text-decoration: none;
+  }
+  aw-booking .cal-day[data-sel='in'],
+  aw-booking .cal-day[data-sel='preview'] {
+    border-radius: 0;
+    background: var(--aw-color-primary);
+  }
+  aw-booking .cal-day[data-sel='preview'] {
+    background: rgb(245 197 24 / 45%);
+  }
+  aw-booking .cal-day[data-sel='start'],
+  aw-booking .cal-day[data-sel='end'] {
+    background: var(--aw-color-text-heading);
+    color: white;
+  }
+  aw-booking .cal-day[data-sel='start'][data-band]::after,
+  aw-booking .cal-day[data-sel='end'][data-band]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0;
+    background: var(--aw-color-primary);
+  }
+  aw-booking .cal-day[data-sel='start'][data-band]::after {
+    left: 50%;
+  }
+  aw-booking .cal-day[data-sel='end'][data-band]::after {
+    right: 50%;
+  }
+  aw-booking [data-cal-months][aria-busy='true'] .cal-days {
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  import {
+    addDays,
+    formatDate,
+    fromISO,
+    isRangeFree,
+    loadAvailability,
+    toISO,
+    today as getToday,
+  } from '~/utils/availability';
+
+  const WEEKDAYS = ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'];
+  const DAY_MS = 86_400_000;
+  const nightsBetween = (a: Date, b: Date) => Math.round((b.getTime() - a.getTime()) / DAY_MS);
+  const nightsLabel = (n: number) => `${n} ${n === 1 ? 'noc' : n < 5 ? 'noci' : 'nocí'}`;
+  const short = (d: Date) => formatDate(d, { day: 'numeric', month: 'numeric', year: 'numeric' });
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  class AwBooking extends HTMLElement {
+    private busy = new Set<string>();
+    private loaded = false;
+    private loadMessage = 'Načítám obsazenost…';
+    private arrival?: Date;
+    private departure?: Date;
+    private hover?: Date;
+    private offset = 0;
+    private focusIso?: string;
+    private minNights = 1;
+    private monthsAhead = 12;
+    private today = getToday();
+    private mql = window.matchMedia('(min-width: 768px)');
+    private onMql = () => this.render();
+
+    private months!: HTMLElement;
+    private status!: HTMLElement;
+    private form!: HTMLFormElement;
+    private arrivalInput!: HTMLInputElement;
+    private departureInput!: HTMLInputElement;
+    private nightsOut!: HTMLElement;
+
+    connectedCallback() {
+      this.minNights = Number(this.dataset.minNights ?? 1);
+      this.monthsAhead = Number(this.dataset.monthsAhead ?? 12);
+      this.months = this.querySelector<HTMLElement>('[data-cal-months]')!;
+      this.status = this.querySelector<HTMLElement>('[data-cal-status]')!;
+      this.form = this.querySelector<HTMLFormElement>('[data-booking-form]')!;
+      this.arrivalInput = this.form.querySelector<HTMLInputElement>('[name="prijezd"]')!;
+      this.departureInput = this.form.querySelector<HTMLInputElement>('[name="odjezd"]')!;
+      this.nightsOut = this.form.querySelector<HTMLElement>('[data-nights]')!;
+
+      this.querySelector<HTMLElement>('[data-cal-nav]')!.hidden = false;
+      this.querySelector<HTMLElement>('[data-cal-legend]')!.hidden = false;
+      this.status.textContent = 'Načítám obsazenost…';
+      this.render();
+
+      loadAvailability(this.dataset.url ?? '').then(({ busy, ok }) => {
+        this.busy = busy;
+        this.loaded = true;
+        this.months.setAttribute('aria-busy', 'false');
+        this.loadMessage = ok
+          ? 'Obsazenost se obnovuje každých 15 minut.'
+          : 'Obsazenost se teď nepodařilo načíst. Poptávku můžete poslat i tak, termín ověříme.';
+        this.status.textContent = this.loadMessage;
+        this.render();
+      });
+
+      this.mql.addEventListener('change', this.onMql);
+      this.querySelector('[data-cal-prev]')!.addEventListener('click', () => this.shift(-1));
+      this.querySelector('[data-cal-next]')!.addEventListener('click', () => this.shift(1));
+      this.months.addEventListener('click', (e) => {
+        const cell = (e.target as HTMLElement).closest<HTMLElement>('.cal-day');
+        // Keep focus on the picked day only for keyboard activation (detail 0),
+        // so a mouse click does not leave a focus ring behind.
+        if (cell) this.pick(fromISO(cell.dataset.date!), (e as MouseEvent).detail === 0);
+      });
+      this.months.addEventListener('pointerover', (e) => {
+        const cell = (e.target as HTMLElement).closest<HTMLElement>('.cal-day');
+        if (!cell || e.pointerType !== 'mouse' || !this.arrival || this.departure) return;
+        this.hover = fromISO(cell.dataset.date!);
+        this.paintSelection();
+      });
+      this.months.addEventListener('pointerleave', () => {
+        this.hover = undefined;
+        this.paintSelection();
+      });
+      this.months.addEventListener('keydown', (e) => this.onKey(e));
+      this.arrivalInput.addEventListener('change', () => this.fromInputs());
+      this.departureInput.addEventListener('change', () => this.fromInputs());
+      this.setupForm();
+    }
+
+    disconnectedCallback() {
+      this.mql.removeEventListener('change', this.onMql);
+    }
+
+    // --- Calendar ----------------------------------------------------------
+
+    private get visible() {
+      return this.mql.matches ? 2 : 1;
+    }
+
+    private monthStart(index: number) {
+      return new Date(this.today.getFullYear(), this.today.getMonth() + index, 1);
+    }
+
+    private get horizon() {
+      return this.monthStart(this.monthsAhead);
+    }
+
+    private validDeparture(day: Date) {
+      const { arrival } = this;
+      return (
+        !!arrival &&
+        day > arrival &&
+        day <= this.horizon &&
+        nightsBetween(arrival, day) >= this.minNights &&
+        isRangeFree(this.busy, arrival, day)
+      );
+    }
+
+    private state(day: Date) {
+      if (day < this.today || day >= this.horizon) return 'past';
+      const busy = this.busy.has(toISO(day));
+      if (this.arrival && !this.departure && day > this.arrival) {
+        if (this.validDeparture(day)) return 'free';
+        return busy ? 'busy' : 'invalid';
+      }
+      return busy ? 'busy' : 'free';
+    }
+
+    private describe(day: Date, state: string) {
+      const text = { past: 'nelze vybrat', busy: 'obsazeno', invalid: 'nelze zvolit jako odjezd', free: 'volno' }[
+        state
+      ];
+      return `${formatDate(day, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}, ${text}`;
+    }
+
+    private render(direction = 0) {
+      const maxOffset = Math.max(0, this.monthsAhead - this.visible);
+      this.offset = Math.min(Math.max(this.offset, 0), maxOffset);
+      const todayIso = toISO(this.today);
+      let html = '';
+      for (let m = 0; m < this.visible; m++) {
+        const first = this.monthStart(this.offset + m);
+        const lead = (first.getDay() + 6) % 7;
+        const days = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+        const caption = formatDate(first, { month: 'long', year: 'numeric' });
+        const captionId = `cal-${toISO(first)}`;
+        html += `<div role="group" aria-labelledby="${captionId}">
+          <p id="${captionId}" class="mb-3 font-heading text-lg font-semibold capitalize text-heading">${caption}</p>
+          <div class="cal-weekdays mb-1 text-center text-xs font-medium text-muted" aria-hidden="true">${WEEKDAYS.map((d) => `<span>${d}</span>`).join('')}</div>
+          <div class="cal-days">${'<span></span>'.repeat(lead)}`;
+        for (let d = 1; d <= days; d++) {
+          const day = new Date(first.getFullYear(), first.getMonth(), d);
+          const iso = toISO(day);
+          const state = this.state(day);
+          const disabled = state === 'past' || state === 'busy';
+          html += `<button type="button" class="cal-day" data-date="${iso}" data-state="${state}" tabindex="-1"
+            aria-label="${this.describe(day, state)}"${disabled ? ' aria-disabled="true"' : ''}${iso === todayIso ? ' data-today' : ''}>${d}</button>`;
+        }
+        html += '</div></div>';
+      }
+      this.months.innerHTML = html;
+      this.paintSelection();
+      this.updateRoving();
+
+      this.querySelector<HTMLButtonElement>('[data-cal-prev]')!.disabled = this.offset === 0;
+      this.querySelector<HTMLButtonElement>('[data-cal-next]')!.disabled = this.offset >= maxOffset;
+
+      if (direction && !reducedMotion()) {
+        this.months.animate(
+          [
+            { opacity: 0, transform: `translate3d(${direction * 24}px, 0, 0)` },
+            { opacity: 1, transform: 'none' },
+          ],
+          { duration: 320, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+        );
+      }
+    }
+
+    /** Marks the chosen (or hovered) stay on the rendered cells without re-rendering. */
+    private paintSelection() {
+      const end = this.departure ?? (this.hover && this.validDeparture(this.hover) ? this.hover : undefined);
+      const preview = !this.departure;
+      this.months.querySelectorAll<HTMLElement>('.cal-day').forEach((cell) => {
+        const day = fromISO(cell.dataset.date!);
+        let sel: string | undefined;
+        if (this.arrival && day.getTime() === this.arrival.getTime()) sel = 'start';
+        else if (end && day.getTime() === end.getTime()) sel = preview ? 'preview' : 'end';
+        else if (this.arrival && end && day > this.arrival && day < end) sel = preview ? 'preview' : 'in';
+        if (sel) cell.dataset.sel = sel;
+        else delete cell.dataset.sel;
+        cell.toggleAttribute('data-band', !!(this.arrival && end));
+        if (sel === 'start' || sel === 'end') cell.setAttribute('aria-pressed', 'true');
+        else cell.removeAttribute('aria-pressed');
+      });
+    }
+
+    private updateRoving() {
+      const cells = [...this.months.querySelectorAll<HTMLElement>('.cal-day')];
+      const target =
+        cells.find((c) => c.dataset.date === this.focusIso) ??
+        cells.find((c) => c.dataset.sel === 'start') ??
+        cells.find((c) => c.dataset.state === 'free') ??
+        cells[0];
+      if (target) target.tabIndex = 0;
+    }
+
+    private shift(by: number) {
+      this.offset += by;
+      this.focusIso = undefined;
+      this.render(Math.sign(by));
+    }
+
+    private onKey(e: KeyboardEvent) {
+      const cell = (e.target as HTMLElement).closest<HTMLElement>('.cal-day');
+      if (!cell) return;
+      const day = fromISO(cell.dataset.date!);
+      const moves: Record<string, Date> = {
+        ArrowLeft: addDays(day, -1),
+        ArrowRight: addDays(day, 1),
+        ArrowUp: addDays(day, -7),
+        ArrowDown: addDays(day, 7),
+        Home: addDays(day, -((day.getDay() + 6) % 7)),
+        End: addDays(day, 6 - ((day.getDay() + 6) % 7)),
+        PageUp: new Date(day.getFullYear(), day.getMonth() - 1, day.getDate()),
+        PageDown: new Date(day.getFullYear(), day.getMonth() + 1, day.getDate()),
+      };
+      const next = moves[e.key];
+      if (!next) return;
+      e.preventDefault();
+      const index = (next.getFullYear() - this.today.getFullYear()) * 12 + next.getMonth() - this.today.getMonth();
+      if (index < 0 || index >= this.monthsAhead) return;
+      const direction = index < this.offset ? -1 : index >= this.offset + this.visible ? 1 : 0;
+      if (direction) this.offset = direction < 0 ? index : index - this.visible + 1;
+      this.focusIso = toISO(next);
+      this.render(direction);
+      this.months.querySelector<HTMLElement>(`[data-date="${this.focusIso}"]`)?.focus();
+    }
+
+    private pick(day: Date, keepFocus = true) {
+      const state = this.state(day);
+      this.focusIso = toISO(day);
+      if (state === 'past') return;
+      if (this.arrival && !this.departure && this.validDeparture(day)) {
+        this.departure = day;
+      } else if (!this.busy.has(toISO(day))) {
+        // A free night that cannot end the stay starts a new one instead.
+        this.arrival = day;
+        this.departure = undefined;
+      } else {
+        this.status.textContent = 'Tato noc je obsazená, vyberte jiný den příjezdu.';
+        return;
+      }
+      this.hover = undefined;
+      this.syncInputs();
+      this.render();
+      if (keepFocus) this.months.querySelector<HTMLElement>(`[data-date="${this.focusIso}"]`)?.focus();
+    }
+
+    // --- Form <-> calendar ---------------------------------------------------
+
+    private syncInputs() {
+      this.arrivalInput.value = this.arrival ? toISO(this.arrival) : '';
+      this.departureInput.value = this.departure ? toISO(this.departure) : '';
+      this.clearError(this.arrivalInput);
+      this.clearError(this.departureInput);
+      this.describeStay();
+    }
+
+    private describeStay() {
+      const { arrival, departure } = this;
+      let text = 'Vyberte příjezd a odjezd v kalendáři nebo je zadejte sem.';
+      if (arrival && !departure) text = `Příjezd ${short(arrival)}. Teď vyberte den odjezdu.`;
+      if (arrival && departure)
+        text = `${nightsLabel(nightsBetween(arrival, departure))}: ${short(arrival)} – ${short(departure)}`;
+      this.nightsOut.textContent = text;
+      this.status.textContent = arrival && !departure ? 'Vyberte den odjezdu.' : this.loadMessage;
+    }
+
+    private fromInputs() {
+      const a = this.arrivalInput.value ? fromISO(this.arrivalInput.value) : undefined;
+      const d = this.departureInput.value ? fromISO(this.departureInput.value) : undefined;
+      this.arrival = a && a >= this.today ? a : undefined;
+      this.departure = this.arrival && d && d > this.arrival ? d : undefined;
+      if (this.arrival) {
+        this.offset = (a!.getFullYear() - this.today.getFullYear()) * 12 + a!.getMonth() - this.today.getMonth();
+      }
+      this.validateStay();
+      this.describeStay();
+      this.render();
+    }
+
+    /** Custom checks of the dates on top of the native `required`. Returns true when valid. */
+    private validateStay() {
+      const a = this.arrivalInput.value ? fromISO(this.arrivalInput.value) : undefined;
+      const d = this.departureInput.value ? fromISO(this.departureInput.value) : undefined;
+      let arrivalMsg = '';
+      let departureMsg = '';
+      if (a && a < this.today) arrivalMsg = 'Příjezd nemůže být v minulosti.';
+      if (a && d && d <= a) departureMsg = 'Odjezd musí být až po příjezdu.';
+      else if (a && d && nightsBetween(a, d) < this.minNights)
+        departureMsg = `Minimální pobyt je ${nightsLabel(this.minNights)}.`;
+      else if (a && d && this.loaded && !isRangeFree(this.busy, a, d))
+        departureMsg = 'V tomto termínu je apartmán obsazený. Vyberte prosím jiný.';
+      this.arrivalInput.setCustomValidity(arrivalMsg);
+      this.departureInput.setCustomValidity(departureMsg);
+      return !arrivalMsg && !departureMsg;
+    }
+
+    private showError(input: HTMLInputElement) {
+      const out = this.form.querySelector<HTMLElement>(`#${input.getAttribute('aria-describedby')}`);
+      if (!out) return;
+      let message = input.validationMessage;
+      if (input.validity.valueMissing)
+        message = input.type === 'checkbox' ? 'Bez souhlasu nemůžeme poptávku zpracovat.' : 'Vyplňte prosím toto pole.';
+      else if (input.validity.typeMismatch && input.type === 'email')
+        message = 'Zadejte e-mail ve tvaru jmeno@domena.cz.';
+      else if (input.validity.rangeUnderflow || input.validity.rangeOverflow)
+        message = `Zadejte počet hostů${input.max ? ` od 1 do ${input.max}` : ' alespoň 1'}.`;
+      out.textContent = message;
+      input.setAttribute('aria-invalid', 'true');
+    }
+
+    private clearError(input: HTMLInputElement) {
+      const out = this.form.querySelector<HTMLElement>(`#${input.getAttribute('aria-describedby')}`);
+      if (out) out.textContent = '';
+      input.removeAttribute('aria-invalid');
+    }
+
+    private setupForm() {
+      const form = this.form;
+      const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+      const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+      const formStatus = form.querySelector<HTMLElement>('[data-form-status]')!;
+      const success = this.querySelector<HTMLElement>('[data-booking-success]')!;
+
+      // Inline messages instead of the browser bubbles (without JS the native
+      // validation stays on); checked when a field is left.
+      form.noValidate = true;
+      form.addEventListener(
+        'invalid',
+        (e) => {
+          e.preventDefault();
+          this.showError(e.target as HTMLInputElement);
+        },
+        true
+      );
+      form.addEventListener('focusout', (e) => {
+        const input = e.target as HTMLInputElement;
+        if (!input.matches?.('[aria-describedby]') || !input.value) return;
+        if (input === this.arrivalInput || input === this.departureInput) this.validateStay();
+        if (input.checkValidity()) this.clearError(input);
+      });
+      form.addEventListener('input', (e) => {
+        const input = e.target as HTMLInputElement;
+        if (input.getAttribute('aria-invalid') && input.checkValidity()) this.clearError(input);
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        formStatus.textContent = '';
+        this.validateStay();
+        form.querySelectorAll<HTMLInputElement>('[aria-describedby]').forEach((input) => {
+          if (input.checkValidity()) this.clearError(input);
+        });
+        if (!form.checkValidity()) {
+          form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+          return;
+        }
+        if (this.dataset.configured !== 'true') {
+          formStatus.textContent =
+            'Formulář zatím není propojený s e-mailem (chybí klíč Web3Forms). Kontaktujte nás prosím telefonem nebo e-mailem.';
+          return;
+        }
+
+        const a = fromISO(this.arrivalInput.value);
+        const d = fromISO(this.departureInput.value);
+        const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+        data.subject = `Poptávka pobytu: ${short(a)} – ${short(d)} (${nightsLabel(nightsBetween(a, d))})`;
+
+        submit.disabled = true;
+        submit.setAttribute('aria-busy', 'true');
+        submitLabel.textContent = 'Odesílám…';
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.success) throw new Error(result.message ?? String(response.status));
+
+          form.hidden = true;
+          success.hidden = false;
+          success.querySelector('[data-success-text]')!.textContent =
+            `Termín ${short(a)} – ${short(d)} jsme přijali. Potvrzení pošleme na ${data.email}.`;
+          success.querySelector<HTMLElement>('[data-success-title]')!.focus();
+          if (!reducedMotion()) {
+            success.animate(
+              [
+                { opacity: 0, transform: 'translate3d(0, 12px, 0) scale(0.98)' },
+                { opacity: 1, transform: 'none' },
+              ],
+              { duration: 450, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+            );
+          }
+        } catch {
+          formStatus.textContent = `Poptávku se nepodařilo odeslat. Zkuste to prosím znovu, nebo napište na ${this.fallbackContact}.`;
+        } finally {
+          submit.disabled = false;
+          submit.removeAttribute('aria-busy');
+          submitLabel.textContent = 'Odeslat poptávku';
+        }
+      });
+
+      this.querySelector('[data-new-inquiry]')!.addEventListener('click', () => {
+        form.reset();
+        this.arrival = this.departure = undefined;
+        this.syncInputs();
+        this.render();
+        success.hidden = true;
+        form.hidden = false;
+        this.arrivalInput.focus();
+      });
+    }
+
+    private get fallbackContact() {
+      return this.dataset.fallbackContact ?? 'náš e-mail';
+    }
+  }
+
+  if (!customElements.get('aw-booking')) customElements.define('aw-booking', AwBooking);
+</script>

@@ -4,8 +4,8 @@ One-page website for an apartment for rent in the Zlín region (Czech). Built wi
 
 - Fully static, light mode only, Czech UI (`lang="cs"`).
 - One page (`src/pages/index.astro`) with sections linked by anchors (`#kontakt`, …), plus `/privacy` and `/terms`.
-- Hosted on Cloudflare Workers (static assets).
-- Bookings will go through Google Calendar (not implemented yet).
+- Hosted on Cloudflare Workers (static assets + a small Worker for `/api/availability`).
+- Bookings: availability calendar from the owner's Google Calendar + inquiry form via Web3Forms (`src/booking.ts`).
 - Not indexed by search engines until launch (see [Before launch](#before-launch)).
 
 ## Requirements

@@ -20,6 +20,12 @@
   --color-default: var(--aw-color-text-default);
   --color-muted: var(--aw-color-text-muted);
   --color-link: var(--aw-color-link, var(--aw-color-primary));
+  --color-ochre: var(--aw-color-ochre);
+  --color-concrete: var(--aw-color-concrete);
+
+  /* Shared motion tokens: arriving elements decelerate (out), leaving ones are faster. */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-soft: cubic-bezier(0.7, 0, 0.84, 0);
 
   --font-sans:
     var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
@@ -122,6 +128,109 @@
 
 .dd *:first-child {
   margin-top: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion. One orchestrated moment (the sunrise in the hero on load), photos
+   uncovered as they scroll in, and transitions that answer the visitor's
+   actions. Everything is transform/opacity/clip-path only, and everything is
+   skipped under prefers-reduced-motion (elements render in their final state).
+   --------------------------------------------------------------------------- */
+
+@keyframes sunrise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 45%, 0) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes line-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.6em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes photo-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes uncover {
+  from {
+    clip-path: inset(18% 18% 18% 18% round 1.5rem);
+    transform: scale(1.06);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-sunrise {
+    animation: sunrise 1.6s var(--ease-out-soft) 0.15s both;
+  }
+  .anim-line {
+    animation: line-rise 0.9s var(--ease-out-soft) both;
+    animation-delay: calc(0.35s + var(--i, 0) * 0.09s);
+  }
+  .anim-photo {
+    animation: photo-settle 1.2s var(--ease-out-soft) both;
+  }
+
+  /* Photos are uncovered while they scroll into view (scroll-driven, no JS).
+     Browsers without view timelines simply show the photo. */
+  @supports (animation-timeline: view()) {
+    .anim-uncover {
+      animation: uncover linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+  }
+
+  /* FAQ answers open and close smoothly where the browser supports it. */
+  @supports (interpolate-size: allow-keywords) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+    details.smooth::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size 0.35s var(--ease-out-soft),
+        content-visibility 0.35s allow-discrete;
+    }
+    details.smooth[open]::details-content {
+      block-size: auto;
+    }
+  }
+}
+
+/* The lightbox photo morphs from its thumbnail (View Transitions API). */
+::view-transition-group(lightbox-photo) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-out-soft);
+}
+
+/* Visible keyboard focus everywhere, in ink so it is readable on yellow too. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--aw-color-text-heading);
+  outline-offset: 3px;
 }
 
 /* Prose: inline code without the typography plugin's backticks, and a subtle

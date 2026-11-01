@@ -5,7 +5,7 @@ description: Add or wire up a contact/booking inquiry form with a backend (Forms
 
 # Configure a Contact Form
 
-The site currently has no form: the contact section on `src/pages/index.astro` (`#kontakt`) only lists phone, e-mail and address, and bookings are planned through Google Calendar. Use this guide if a form is added later with the `Contact` widget (or `Newsletter`).
+The booking inquiry form already exists: `src/components/widgets/BookingSection.astro`, sent to Web3Forms with the access key in `src/booking.ts` (`web3formsAccessKey`; until it is set the form tells guests it is not connected). The steps below apply to any other form added with the `Contact` widget (or `Newsletter`).
 
 `src/components/ui/Form.astro` (used by `src/components/widgets/Contact.astro`) renders the markup only. It ships **without** `action`/`method` on purpose: until you configure it the browser performs a GET to the same page and nothing is stored. Never ship a form without a backend.
 

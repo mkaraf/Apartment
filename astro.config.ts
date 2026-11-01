@@ -33,9 +33,10 @@ export default defineConfig({
     defaultStrategy: 'viewport',
   },
 
-  // Native Fonts API: self-hosts + subsets + preloads Inter and generates
-  // metric-adjusted fallbacks. Injected via <Font /> in Layout.astro and
-  // consumed through the `--font-inter` CSS variable in CustomStyles.astro.
+  // Native Fonts API: self-hosts + subsets + preloads Inter (body) and
+  // Bricolage Grotesque (headings) and generates metric-adjusted fallbacks.
+  // Injected via <Font /> in Layout.astro and consumed through the
+  // `--font-inter` / `--font-bricolage` CSS variables in CustomStyles.astro.
   fonts: [
     {
       provider: fontProviders.fontsource(),
@@ -44,6 +45,16 @@ export default defineConfig({
       weights: ['100 900'],
       styles: ['normal'],
       // latin-ext carries Czech diacritics (č, ř, ě, ů…).
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['sans-serif'],
+    },
+    {
+      // Display face for headings (`--aw-font-heading`).
+      provider: fontProviders.fontsource(),
+      name: 'Bricolage Grotesque',
+      cssVariable: '--font-bricolage',
+      weights: ['200 800'],
+      styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['sans-serif'],
     },

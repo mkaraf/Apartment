@@ -1,13 +1,18 @@
-// Cloudflare Workers configuration. The site is fully static, so the Worker
-// only serves the `dist/` folder as assets; no adapter is needed.
+// Cloudflare Workers configuration. The site is fully static (`dist/`); a small
+// Worker (worker/index.ts) answers only `/api/*`, which serves the availability
+// read from the private Google Calendar. No Astro adapter is needed.
 // Deploy: `npm run build && npx wrangler deploy`
+// Secret: `npx wrangler secret put CALENDAR_ICAL_URL` (private iCal address of the calendar)
 // Docs: https://developers.cloudflare.com/workers/static-assets/
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "apartman", // TODO: Worker name (default URL: apartman.<account>.workers.dev)
+  "main": "./worker/index.ts",
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "not_found_handling": "404-page",
     // Serve /privacy/index.html at /privacy (no redirect to /privacy/), matching trailingSlash: false.
     "html_handling": "drop-trailing-slash",

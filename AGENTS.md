@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-One-page website for an apartment for rent in the Zlín region, built on the AstroWind template with **Astro v7** and **Tailwind CSS v4**. Fully static, light mode only, Czech UI (`i18n.language: cs`). Everything lives on `src/pages/index.astro` as sections linked by `#anchors`; the only other pages are `/privacy`, `/terms` and `404`. Hosted on Cloudflare Workers (static assets). Bookings will go through Google Calendar (not implemented yet).
+One-page website for an apartment for rent in the Zlín region, built on the AstroWind template with **Astro v7** and **Tailwind CSS v4**. Fully static, light mode only, Czech UI (`i18n.language: cs`). Everything lives on `src/pages/index.astro` as sections linked by `#anchors`; the only other pages are `/privacy`, `/terms` and `404`. Hosted on Cloudflare Workers (static assets + a small Worker for `/api/*`). Bookings: availability calendar fed by the owner's Google Calendar + inquiry form (Web3Forms), see `src/booking.ts`.
 
 User-facing text is Czech. Placeholders are marked `[doplnit]` in page copy and `TODO` in config. The site is intentionally `noindex` until launch (see README "Before launch").
 
@@ -79,7 +79,7 @@ Components use `twMerge` from `tailwind-merge` v3 for conditional class composit
 
 ## Hosting
 
-Cloudflare Workers static assets: `wrangler.jsonc` serves `dist/` (`npm run build && npx wrangler deploy`). No adapter; the site is fully static. `public/_headers` sets cache headers for `/_astro/*`. There is no blog and no content collection.
+Cloudflare Workers static assets: `wrangler.jsonc` serves `dist/` (`npm run build && npx wrangler deploy`). No adapter; all pages are static. `worker/index.ts` runs only for `/api/*` (`run_worker_first`): `/api/availability` returns busy nights read from the Google Calendar iCal address in the secret `CALENDAR_ICAL_URL` (`npx wrangler secret put CALENDAR_ICAL_URL`). In `astro dev` the calendar uses demo data (`src/utils/availability.ts`). `public/_headers` sets cache headers for `/_astro/*`. There is no blog and no content collection.
 
 ## Component Patterns
 

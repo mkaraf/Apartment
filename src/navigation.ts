@@ -4,18 +4,18 @@ import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
-    { text: 'Úvod', href: getPermalink('/#uvod') },
-    { text: 'O apartmánu', href: getPermalink('/#apartman') },
-    { text: 'Fotogalerie', href: getPermalink('/#fotogalerie') },
+    { text: 'Apartmán', href: getPermalink('/#apartman') },
+    { text: 'Fotky', href: getPermalink('/#fotogalerie') },
+    { text: 'Obsazenost', href: getPermalink('/#rezervace') },
     { text: 'Lokalita', href: getPermalink('/#lokalita') },
+    { text: 'Dotazy', href: getPermalink('/#faqs') },
     { text: 'Kontakt', href: getPermalink('/#kontakt') },
   ],
   actions: [
     {
       variant: 'primary' as const,
-      text: 'Rezervace / Dotaz',
+      text: 'Rezervovat',
       href: getPermalink('/#rezervace'),
-      icon: 'tabler:arrow-right',
     },
   ],
 };

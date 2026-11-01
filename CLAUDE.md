@@ -23,13 +23,14 @@ Project skills live in `.claude/skills/<name>/SKILL.md` and load automatically b
 | What is missing before launch         | `pre-launch-checklist`                 |
 | Visual redesign, look and feel        | `/frontend-design` (manual only)       |
 
-When a new recurring task appears (e.g. the Google Calendar booking once it is decided), propose a new skill in the same format (`name` + `description` frontmatter).
+When a new recurring task appears (e.g. connecting or changing the booking calendar), propose a new skill in the same format (`name` + `description` frontmatter).
 
 ## Project state and decisions
 
 - One page only (`src/pages/index.astro`); sections: `#uvod`, `#apartman`, `#fotogalerie`, `#lokalita`, `#rezervace`, `#faqs`, `#cta`, `#kontakt`.
 - Palette: warm yellow / deeper yellow / cream, light mode only. Mind contrast of yellow on white.
-- **Booking:** planned via Google Calendar, not implemented and the exact approach is not decided yet. Do not pick one silently: propose options (e.g. embedded public availability calendar + inquiry, Google Calendar appointment schedule) and let the user choose. Prefer solutions that keep the site static; a Worker/adapter only if really needed.
+- **Booking (decided):** own availability calendar + inquiry, confirmed manually by the owner. Busy nights come from the private iCal address of the owner's Google Calendar through the Worker `worker/index.ts` (`/api/availability`, secret `CALENDAR_ICAL_URL`); the inquiry is sent by Web3Forms. Settings in `src/booking.ts`, UI in `BookingSection.astro`. Pages stay static; no Astro adapter.
+- **Design (decided):** "sunny" direction: yellow sun as the one bold element (hero sunrise), Bricolage Grotesque headings + Inter text, CSS-only motion that respects reduced motion. Photos are still low-res placeholders.
 - Never invent content: prices, reviews, ratings, addresses, capacities. Leave `[doplnit]` instead.
 - Site stays `noindex` until the user explicitly says to launch (`pre-launch-checklist`).
 

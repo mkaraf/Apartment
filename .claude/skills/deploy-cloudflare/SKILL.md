@@ -5,7 +5,9 @@ description: Build and deploy the static site to Cloudflare Workers (wrangler), 
 
 # Deploy to Cloudflare (Workers static assets)
 
-The site is fully static (`output: 'static'`) and hosted on Cloudflare Workers as plain assets. `wrangler.jsonc` sets `assets.directory: "./dist"` and `not_found_handling: "404-page"`; no adapter is installed.
+The pages are static (`output: 'static'`) and hosted on Cloudflare Workers as assets. `wrangler.jsonc` sets `assets.directory: "./dist"`, `not_found_handling: "404-page"` and a small Worker (`main: ./worker/index.ts`) that runs only for `/api/*` (`run_worker_first`); no Astro adapter is installed.
+
+Before the first deploy set the calendar secret: `npx wrangler secret put CALENDAR_ICAL_URL` (Google Calendar → calendar settings → Integrate calendar → Secret address in iCal format). Without it `/api/availability` answers 503 and the calendar tells guests the availability could not be loaded (inquiries still work).
 
 ## Deploy
 
@@ -22,7 +24,7 @@ The site is fully static (`output: 'static'`) and hosted on Cloudflare Workers a
 
 ## Server-side code (only if needed later)
 
-If a feature needs code running on request (e.g. reading a private calendar with a secret key), add the adapter: `npx astro add cloudflare`, keep `output: 'static'` so pages stay prerendered, and follow https://developers.cloudflare.com/workers/frameworks/framework-guides/astro/. Keep `astro` and `@astrojs/cloudflare` at compatible versions.
+Small endpoints go into `worker/index.ts` under `/api/` (as `/api/availability` does). Only if pages themselves must render on request, add the adapter: `npx astro add cloudflare`, keep `output: 'static'` so pages stay prerendered, and follow https://developers.cloudflare.com/workers/frameworks/framework-guides/astro/. Keep `astro` and `@astrojs/cloudflare` at compatible versions.
 
 ## Images
 
