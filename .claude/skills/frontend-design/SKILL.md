@@ -2,6 +2,7 @@
 name: frontend-design
 description: Distinctive, intentional visual design for the apartment site (aesthetic direction, typography, layout, hero, gallery, overall identity). Use for redesigns or new visual sections, not for plain text/content edits.
 disable-model-invocation: true
+license: Complete terms in LICENSE.txt
 ---
 
 # Frontend Design

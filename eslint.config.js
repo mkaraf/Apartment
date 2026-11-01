@@ -61,6 +61,13 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro'],
+    ignores: [
+      'dist',
+      'node_modules',
+      '.github',
+      'types.generated.d.ts',
+      '.astro',
+      '.claude/skills/{banner-design,brand,design,design-system,slides,ui-styling,ui-ux-pro-max}',
+    ],
   },
 ];
