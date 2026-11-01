@@ -54,7 +54,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
     </div>
 
     <aw-booking
-      class="mt-10 grid gap-6 rounded-none bg-accent p-3 sm:p-5 md:mt-14 lg:grid-cols-12 lg:gap-8 lg:p-8"
+      class="mt-10 grid gap-6 rounded-none bg-primary p-3 sm:p-5 md:mt-14 lg:grid-cols-12 lg:gap-8 lg:p-8"
       data-url={BOOKING.availabilityUrl}
       data-min-nights={BOOKING.minNights}
       data-months-ahead={BOOKING.monthsAhead}
@@ -62,7 +62,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
       data-fallback-contact={fallbackContact}
     >
       <!-- Calendar ************************ -->
-      <div class="rounded-[3px] bg-white/60 p-4 sm:p-6 lg:col-span-7">
+      <div class="rounded-[3px] bg-white p-4 sm:p-6 lg:col-span-7">
         <div class="flex items-center justify-between gap-3">
           <h3 class="font-heading text-2xl text-heading">Obsazenost</h3>
           <div class="flex gap-2" data-cal-nav hidden>
@@ -116,7 +116,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
           data-booking-form
           action="https://api.web3forms.com/submit"
           method="POST"
-          class="rounded-[3px] bg-white p-5 shadow-[0_20px_50px_-30px_rgb(33_27_18/0.35)] sm:p-6"
+          class="rounded-[3px] bg-white p-5 shadow-[0_20px_50px_-30px_rgb(28_26_23/0.3)] sm:p-6"
         >
           <input type="hidden" name="access_key" value={BOOKING.web3formsAccessKey} />
           <input type="hidden" name="subject" value="Nová poptávka pobytu" />
@@ -220,7 +220,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
                   name="souhlas"
                   value="ano"
                   required
-                  class="mt-0.5 h-5 w-5 shrink-0 accent-[rgb(33_27_18)]"
+                  class="mt-0.5 h-5 w-5 shrink-0 accent-[rgb(28_26_23)]"
                   aria-describedby="bk-consent-error"
                 />
                 <span>
@@ -244,7 +244,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
         <div
           data-booking-success
           hidden
-          class="rounded-[3px] bg-white p-6 text-center shadow-[0_20px_50px_-30px_rgb(33_27_18/0.35)] sm:p-8"
+          class="rounded-[3px] bg-white p-6 text-center shadow-[0_20px_50px_-30px_rgb(28_26_23/0.3)] sm:p-8"
         >
           <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary" aria-hidden="true">
             <Icon name="tabler:check" class="h-8 w-8 text-heading" />
@@ -289,7 +289,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
   }
   aw-booking .cal-day[data-state='free']:hover {
     background: rgb(255 255 255);
-    box-shadow: inset 0 0 0 1px rgb(33 27 18 / 0.25);
+    box-shadow: inset 0 0 0 1px rgb(28 26 23 / 0.25);
   }
   aw-booking .cal-day:not([aria-disabled='true']):active {
     transform: scale(0.92);
@@ -298,10 +298,10 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
     cursor: default;
   }
   aw-booking .cal-day[data-state='past'] {
-    color: rgb(51 45 36 / 35%);
+    color: rgb(46 43 39 / 35%);
   }
   aw-booking .cal-day[data-state='busy'] {
-    color: rgb(51 45 36 / 62%);
+    color: rgb(46 43 39 / 62%);
     text-decoration: line-through;
   }
   aw-booking .cal-day[data-state='busy']::after {
@@ -313,7 +313,7 @@ const error = 'mt-1 text-sm font-medium text-red-700 empty:hidden';
     background: var(--aw-color-concrete);
   }
   aw-booking .cal-day[data-state='invalid'] {
-    color: rgb(51 45 36 / 40%);
+    color: rgb(46 43 39 / 40%);
   }
   aw-booking .cal-day[data-today]::before {
     content: '';

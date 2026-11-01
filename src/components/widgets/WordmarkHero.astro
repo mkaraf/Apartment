@@ -6,10 +6,10 @@ import type { ImageMetadata } from 'astro';
 
 // Full-bleed photo hero with the name split into the corners: the first part
 // top left, the second bottom right (its words wrap onto their own lines on
-// phones), the short pitch and the booking button just above it on the left. The header floats over it in cream (`data-hero-overlay`, see
+// phones), the short pitch and the booking button just above it on the left. The header floats over it in white (`data-hero-overlay`, see
 // tailwind.css). On load the photo settles and each word rises out of its
-// own mask: the page's one orchestrated motion moment. The photo is toned
-// warm and darker so cream text stays readable on any shot.
+// own mask: the page's one orchestrated motion moment. The photo is only
+// darkened (neutral scrim, no tint) so white text stays readable on any shot.
 
 export interface Props {
   id?: string;
@@ -31,20 +31,20 @@ const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19v
 <section
   id={id}
   data-hero-overlay
-  class="relative isolate -mt-[calc(4.5rem+1px)] grid min-h-[100svh] scroll-mt-[72px] grid-rows-[auto_1fr_auto] overflow-hidden bg-umber px-4 pt-[5.5rem] pb-6 text-cream md:px-6 lg:px-8 lg:pt-5 lg:pb-8"
+  class="relative isolate -mt-[calc(4.5rem+1px)] grid min-h-[100svh] scroll-mt-[72px] grid-rows-[auto_1fr_auto] overflow-hidden bg-ink px-4 pt-[5.5rem] pb-6 text-white md:px-6 lg:px-8 lg:pt-5 lg:pb-8"
 >
   <div class="anim-photo absolute inset-0 -z-10">
     <Image
       src={image.src}
       alt={image.alt}
-      class="h-full w-full object-cover object-[68%_50%] lg:object-center [filter:sepia(0.2)_saturate(0.9)_brightness(0.62)_contrast(1.05)]"
+      class="h-full w-full object-cover object-[68%_50%] lg:object-center [filter:brightness(0.7)_contrast(1.05)]"
       widths={[640, 1024, 1672]}
       sizes="100vw"
       layout="none"
       loading="eager"
       fetchpriority="high"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-umber/60 via-umber/15 to-umber/75" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/5 to-ink/65" aria-hidden="true"></div>
   </div>
 
   <h1 class="sr-only">{heading}</h1>
@@ -67,7 +67,7 @@ const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19v
         }
       </p>
       <div class="anim-line mt-6 flex flex-wrap items-center gap-x-5 gap-y-3" style={`--i:${lines.length + 2}`}>
-        <a href={primary.href} class="btn-light">
+        <a href={primary.href} class="btn-sun">
           {primary.text}
           <Icon name="tabler:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
         </a>
@@ -75,7 +75,7 @@ const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19v
           secondary && (
             <a
               href={secondary.href}
-              class="text-[0.95rem] underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+              class="text-[0.95rem] underline decoration-white/50 underline-offset-4 hover:decoration-white"
             >
               {secondary.text}
             </a>
@@ -83,7 +83,7 @@ const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19v
         }
       </div>
       <aw-next-free data-url={BOOKING.availabilityUrl} data-min-nights={BOOKING.minNights}>
-        <p class="mt-5 flex min-h-6 items-center gap-2 text-sm text-cream/90" data-next-free-text aria-live="polite">
+        <p class="mt-5 flex min-h-6 items-center gap-2 text-sm text-white/90" data-next-free-text aria-live="polite">
         </p>
       </aw-next-free>
     </div>

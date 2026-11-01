@@ -66,20 +66,19 @@ Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secon
 
 ## Changing Colors
 
-Yellow (sunflower, `primary`) is a detail colour: never use `text-primary` for text on the paper background; use `text-link`/`text-ochre` (clay), `text-heading` or `text-default`. On photos and dark `bg-umber` sections use `text-cream` and the `btn-light` button; elsewhere `btn-primary` (umber box, cream text).
+Sunflower yellow (`primary`) is for large surfaces (booking panel, contact) and buttons on the hero photo (`btn-sun`), never for text on white: use `text-link`/`text-ochre`, `text-heading` or `text-default`. Elsewhere use `btn-primary` (ink box, white text, yellow on hover). Text on photos is white over the neutral `bg-ink` scrim.
 
 Edit `src/components/CustomStyles.astro`:
 
 ```css
 :root {
-  --aw-color-primary: rgb(245 197 24); /* #F5C518 sunflower, detail only */
-  --aw-color-accent: rgb(242 232 214); /* #F2E8D6 cream surface */
-  --aw-color-ochre: rgb(138 83 40); /* #8A5328 clay, accent text */
-  --aw-color-concrete: rgb(228 216 196); /* #E4D8C4 sand */
-  --aw-color-cream: rgb(250 238 214); /* #FAEED6 text on photos / umber */
-  --aw-color-umber: rgb(52 36 24); /* #342418 dark sections, buttons */
-  --aw-color-text-heading: rgb(43 30 20);
-  --aw-color-bg-page: rgb(251 246 236); /* #FBF6EC paper */
+  --aw-color-primary: rgb(245 197 24); /* #F5C518 sunflower */
+  --aw-color-secondary: rgb(232 177 0); /* #E8B100 hover */
+  --aw-color-accent: rgb(255 246 214); /* #FFF6D6 light yellow highlight */
+  --aw-color-ochre: rgb(138 98 0); /* #8A6200 accent text on white */
+  --aw-color-concrete: rgb(236 233 226); /* #ECE9E2 warm grey */
+  --aw-color-ink: rgb(28 26 23); /* #1C1A17 buttons, photo scrim */
+  --aw-color-bg-page: rgb(255 255 255);
 }
 ```
 
