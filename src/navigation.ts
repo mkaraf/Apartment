@@ -3,12 +3,12 @@ import { SITE } from 'astrowind:config';
 import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
+  // Logo left, menu and button right (the home hero's wordmark sits top left).
+  position: 'right',
   links: [
     { text: 'Apartmán', href: getPermalink('/#apartman') },
     { text: 'Fotky', href: getPermalink('/#fotogalerie') },
-    { text: 'Obsazenost', href: getPermalink('/#rezervace') },
     { text: 'Lokalita', href: getPermalink('/#lokalita') },
-    { text: 'Dotazy', href: getPermalink('/#faqs') },
     { text: 'Kontakt', href: getPermalink('/#kontakt') },
   ],
   actions: [
@@ -16,6 +16,7 @@ export const headerData = {
       variant: 'primary' as const,
       text: 'Rezervovat',
       href: getPermalink('/#rezervace'),
+      icon: 'tabler:arrow-up-right',
     },
   ],
 };

@@ -9,7 +9,7 @@ import { SITE } from 'astrowind:config';
 //   <Image src={logo} alt={SITE?.name} class="h-8 w-auto" loading="eager" />
 ---
 
-<span class="flex items-center gap-3 self-center ml-2 rtl:ml-0 rtl:mr-2 whitespace-nowrap">
-  <span class="h-6 w-6 rounded-full bg-primary ring-4 ring-primary/25" aria-hidden="true"></span>
-  <span class="font-heading text-lg md:text-xl font-bold tracking-tight text-heading">{SITE?.name}</span>
+<span data-logo class="flex items-center gap-2.5 self-center ml-2 rtl:ml-0 rtl:mr-2 whitespace-nowrap">
+  <span class="h-2.5 w-2.5 rounded-full bg-primary" aria-hidden="true"></span>
+  <span class="font-heading text-xl md:text-2xl uppercase text-heading">{SITE?.name}</span>
 </span>

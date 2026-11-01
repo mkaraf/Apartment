@@ -1,0 +1,124 @@
+---
+import { Icon } from 'astro-icon/components';
+import Image from '~/components/common/Image.astro';
+import { BOOKING } from '~/booking';
+import type { ImageMetadata } from 'astro';
+
+// Full-bleed photo hero with the name split into the corners: the first part
+// top left, the second bottom right (its words wrap onto their own lines on
+// phones), the short pitch and the booking button just above it on the left. The header floats over it in cream (`data-hero-overlay`, see
+// tailwind.css). On load the photo settles and each word rises out of its
+// own mask: the page's one orchestrated motion moment. The photo is toned
+// warm and darker so cream text stays readable on any shot.
+
+export interface Props {
+  id?: string;
+  /** The name in two parts: top left and bottom right. */
+  wordmark: [string, string];
+  /** Accessible page heading (the visual wordmark is decorative). */
+  heading: string;
+  lines: string[];
+  image: { src: string | ImageMetadata; alt: string };
+  primary: { text: string; href: string };
+  secondary?: { text: string; href: string };
+}
+
+const { id, wordmark, heading, lines, image, primary, secondary } = Astro.props;
+// Each word of the bottom part rises on its own, after the top part.
+const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19vw] sm:text-[16vw] lg:text-[10.5vw]';
+---
+
+<section
+  id={id}
+  data-hero-overlay
+  class="relative isolate -mt-[calc(4.5rem+1px)] grid min-h-[100svh] scroll-mt-[72px] grid-rows-[auto_1fr_auto] overflow-hidden bg-umber px-4 pt-[5.5rem] pb-6 text-cream md:px-6 lg:px-8 lg:pt-5 lg:pb-8"
+>
+  <div class="anim-photo absolute inset-0 -z-10">
+    <Image
+      src={image.src}
+      alt={image.alt}
+      class="h-full w-full object-cover object-[68%_50%] lg:object-center [filter:sepia(0.2)_saturate(0.9)_brightness(0.62)_contrast(1.05)]"
+      widths={[640, 1024, 1672]}
+      sizes="100vw"
+      layout="none"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-umber/60 via-umber/15 to-umber/75" aria-hidden="true"></div>
+  </div>
+
+  <h1 class="sr-only">{heading}</h1>
+
+  <p class:list={[word, 'overflow-hidden pt-[0.06em] lg:max-w-[62%]']} aria-hidden="true">
+    <span class="anim-word block" style="--i:0">{wordmark[0]}</span>
+  </p>
+
+  <div></div>
+
+  <div class="flex flex-col gap-8 lg:gap-6">
+    <div class="lg:max-w-md">
+      <p class="text-[1.35rem] leading-snug font-light text-balance md:text-2xl">
+        {
+          lines.map((line, i) => (
+            <span class="anim-line block" style={`--i:${i + 2}`}>
+              {line}
+            </span>
+          ))
+        }
+      </p>
+      <div class="anim-line mt-6 flex flex-wrap items-center gap-x-5 gap-y-3" style={`--i:${lines.length + 2}`}>
+        <a href={primary.href} class="btn-light">
+          {primary.text}
+          <Icon name="tabler:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
+        </a>
+        {
+          secondary && (
+            <a
+              href={secondary.href}
+              class="text-[0.95rem] underline decoration-cream/40 underline-offset-4 hover:decoration-cream"
+            >
+              {secondary.text}
+            </a>
+          )
+        }
+      </div>
+      <aw-next-free data-url={BOOKING.availabilityUrl} data-min-nights={BOOKING.minNights}>
+        <p class="mt-5 flex min-h-6 items-center gap-2 text-sm text-cream/90" data-next-free-text aria-live="polite">
+        </p>
+      </aw-next-free>
+    </div>
+
+    <p class:list={[word, 'text-right']} aria-hidden="true">
+      {
+        wordmark[1].split(' ').map((part, i) => (
+          <>
+            {i > 0 && ' '}
+            <span class="inline-block overflow-hidden pt-[0.06em] align-bottom">
+              <span class="anim-word block" style={`--i:${i + 1}`}>
+                {part}
+              </span>
+            </span>
+          </>
+        ))
+      }
+    </p>
+  </div>
+</section>
+
+<script>
+  import { firstFreeArrival, formatDate, loadAvailability } from '~/utils/availability';
+
+  // Nearest free arrival date, from the availability request shared with the booking calendar.
+  class AwNextFree extends HTMLElement {
+    async connectedCallback() {
+      const target = this.querySelector<HTMLElement>('[data-next-free-text]');
+      if (!target) return;
+      const { busy, ok } = await loadAvailability(this.dataset.url ?? '');
+      if (!ok) return;
+      const arrival = firstFreeArrival(busy, Number(this.dataset.minNights ?? 1));
+      if (!arrival) return;
+      target.innerHTML = `<span class="h-2 w-2 rounded-full bg-primary" aria-hidden="true"></span>Nejbližší volný příjezd: <strong class="font-semibold">${formatDate(arrival, { weekday: 'long', day: 'numeric', month: 'long' })}</strong>`;
+    }
+  }
+  if (!customElements.get('aw-next-free')) customElements.define('aw-next-free', AwNextFree);
+</script>

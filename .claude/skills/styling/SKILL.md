@@ -66,19 +66,24 @@ Differences from a stock shadcn theme (kept on purpose): `bg-primary`, `bg-secon
 
 ## Changing Colors
 
-Yellow on white has low contrast: never use `text-primary` for body text or small text; use `text-link` (darker yellow) or `text-heading`/`text-default`, and keep dark text on `bg-primary` buttons.
+Yellow (sunflower, `primary`) is a detail colour: never use `text-primary` for text on the paper background; use `text-link`/`text-ochre` (clay), `text-heading` or `text-default`. On photos and dark `bg-umber` sections use `text-cream` and the `btn-light` button; elsewhere `btn-primary` (umber box, cream text).
 
 Edit `src/components/CustomStyles.astro`:
 
 ```css
 :root {
-  --aw-color-primary: rgb(245 197 24); /* #F5C518 warm yellow */
-  --aw-color-secondary: rgb(232 177 0); /* #E8B100 deeper yellow, button hover */
-  --aw-color-accent: rgb(255 246 214); /* #FFF6D6 cream, highlighted boxes/sections */
-  --aw-color-text-heading: rgb(38 38 38);
-  --aw-color-link: rgb(201 154 0); /* darker yellow, readable on white */
+  --aw-color-primary: rgb(245 197 24); /* #F5C518 sunflower, detail only */
+  --aw-color-accent: rgb(242 232 214); /* #F2E8D6 cream surface */
+  --aw-color-ochre: rgb(138 83 40); /* #8A5328 clay, accent text */
+  --aw-color-concrete: rgb(228 216 196); /* #E4D8C4 sand */
+  --aw-color-cream: rgb(250 238 214); /* #FAEED6 text on photos / umber */
+  --aw-color-umber: rgb(52 36 24); /* #342418 dark sections, buttons */
+  --aw-color-text-heading: rgb(43 30 20);
+  --aw-color-bg-page: rgb(251 246 236); /* #FBF6EC paper */
 }
 ```
+
+Tailwind v4 resolves `@theme` tokens on `:root`, so to recolour a subtree (like the header over the hero) override the `--color-*` tokens there as well, not only `--aw-color-*`.
 
 There is only the `:root` palette; there is no `.dark` block.
 

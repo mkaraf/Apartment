@@ -24,14 +24,14 @@ The site is one page (`src/pages/index.astro`); see the `edit-one-page-site` ski
 
 These are the site's own sections; they take plain props (interfaces in each file), not the shared `Widget` props.
 
-| Widget           | Use it for                                                                     | Key props                                                       |
-| ---------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
-| `SunHero`        | Hero with the rising sun behind the photo and the nearest free arrival date    | `titleLines[]`, `subtitle`, `image`, `primary`, `secondary`     |
-| `SplitList`      | Heading + text (+ note) left, icon list right (amenities, location)            | `title`, `text`, `items[{ title, description?, icon }]`, `note` |
-| `PhotoMosaic`    | Dark photo mosaic, first photo large, lightbox morphing from the thumbnail     | `title`, `subtitle`, `images[{ src, alt }]`                     |
-| `BookingSection` | Availability calendar + inquiry form (Web3Forms), settings in `src/booking.ts` | `title`, `steps[]`, `note`, `fallbackContact`                   |
-| `FaqList`        | Exclusive accordion of questions with smooth opening                           | `title`, `items[{ title, description }]`                        |
-| `BookBar`        | Phone-only bottom bar with the booking button, hidden over hero and booking    | `text`, `href`, `label`                                         |
+| Widget           | Use it for                                                                      | Key props                                                            |
+| ---------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `WordmarkHero`   | Full-bleed toned photo hero, name split into the corners, header floats over it | `wordmark[2]`, `heading`, `lines[]`, `image`, `primary`, `secondary` |
+| `SplitList`      | Heading + text (+ note) left, icon list right (amenities, location)             | `title`, `text`, `items[{ title, description?, icon }]`, `note`      |
+| `PhotoMosaic`    | Dark photo mosaic, first photo large, lightbox morphing from the thumbnail      | `title`, `subtitle`, `images[{ src, alt }]`                          |
+| `BookingSection` | Availability calendar + inquiry form (Web3Forms), settings in `src/booking.ts`  | `title`, `steps[]`, `note`, `fallbackContact`                        |
+| `FaqList`        | Exclusive accordion of questions with smooth opening                            | `title`, `items[{ title, description }]`                             |
+| `BookBar`        | Phone-only bottom bar with the booking button, hidden over hero and booking     | `text`, `href`, `label`                                              |
 
 ### Hero and openers
 

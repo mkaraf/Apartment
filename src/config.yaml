@@ -1,5 +1,5 @@
 site:
-  name: 'NÁZEV APARTMÁNU' # TODO: real apartment name
+  name: 'Casa de Girassol'
   site: 'https://moje-domena.cz' # TODO: real domain
   base: '/'
   trailingSlash: false
@@ -9,15 +9,15 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: 'NÁZEV APARTMÁNU – apartmán k pronájmu ve Zlínském kraji'
-    template: '%s – NÁZEV APARTMÁNU'
+    default: 'Casa de Girassol – apartmán k pronájmu ve Zlínském kraji'
+    template: '%s – Casa de Girassol'
   description: 'Apartmán k pronájmu ve Zlínském kraji. Vybavení, fotografie, ceny, dostupné termíny a rezervace na jednom místě.'
   # TODO before launch: set both to true and remove `X-Robots-Tag` from public/_headers.
   robots:
     index: false
     follow: false
   openGraph:
-    site_name: 'NÁZEV APARTMÁNU'
+    site_name: 'Casa de Girassol'
     locale: cs_CZ
     images:
       - url: '~/assets/images/og-placeholder.png' # TODO: replace with a 1200×628 photo of the apartment

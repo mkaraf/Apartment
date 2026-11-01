@@ -1,34 +1,37 @@
 ---
 // Font families are provided by Astro's native Fonts API (see `fonts` in
 // astro.config.ts and <Font /> in Layout.astro): Inter for text
-// (`--font-inter`), Bricolage Grotesque for headings (`--font-bricolage`).
+// (`--font-inter`), Gloock for headings and the wordmark (`--font-gloock`).
 //
-// Palette "sunny flat": warm white paper, warm near-black ink, yellow sun as
-// the only loud colour (large fills, never text on white), ochre for small
-// accent text and links (5.5:1 on white), cream for the booking panel and
-// concrete for quiet surfaces (busy days, dividers). Light mode only.
+// Palette "warm umber": paper background, umber ink for text and dark
+// sections, cream for text on photos and dark surfaces, clay for small accent
+// text and links (5.6:1 on paper), sand for quiet surfaces (busy days,
+// dividers). Yellow (the sunflower of "girassol") is a detail only: the
+// selected stay, the free-date dot, the text selection. Light mode only.
 ---
 
 <style is:inline>
   :root {
     --aw-font-sans: var(--font-inter);
-    --aw-font-serif: var(--font-inter);
-    --aw-font-heading: var(--font-bricolage);
+    --aw-font-serif: var(--font-gloock);
+    --aw-font-heading: var(--font-gloock);
 
-    --aw-color-primary: rgb(245 197 24); /* #F5C518 sun */
-    --aw-color-secondary: rgb(232 177 0); /* #E8B100 deeper sun, button hover */
-    --aw-color-accent: rgb(255 246 214); /* #FFF6D6 cream */
-    --aw-color-ochre: rgb(138 98 0); /* #8A6200 ochre, accent text on white */
-    --aw-color-concrete: rgb(236 232 224); /* #ECE8E0 concrete */
+    --aw-color-primary: rgb(245 197 24); /* #F5C518 sunflower, detail only */
+    --aw-color-secondary: rgb(232 177 0); /* #E8B100 deeper sunflower */
+    --aw-color-accent: rgb(242 232 214); /* #F2E8D6 cream surface */
+    --aw-color-ochre: rgb(138 83 40); /* #8A5328 clay, accent text */
+    --aw-color-concrete: rgb(228 216 196); /* #E4D8C4 sand */
+    --aw-color-cream: rgb(250 238 214); /* #FAEED6 text on photos / umber */
+    --aw-color-umber: rgb(52 36 24); /* #342418 dark sections, buttons */
 
-    --aw-color-text-heading: rgb(33 27 18); /* #211B12 ink */
-    --aw-color-link: rgb(138 98 0);
-    --aw-color-text-default: rgb(51 45 36);
-    --aw-color-text-muted: rgb(51 45 36 / 74%);
-    --aw-color-bg-page: rgb(255 254 250); /* #FFFEFA paper */
+    --aw-color-text-heading: rgb(43 30 20); /* #2B1E14 */
+    --aw-color-link: rgb(138 83 40);
+    --aw-color-text-default: rgb(61 46 34);
+    --aw-color-text-muted: rgb(61 46 34 / 74%);
+    --aw-color-bg-page: rgb(251 246 236); /* #FBF6EC paper */
 
     ::selection {
-      background-color: rgb(245 197 24 / 40%);
+      background-color: rgb(245 197 24 / 45%);
     }
   }
 </style>

@@ -26,14 +26,14 @@ const { id, title, text, items, note } = Astro.props;
   <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-12 lg:gap-12">
     <div class="lg:col-span-5">
       <h2
-        class="font-heading text-4xl leading-[1.05] font-bold tracking-[-0.03em] text-balance text-heading md:text-5xl"
+        class="font-heading text-[2.75rem] leading-[1] font-normal tracking-[-0.01em] text-balance text-heading md:text-6xl"
       >
         {title}
       </h2>
       {text && <p class="mt-5 max-w-[36rem] text-lg text-pretty text-muted">{text}</p>}
       {
         note && (
-          <div class="mt-8 flex gap-4 rounded-2xl bg-accent p-5">
+          <div class="mt-8 flex gap-4 rounded-[3px] bg-accent p-5">
             <Icon name={note.icon} class="mt-0.5 h-6 w-6 shrink-0 text-ochre" aria-hidden="true" />
             <div>
               <h3 class="font-semibold text-heading">{note.title}</h3>
@@ -52,7 +52,7 @@ const { id, title, text, items, note } = Astro.props;
               <Icon name={icon} class="h-6 w-6 text-heading" />
             </span>
             <div>
-              <h3 class="font-heading text-lg font-semibold text-heading">{itemTitle}</h3>
+              <h3 class="font-heading text-xl text-heading">{itemTitle}</h3>
               {description && <p class="text-muted">{description}</p>}
             </div>
           </li>

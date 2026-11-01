@@ -22,6 +22,8 @@
   --color-link: var(--aw-color-link, var(--aw-color-primary));
   --color-ochre: var(--aw-color-ochre);
   --color-concrete: var(--aw-color-concrete);
+  --color-cream: var(--aw-color-cream);
+  --color-umber: var(--aw-color-umber);
 
   /* Shared motion tokens: arriving elements decelerate (out), leaving ones are faster. */
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
@@ -31,7 +33,7 @@
     var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: var(--aw-font-serif, ui-serif), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-heading: var(--aw-font-heading, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--aw-font-heading, ui-serif), ui-serif, Georgia, serif;
 
   --animate-fade: fadeInUp 0.5s both;
 
@@ -59,12 +61,18 @@
   color: var(--aw-color-text-muted);
 }
 
+/* Buttons: small, nearly square boxes (an editorial label rather than a pill). */
 @utility btn {
-  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-primary focus:ring-offset-primary/20 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 cursor-pointer;
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-[3px] border border-current bg-transparent px-5 py-2.5 text-center text-[0.95rem] font-medium leading-snug text-page transition-colors duration-200 ease-out cursor-pointer hover:bg-umber/5;
 }
 
 @utility btn-primary {
-  @apply btn font-semibold bg-primary text-heading border-primary hover:bg-secondary hover:border-secondary hover:text-heading;
+  @apply btn border-umber bg-umber text-cream hover:bg-heading hover:border-heading;
+}
+
+/* For photos and dark sections: cream box with umber text. */
+@utility btn-light {
+  @apply btn border-cream bg-cream text-umber hover:bg-white hover:border-white;
 }
 
 @utility btn-secondary {
@@ -84,6 +92,36 @@
   #header.scroll > div:first-child {
     background-color: color-mix(in srgb, var(--aw-color-bg-page) 90%, transparent);
   }
+}
+
+/* On a page that opens with a full-bleed photo (`[data-hero-overlay]`), the
+   header floats over it in cream until the visitor scrolls; the logo stays
+   hidden there because the hero shows the wordmark itself. */
+html:has([data-hero-overlay]) #header:not(.scroll):not(.expanded) {
+  /* Theme tokens resolve on :root, so the utility-level tokens are overridden too. */
+  --color-heading: var(--aw-color-cream);
+  --color-default: var(--aw-color-cream);
+  --color-link: var(--aw-color-cream);
+  --aw-color-text-default: var(--aw-color-cream);
+  color: var(--aw-color-cream);
+}
+html:has([data-hero-overlay]) #header:not(.scroll):not(.expanded) .btn-primary {
+  @apply border-cream bg-cream text-umber hover:bg-white;
+}
+html:has([data-hero-overlay]) #header:not(.scroll):not(.expanded) [data-logo] {
+  opacity: 0;
+  pointer-events: none;
+}
+#header [data-logo] {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Fixed header height: the hero slides under the header by exactly this
+   amount plus its 1px border (`-mt-[calc(4.5rem+1px)]` in WordmarkHero.astro)
+   and still fills the viewport,
+   so no strip of the next section shows below it on load. */
+#header > div:last-child {
+  min-height: 4.5rem;
 }
 
 #header.expanded nav {
@@ -131,19 +169,18 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Motion. One orchestrated moment (the sunrise in the hero on load), photos
+   Motion. One orchestrated moment (the wordmark rising over the settling
+   photo in the hero on load), photos
    uncovered as they scroll in, and transitions that answer the visitor's
    actions. Everything is transform/opacity/clip-path only, and everything is
    skipped under prefers-reduced-motion (elements render in their final state).
    --------------------------------------------------------------------------- */
 
-@keyframes sunrise {
+@keyframes word-rise {
   from {
-    opacity: 0;
-    transform: translate3d(0, 45%, 0) scale(0.85);
+    transform: translate3d(0, 105%, 0);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
@@ -162,7 +199,7 @@
 @keyframes photo-settle {
   from {
     opacity: 0;
-    transform: scale(1.04);
+    transform: scale(1.1);
   }
   to {
     opacity: 1;
@@ -172,25 +209,27 @@
 
 @keyframes uncover {
   from {
-    clip-path: inset(18% 18% 18% 18% round 1.5rem);
+    clip-path: inset(14% 14% 14% 14%);
     transform: scale(1.06);
   }
   to {
-    clip-path: inset(0 0 0 0 round 0);
+    clip-path: inset(0 0 0 0);
     transform: none;
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .anim-sunrise {
-    animation: sunrise 1.6s var(--ease-out-soft) 0.15s both;
+  /* Wordmark: each word rises out of its own mask (the parent clips it). */
+  .anim-word {
+    animation: word-rise 1.3s var(--ease-out-soft) both;
+    animation-delay: calc(0.25s + var(--i, 0) * 0.18s);
   }
   .anim-line {
     animation: line-rise 0.9s var(--ease-out-soft) both;
     animation-delay: calc(0.35s + var(--i, 0) * 0.09s);
   }
   .anim-photo {
-    animation: photo-settle 1.2s var(--ease-out-soft) both;
+    animation: photo-settle 2.4s var(--ease-out-soft) both;
   }
 
   /* Photos are uncovered while they scroll into view (scroll-driven, no JS).

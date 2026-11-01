@@ -17,7 +17,7 @@ const group = `faq-${id ?? 'list'}`;
 <section id={id} class="relative scroll-mt-[72px]">
   <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-12 lg:gap-12">
     <h2
-      class="font-heading text-4xl leading-[1.05] font-bold tracking-[-0.03em] text-balance text-heading md:text-5xl lg:col-span-5"
+      class="font-heading text-[2.75rem] leading-[1] font-normal tracking-[-0.01em] text-balance text-heading md:text-6xl lg:col-span-5"
     >
       {title}
     </h2>
@@ -26,7 +26,7 @@ const group = `faq-${id ?? 'list'}`;
         items.map(({ title: question, description }) => (
           <details class="smooth group" name={group}>
             <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-5 [&::-webkit-details-marker]:hidden">
-              <h3 class="font-heading text-lg font-semibold text-heading md:text-xl">{question}</h3>
+              <h3 class="font-heading text-xl text-heading md:text-2xl">{question}</h3>
               <span
                 class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent transition-transform duration-300 ease-out-soft group-open:rotate-45"
                 aria-hidden="true"
