@@ -12,7 +12,7 @@ Photos live in `src/assets/images/apartman/` and are optimised at build time by 
 1. Copy the photo to `src/assets/images/apartman/` with a lowercase ASCII name without diacritics, describing the room: `loznice.jpg`, `kuchyn-2.jpg`, `balkon.jpg`, `vyhled.jpg`.
 2. Keep originals reasonable: JPG, long edge ~2400 px, under ~1 MB (Sharp makes the variants, but huge originals slow the build). Landscape for hero/gallery.
 3. Reference it in `src/pages/index.astro` as `{ src: '~/assets/images/apartman/<name>.jpg', alt: '…' }` in the right widget:
-   - `HeroBanner` (`#uvod`): one strong landscape photo (living room); loaded eagerly.
+   - `WordmarkHero` (`#uvod`): `src` is the landscape shot for wide screens, `portrait` the same scene shot upright (9:16) for phones and tablets held upright; the browser loads only the matching one. Keep calm areas top left and at the bottom for the text.
    - `Showcase` (`#apartman`): 4 photos next to the amenity list.
    - `Gallery` (`#fotogalerie`): all photos, order = order in the array.
    - `Steps` (`#rezervace`): one supporting photo.

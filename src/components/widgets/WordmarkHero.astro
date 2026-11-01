@@ -1,15 +1,23 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Image from '~/components/common/Image.astro';
+import { getImage } from 'astro:assets';
+import { findImage } from '~/utils/images';
 import { BOOKING } from '~/booking';
 import type { ImageMetadata } from 'astro';
 
 // Full-bleed photo hero with the name split into the corners: the first part
 // top left, the second bottom right (its words wrap onto their own lines on
-// phones), the short pitch and the booking button just above it on the left. The header floats over it in white (`data-hero-overlay`, see
-// tailwind.css). On load the photo settles and each word rises out of its
-// own mask: the page's one orchestrated motion moment. The photo is only
-// darkened (neutral scrim, no tint) so white text stays readable on any shot.
+// phones), the short pitch and the booking button just above it on the left.
+// The header floats over it in white (`data-hero-overlay`, see tailwind.css).
+//
+// Art direction: a landscape shot cannot fill a portrait screen without losing
+// its composition, so `image.portrait` (same scene shot upright) is served to
+// portrait screens and the landscape `image.src` to landscape ones; the
+// browser downloads only the matching one.
+//
+// On load the photo settles and each word rises out of its own mask: the
+// page's one orchestrated motion moment. The photo is only darkened (neutral
+// scrim, no tint) so white text stays readable on any shot.
 
 export interface Props {
   id?: string;
@@ -18,7 +26,8 @@ export interface Props {
   /** Accessible page heading (the visual wordmark is decorative). */
   heading: string;
   lines: string[];
-  image: { src: string | ImageMetadata; alt: string };
+  /** `src` landscape (wide screens), `portrait` the same scene upright (phones). */
+  image: { src: string | ImageMetadata; portrait?: string | ImageMetadata; alt: string };
   primary: { text: string; href: string };
   secondary?: { text: string; href: string };
 }
@@ -26,6 +35,16 @@ export interface Props {
 const { id, wordmark, heading, lines, image, primary, secondary } = Astro.props;
 // Each word of the bottom part rises on its own, after the top part.
 const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19vw] sm:text-[16vw] lg:text-[10.5vw]';
+
+const toMeta = async (src?: string | ImageMetadata) => {
+  const resolved = await findImage(src);
+  return resolved && typeof resolved === 'object' ? resolved : undefined;
+};
+const landscapeSrc = await toMeta(image.src);
+const portraitSrc = await toMeta(image.portrait);
+if (!landscapeSrc) throw new Error(`WordmarkHero: image not found (${String(image.src)})`);
+const landscape = await getImage({ src: landscapeSrc, widths: [640, 1024, 1672], format: 'webp' });
+const portrait = portraitSrc ? await getImage({ src: portraitSrc, widths: [640, 941], format: 'webp' }) : undefined;
 ---
 
 <section
@@ -34,16 +53,24 @@ const word = 'font-heading uppercase leading-[0.82] tracking-[-0.01em] text-[19v
   class="relative isolate -mt-[calc(4.5rem+1px)] grid min-h-[100svh] scroll-mt-[72px] grid-rows-[auto_1fr_auto] overflow-hidden bg-ink px-4 pt-[5.5rem] pb-6 text-white md:px-6 lg:px-8 lg:pt-5 lg:pb-8"
 >
   <div class="anim-photo absolute inset-0 -z-10">
-    <Image
-      src={image.src}
-      alt={image.alt}
-      class="h-full w-full object-cover object-[68%_50%] lg:object-center [filter:brightness(0.7)_contrast(1.05)]"
-      widths={[640, 1024, 1672]}
-      sizes="100vw"
-      layout="none"
-      loading="eager"
-      fetchpriority="high"
-    />
+    <picture>
+      {
+        portrait && (
+          <source media="(orientation: portrait)" srcset={portrait.srcSet.attribute} sizes="125vw" type="image/webp" />
+        )
+      }
+      <source srcset={landscape.srcSet.attribute} sizes="100vw" type="image/webp" />
+      <img
+        src={landscape.src}
+        alt={image.alt}
+        width={landscapeSrc.width}
+        height={landscapeSrc.height}
+        class="h-full w-full object-cover [filter:brightness(0.7)_contrast(1.05)]"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
     <div class="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/5 to-ink/65" aria-hidden="true"></div>
   </div>
 
